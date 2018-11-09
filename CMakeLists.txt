@@ -1,6 +1,5 @@
-project(linbound)
-
 cmake_minimum_required(VERSION 3.2)
+project(linbound)
 
 set(CMAKE_CXX_STANDARD 11)
 
@@ -9,15 +8,19 @@ set (Linbound_VERSION_MAJOR 0)
 set (Linbound_VERSION_MINOR 1)
 set (Linbound_VERSION_RELEASE 0)
 set (ENABLE_SERVER FALSE)
+
+set(EXECUTABLE_OUTPUT_PATH bin/${CMAKE_BUILD_TYPE})
  
 # configure a header file to pass some of the CMake settings
 # to the source code
 configure_file (
-  "${PROJECT_SOURCE_DIR}/config.hpp.in"
-  "${PROJECT_SOURCE_DIR}/config.hpp"
+  "src/config.hpp.in"
+  "src/config.hpp"
   )
+  
+file(GLOB_RECURSE source_files src/*)
 
-add_executable(${PROJECT_NAME} src/main.cpp)
+add_executable(${PROJECT_NAME} ${source_files})
 
 INCLUDE(FindPkgConfig)
 
