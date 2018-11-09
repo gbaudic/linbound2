@@ -9,6 +9,8 @@ addons:
             - ubuntu-toolchain-r-test
         packages:
             - g++-7
+    sonarcloud:
+        organization: "gbaudic-github"
 
 env:
     - CXX_EVAL="CC=gcc-7 && CXX=g++-7"
@@ -16,6 +18,7 @@ env:
 
 before_install:
     - sudo apt-get update -qq
+    - eval "${CXX_EVAL}"
     - wget https://www.libsdl.org/release/SDL2-2.0.8.tar.gz && tar -xzf SDL2-2.0.8.tar.gz
     - pushd SDL2-2.0.8 && ./configure && make && sudo make install && popd
     - wget https://www.libsdl.org/projects/SDL_image/release/SDL2_image-2.0.3.tar.gz && tar -xzf SDL2_image-2.0.3.tar.gz
@@ -27,7 +30,6 @@ before_install:
     - wget https://www.libsdl.org/projects/SDL_mixer/release/SDL2_mixer-2.0.2.tar.gz && tar -xzf SDL2_mixer-2.0.2.tar.gz
     - pushd SDL2_mixer-2.0.2 && ./configure && make && sudo make install && popd
     - sudo apt-get install -qq libsqlite3-dev libtinyxml2-dev libbox2d-dev
-	- eval "${CXX_EVAL}"
 
 install:
     - wget http://www.ferzkopp.net/Software/SDL2_gfx/SDL2_gfx-1.0.3.tar.gz
@@ -35,4 +37,6 @@ install:
     - pushd SDL2_gfx-1.0.3 && ./configure && make && sudo make install && popd
     - pushd guisan && scons && sudo scons install && popd
 
-script: cmake . && make
+script:
+    - sonar-scanner
+    - cmake . && make
