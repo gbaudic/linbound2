@@ -35,6 +35,7 @@ install:
     - wget http://www.ferzkopp.net/Software/SDL2_gfx/SDL2_gfx-1.0.3.tar.gz
     - tar -xzf SDL2_gfx-1.0.3.tar.gz
     - pushd SDL2_gfx-1.0.3 && ./configure && make && sudo make install && popd
+    - git clone https://github.com/gbaudic/guisan.git
     - pushd guisan && scons && sudo scons install && popd
 
 script:
