@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<AvatarItemList>
+  <Version></Version>
+  <AvatarItem>
+    <Type></Type>
+    <Name></Name>
+    <ToolTip></ToolTip>
+    <Code></Code>
+    <GoldPrice></GoldPrice>
+    <CashPrice></CashPrice>
+    <Statistics>
+      <Delay></Delay>
+      <Popularity></Popularity>
+      <Attack></Attack>
+      <Defense></Defense>
+      <Energy></Energy>
+      <Shield></Shield>
+      <ItemDelay></ItemDelay>
+      <Pit></Pit>
+    </Statistics>
+  </AvatarItem>
+</AvatarItemList>

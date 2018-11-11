@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<achievements>
+	<ach>
+	<type>PENALTY</type>
+	<name>Suicide penalty</name>
+	<gold>-50</gold>
+	<xp>-2</xp>
+	</ach>
+	<ach>
+	<type>PENALTY</type>
+	<name>Teammate kill penalty</name>
+	<gold>-50</gold>
+	<xp>-2</xp>
+	</ach>
+	<ach>
+	<type>PENALTY</type>
+	<name>Teammate shoot penalty</name>
+	<gold>-25</gold>
+	<xp>0</xp>
+	</ach>
+	<ach>
+	<type>PENALTY</type>
+	<name>Desertion penalty</name>
+	<gold>-100</gold>
+	<xp>0</xp>
+	</ach>
+	<ach>
+	<type>REWARD</type>
+	<name>1000 damage points inflicted</name>
+	<gold>100</gold>
+	<xp>1</xp>
+	</ach>
+	<ach>
+	<type>REWARD</type>
+	<name>2000 damage points inflicted</name>
+	<gold>150</gold>
+	<xp>1</xp>
+	</ach>
+	<ach>
+	<type>REWARD</type>
+	<name>3000 damage points inflicted</name>
+	<gold>200</gold>
+	<xp>1</xp>
+	</ach>
+	<ach>
+	<type>REWARD</type>
+	<name>Opponent killed</name>
+	<gold>100</gold>
+	<xp>1</xp>
+	</ach>
+	<ach>
+	<type>REWARD</type>
+	<name>Double kill</name>
+	<gold>300</gold>
+	<xp>3</xp>
+	</ach>
+	<ach>
+	<type>REWARD</type>
+	<name>Shot >150 damage</name>
+	<gold>15</gold>
+	<xp>0</xp>
+	</ach>
+	<ach>
+	<type>REWARD</type>
+	<name>Shot >300 damage</name>
+	<gold>30</gold>
+	<xp>0</xp>
+	</ach>
+	<ach>
+	<type>REWARD</type>
+	<name>Shot >500 damage</name>
+	<gold>50</gold>
+	<xp>0</xp>
+	</ach>
+	<ach>
+	<type>REWARD</type>
+	<name>Climate resilience bonus</name>
+	<gold>30</gold>
+	<xp>0</xp>
+	</ach>
+	<ach>
+	<type>REWARD</type>
+	<name>High angle shot</name>
+	<gold>15</gold>
+	<xp>0</xp>
+	</ach>
+	<ach>
+	<type>REWARD</type>
+	<name>High precision bonus</name>
+	<!--Miss 3 turns in a row-->
+	<gold>5</gold>
+	<xp>0</xp>
+	</ach>
+	<ach>
+	<type>REWARD</type>
+	<name>Undecided trajectory bonus</name>
+	<!--aka boomer shot bonus-->
+	<gold>20</gold>
+	<xp>0</xp>
+	</ach>
+	<ach>
+	<type>REWARD</type>
+	<name>Alien DNA bonus</name>
+	<!--aka back shot bonus-->
+	<gold>30</gold>
+	<xp>0</xp>
+	</ach>
+	<ach>
+	<type>REWARD</type>
+	<name>Winning bonus - 2 players</name>
+	<gold>100</gold>
+	<xp>2</xp>
+	</ach>
+	<ach>
+	<type>REWARD</type>
+	<name>Losing bonus - 2 players</name>
+	<gold>10</gold>
+	<xp>1</xp>
+	</ach>
+	<ach>
+	<type>REWARD</type>
+	<name>Winning bonus - 4 players</name>
+	<gold>200</gold>
+	<xp>4</xp>
+	</ach>
+	<ach>
+	<type>REWARD</type>
+	<name>Losing bonus - 4 players</name>
+	<gold>20</gold>
+	<xp>2</xp>
+	</ach>
+	<ach>
+	<type>REWARD</type>
+	<name>Winning bonus - 6 players</name>
+	<gold>300</gold>
+	<xp>6</xp>
+	</ach>
+	<ach>
+	<type>REWARD</type>
+	<name>Losing bonus - 6 players</name>
+	<gold>30</gold>
+	<xp>3</xp>
+	</ach>
+	<ach>
+	<type>REWARD</type>
+	<name>Winning bonus - 8 players</name>
+	<gold>400</gold>
+	<xp>8</xp>
+	</ach>
+	<ach>
+	<type>REWARD</type>
+	<name>Losing bonus - 8 players</name>
+	<gold>40</gold>
+	<xp>4</xp>
+	</ach>
+	<ach>
+	<type>PENALTY</type>
+	<name>-5 points</name>
+	<gold>-5</gold>
+	<xp>0</xp>
+	</ach>
+	<ach>
+	<type>REWARD</type>
+	<name>5 points</name>
+	<gold>5</gold>
+	<xp>0</xp>
+	</ach>
+	<ach>
+	<type>REWARD</type>
+	<name>10 points</name>
+	<gold>20</gold>
+	<xp>0</xp>
+	</ach>
+	<ach>
+	<type>REWARD</type>
+	<name>25 points</name>
+	<gold>100</gold>
+	<xp>1</xp>
+	</ach>
+</achievements>

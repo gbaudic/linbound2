@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+  <author>
+    <name>Christopher L. Stanley</name>
+    <nickname>NinjaNumberNine</nickname>
+    <email>ninjanumbernine AT gmail DOT com</email>
+    <country>USA</country>
+  </author>
+
+  <surface name="background" file="background.jpg" />
+  <surface name="mapA" file="foreground.png" />
+  <surface name="preview" file="preview.jpg" />
+  <background_color>#2dbefc</background_color>
+
+	<name>Abyss</name>
+	<sides>1</sides>
+
+</resources>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<author>
+		<name>Wilfried Dumoutier</name>
+		<nickname>Tutur</nickname>
+		<email>wiltur AT gmail.com</email>
+		<country>France</country>
+	</author>
+
+	<surface name="background" file="sky.jpg" />
+	<surface name="mapA" file="map.png" />
+	<surface name="preview" file="preview.jpg" />
+
+	<name>Country</name>
+	<sides>1</sides>
+	<background_color>#00ffff</background_color>
+	
+</resources>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE resources SYSTEM "../map.dtd" []>
+<resources>
+ 
+ <surface name="background" file="background.jpg" />
+ <surface name="mapA" file="foregroundA.png" />
+ <surface name="mapB" file="foregroundB.png" />
+ <surface name="preview" file="preview.png" />
+ 
+ <name>Scales</name>
+ <sides>2</sides>
+ <background_color>#05fc05</background_color>
+ 
+ 
+ <music_playlist>NAMEOFMUSICFILE</music_playlist>
+ 
+</resources>

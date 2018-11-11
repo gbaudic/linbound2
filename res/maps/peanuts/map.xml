@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE resources SYSTEM "../map.dtd" []>
+<resources>
+ 
+ <surface name="background" file="background.png" />
+ <surface name="mapA" file="foreground.png" />
+ <surface name="preview" file="preview.png" />
+ 
+ <name>Peanuts</name>
+ <sides>1</sides>
+ <background_color>#FF0000</background_color>
+ 
+ 
+ <music_playlist>NAMEOFMUSICFILE</music_playlist>
+ 
+</resources>
