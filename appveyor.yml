@@ -1,0 +1,24 @@
+image: Visual Studio 2017
+
+install:
+  - set PATH=C:\msys64\MINGW64\bin;C:\msys64\usr\bin;%PATH%
+  - bash -lc "pacman -S --needed --noconfirm make cmake"
+  - bash -lc "pacman --noconfirm -Suy mingw-w64-x86_64-toolchain sdl2 sdl2_gfx sdl2_image sdl2_mixer sdl2_net sdl2_ttf sqlite tinyxml2 box2d scons"
+  - git clone https://github.com/gbaudic/guisan.git
+  - cd guisan
+  - bash -lc "scons && sudo scons install"
+  - cd ..  
+  
+build_script:
+  - bash -lc "cmake . && make" 
+
+platform:
+  - x64
+  - Any CPU
+
+configuration:
+  - Debug
+  - Release
+  
+matrix:
+  fast_finish: true
