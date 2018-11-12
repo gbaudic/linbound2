@@ -1,5 +1,6 @@
-#define VERSION_MAJOR @Linbound_VERSION_MAJOR@
-#define VERSION_MINOR @Linbound_VERSION_MINOR@
-#define VERSION_RELEASE @Linbound_VERSION_RELEASE@
+#define MAJOR_VERSION @Linbound_VERSION_MAJOR@
+#define MINOR_VERSION @Linbound_VERSION_MINOR@
+#define PATCH_VERSION @Linbound_VERSION_RELEASE@
 #define ENABLE_SERVER @ENABLE_SERVER@
 
+// TODO set directory for resources here too
