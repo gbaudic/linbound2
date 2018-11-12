@@ -23,6 +23,8 @@ file(GLOB_RECURSE source_files src/*)
 add_executable(${PROJECT_NAME} ${source_files})
 
 INCLUDE(FindPkgConfig)
+INCLUDE(FindGettext)
+INCLUDE(CheckIncludeFiles)
 
 PKG_SEARCH_MODULE(SDL2 REQUIRED sdl2)
 PKG_SEARCH_MODULE(SDL2_IMAGE REQUIRED SDL2_image>=2.0.0)
@@ -31,7 +33,7 @@ PKG_SEARCH_MODULE(SDL2_GFX REQUIRED SDL2_gfx)
 PKG_SEARCH_MODULE(SDL2_MIXER REQUIRED SDL2_mixer)
 PKG_SEARCH_MODULE(SDL2_NET REQUIRED SDL2_net)
 PKG_SEARCH_MODULE(GUISAN REQUIRED guisan>=0.9.0)
-#todo sqlite tinyxml + make sure errors are printed 
+#todo  make sure errors are printed 
 find_library(TINYXML2 REQUIRED libtinyxml2)
 find_library(SQLITE3 REQUIRED libsqlite3)
 find_library(BOX2D REQUIRED libbox2d)
