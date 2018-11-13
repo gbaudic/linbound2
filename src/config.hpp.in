@@ -5,6 +5,9 @@
  * This Source Code Form is “Incompatible With Secondary Licenses”,
  * as defined by the Mozilla Public License, v. 2.0.
  */
+ 
+#ifndef _H_CONFIG_
+#define _H_CONFIG_
 
 const int MAJOR_VERSION = @Linbound_VERSION_MAJOR@;
 const int MINOR_VERSION = @Linbound_VERSION_MINOR@;
@@ -12,3 +15,6 @@ const int PATCH_VERSION = @Linbound_VERSION_RELEASE@;
 const bool ENABLE_SERVER = @ENABLE_SERVER@;
 
 #define RESOURCE_PREFIX @resource_prefix@
+
+
+#endif // _H_CONFIG_
