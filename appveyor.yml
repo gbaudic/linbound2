@@ -2,9 +2,9 @@ image: Visual Studio 2017
 
 install:
   - set PATH=C:\msys64\MINGW64\bin;C:\msys64\usr\bin;%PATH%
-  - bash -lc "pacman -S --needed --noconfirm make cmake"
+  - bash -lc "pacman -S --needed --noconfirm make cmake scons"
   - bash -lc "pacman --noconfirm -Suy mingw-w64-x86_64-SDL2 mingw-w64-x86_64-SDL2_gfx mingw-w64-x86_64-SDL2_image mingw-w64-x86_64-SDL2_mixer mingw-w64-x86_64-SDL2_net mingw-w64-x86_64-SDL2_ttf mingw-w64-x86_64-sqlite3 mingw-w64-x86_64-tinyxml2 mingw-w64-x86_64-box2d mingw-w64-x86_64-gtest"
-  - bash -lc "git clone https://github.com/gbaudic/guisan.git && pushd guisan && scons && sudo scons install && popd"  
+  - bash -lc "export PKG_CONFIG_PATH=$PKG_CONFIG_PATH:/mingw64/lib/pkgconfig && git clone https://github.com/gbaudic/guisan.git && pushd guisan && scons --prefix=/mingw64 && sudo scons install && popd"  
   
 build_script:
   - bash -lc "cmake . && make" 
