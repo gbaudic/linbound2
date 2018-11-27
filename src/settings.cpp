@@ -102,25 +102,18 @@ void Settings::init(){
 				string key = line.substr(0, eqpos);
 				string value = line.substr(eqpos + 1);
 				//if yes, check value consistency and inject; if no, ignore
-				switch(key) {
-					case "Height":
-						height = stoi(value);
-						flags |= 1;
-						break;
-					case "Width":
-						width = stoi(value);
-						flags |= 2;
-						break;
-					case "MusicVolume":
-						musicVolume = stoi(value);
-						flags |= 4;
-						break;
-					case "EffectsVolume":
-						effectsVolume = stoi(value);
-						flags |= 16;
-						break;
-					default:
-						break;
+				if(key == "Height") {
+					height = stoi(value);
+					flags |= 1;
+				} else if(key == "Width") {
+					width = stoi(value);
+					flags |= 2;
+				} else if(key == "MusicVolume") {
+					musicVolume = stoi(value);
+					flags |= 4;
+				} else if(key == "EffectsVolume") {
+					effectsVolume = stoi(value);
+					flags |= 16;
 				}
 			}
 		}
@@ -152,9 +145,9 @@ void Settings::save() {
 	ofstream output("linbound.config", ios::out);
 	output << "[Display]" << endl;
 	output << "Height=" << height << endl
-		   << "Width=" << width << endl << endl;
+	       << "Width=" << width << endl << endl;
 	output << "[Audio]" << endl;
 	output << "MusicVolume=" << musicVolume << endl
-		   << "EffectsVolume=" << effectsVolume << endl;
+	       << "EffectsVolume=" << effectsVolume << endl;
 	output.close();
 }
