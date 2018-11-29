@@ -63,7 +63,7 @@ Uint16 Settings::getWidth() {
 }
 
 void Settings::setWidth( Uint16 newWidth) {
-	width = width;
+	width = newWidth;
 }
 
 Settings::Settings() {
