@@ -25,22 +25,23 @@
 class Settings {
 public:
 	Uint8 getEffectsVolume();
-	void setEffectsVolume(Uint8 effectsVolume);
+	void setEffectsVolume(Uint8 newEffectsVolume);
 	Uint16 getHeight();
-	void setHeight(Uint16 height);
+	void setHeight(Uint16 newHeight);
 	static Settings* getInstance();
 	Uint8 getMusicVolume();
-	void setMusicVolume(Uint8 musicVolume);
+	void setMusicVolume(Uint8 newMusicVolume);
 	Uint16 getWidth();
-	void setWidth(Uint16 width);
+	void setWidth(Uint16 newWidth);
 	bool isAServer();
-	void setServer(bool isServer);
+	void setServer(bool server);
 	void save();
 
 private:
 	Uint8 musicVolume;
 	Uint8 effectsVolume;
-	Uint16 height, width; //! window size
+	Uint16 height;
+	Uint16 width; //! window size
 	bool isServer;
 	bool isServerSet; //ensure boolean above is only touched once
 	static Settings* instance;

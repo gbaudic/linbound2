@@ -32,9 +32,12 @@ public:
 	
 private:
 	gcn::Window settings;
-	gcn::Button btn_ok, btn_cancel;
-	gcn::Label lbl_music, lbl_effects;
-	gcn::Slider sl_music, sl_effects;
+	gcn::Button btn_ok;
+	gcn::Button btn_cancel;
+	gcn::Label lbl_music;
+	gcn::Label lbl_effects;
+	gcn::Slider sl_music;
+	gcn::Slider sl_effects;
 	
 };
 

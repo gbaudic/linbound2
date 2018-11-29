@@ -31,16 +31,16 @@ Uint8 Settings::getEffectsVolume() {
 	return effectsVolume;
 }
 
-void Settings::setEffectsVolume( Uint8 effectsVolume) {
-	this->effectsVolume = effectsVolume;
+void Settings::setEffectsVolume( Uint8 newEffectsVolume) {
+	effectsVolume = newEffectsVolume;
 }
 
 Uint16 Settings::getHeight() {
 	return height;
 }
 
-void Settings::setHeight( Uint16 height) {
-	this->height = height;
+void Settings::setHeight( Uint16 newHeight) {
+	height = newHeight;
 }
 
 Settings* Settings::getInstance() {
@@ -54,16 +54,16 @@ Uint8 Settings::getMusicVolume() {
 	return musicVolume;
 }
 
-void Settings::setMusicVolume( Uint8 musicVolume) {
-	this->musicVolume = musicVolume;
+void Settings::setMusicVolume( Uint8 newMusicVolume) {
+	musicVolume = newMusicVolume;
 }
 
 Uint16 Settings::getWidth() {
 	return width;
 }
 
-void Settings::setWidth( Uint16 width) {
-	this->width = width;
+void Settings::setWidth( Uint16 newWidth) {
+	width = width;
 }
 
 Settings::Settings() {
@@ -77,10 +77,10 @@ bool Settings::isAServer() {
 	return isServer;
 }
 
-void Settings::setServer( bool isServer) {
+void Settings::setServer( bool server) {
 	if(!isServerSet){
-		this->isServer = isServer;
-		this->isServerSet = true;
+		isServer = server;
+		isServerSet = true;
 	}
 }
 
