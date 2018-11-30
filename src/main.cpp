@@ -8,6 +8,7 @@
 
 #include <iostream>
 
+#include "main.hpp"
 #include "config.hpp"
 #include "settings.hpp"
 #include "utils.hpp"
