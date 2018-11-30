@@ -16,7 +16,7 @@
 
 #include <iostream>
 #include <fstream>
-#include <string>
+#include <exception>
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_mixer.h>
@@ -27,20 +27,20 @@ using namespace std;
 
 Settings* Settings::instance = NULL;
 
-Uint8 Settings::getEffectsVolume() {
-	return effectsVolume;
+Uint16 Settings::getEffectsVolume() {
+	return values["EffectsVolume"];
 }
 
 void Settings::setEffectsVolume( Uint8 newEffectsVolume) {
-	effectsVolume = newEffectsVolume;
+	values["EffectsVolume"] = newEffectsVolume;
 }
 
 Uint16 Settings::getHeight() {
-	return height;
+	return values["Height"];
 }
 
 void Settings::setHeight( Uint16 newHeight) {
-	height = newHeight;
+	values["Height"] = newHeight;
 }
 
 Settings* Settings::getInstance() {
@@ -50,20 +50,20 @@ Settings* Settings::getInstance() {
 	return instance;
 }
 
-Uint8 Settings::getMusicVolume() {
-	return musicVolume;
+Uint16 Settings::getMusicVolume() {
+	return values["MusicVolume"];
 }
 
 void Settings::setMusicVolume( Uint8 newMusicVolume) {
-	musicVolume = newMusicVolume;
+	values["MusicVolume"] = newMusicVolume;
 }
 
 Uint16 Settings::getWidth() {
-	return width;
+	return values["Width"];
 }
 
 void Settings::setWidth( Uint16 newWidth) {
-	width = newWidth;
+	values["Width"] = newWidth;
 }
 
 Settings::Settings() {
@@ -77,6 +77,9 @@ bool Settings::isAServer() {
 	return isServer;
 }
 
+/**
+ * \brief Set this program to run as a server
+ */
 void Settings::setServer( bool server) {
 	if(!isServerSet){
 		isServer = server;
@@ -91,48 +94,45 @@ void Settings::init(){
 	//Try to read the config file
 	ifstream input("linbound.config", ios::in);
 	string line;
-	Uint8 flags = 0; //to know which fields were set
 	
-	while(getline(input, line) && !input.eof()){
-		if(!line.empty() && line.front() != '['){
-			int eqpos = line.find('=');
-			if(eqpos != string::npos){
-				//Maybe a value here
-				//determine if we know this key
-				string key = line.substr(0, eqpos);
-				string value = line.substr(eqpos + 1);
-				//if yes, check value consistency and inject; if no, ignore
-				if(key == "Height") {
-					height = stoi(value);
-					flags |= 1;
-				} else if(key == "Width") {
-					width = stoi(value);
-					flags |= 2;
-				} else if(key == "MusicVolume") {
-					musicVolume = stoi(value);
-					flags |= 4;
-				} else if(key == "EffectsVolume") {
-					effectsVolume = stoi(value);
-					flags |= 16;
-				}
-			}
-		}
-	}
+	if(input.is_open()) {
+        while(getline(input, line) && !input.eof()){
+            if(!line.empty() && line.front() != '['){
+                int eqpos = line.find('=');
+                if(eqpos != string::npos){
+                    //Maybe a value here
+                    //determine if we know this key
+                    string key = line.substr(0, eqpos);
+                    string value = line.substr(eqpos + 1);
+                    //if yes, check value consistency and inject; if no, ignore
+                    try {
+                        values[key] = stoi(value);
+                    } catch (exception &e) {
+                        cout << "Error loading settings key: " << key << endl;
+                    }
+                }
+            }
+        }
+    } else {
+        cout << "Error opening settings file -- using defaults value" << endl;
+    }
 
 	//Consistency check
-	if(!(flags & 2) || width < 300) {
-		width = 800;
+	if(values.count("Width") == 0 || values["Width"] < 300) {
+		values["Width"] = 800;
 	}
 	
-	if(!(flags & 1) || height < 200) {
-		height = 600;
+	if(values.count("Height") == 0 || values["Height"] < 200) {
+		values["Height"] = 600;
 	}
 	
-	if(!(flags & 4))
-		musicVolume = MIX_MAX_VOLUME / 2;
+	if(values.count("MusicVolume") == 0) {
+		values["MusicVolume"] = MIX_MAX_VOLUME / 2;
+    }
 	
-	if(!(flags & 16))
-		effectsVolume = MIX_MAX_VOLUME / 2;
+	if(values.count("EffectsVolume") == 0) {
+		values["EffectsVolume"] = MIX_MAX_VOLUME / 2;
+    }
 
 	input.close();
 }
@@ -143,11 +143,16 @@ void Settings::init(){
 void Settings::save() {
 	
 	ofstream output("linbound.config", ios::out);
-	output << "[Display]" << endl;
-	output << "Height=" << height << endl
-	       << "Width=" << width << endl << endl;
-	output << "[Audio]" << endl;
-	output << "MusicVolume=" << musicVolume << endl
-	       << "EffectsVolume=" << effectsVolume << endl;
+    
+    if(output.is_open()) {
+        output << "[Display]" << endl;
+        output << "Height=" << values["Height"] << endl
+               << "Width=" << values["Width"] << endl << endl;
+        output << "[Audio]" << endl;
+        output << "MusicVolume=" << values["MusicVolume"] << endl
+               << "EffectsVolume=" << values["EffectsVolume"] << endl;
+    } else {
+        cout << "Error opening settings file for writing" << endl;
+    }
 	output.close();
 }

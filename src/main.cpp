@@ -9,6 +9,7 @@
 #include <iostream>
 
 #include "config.hpp"
+#include "settings.hpp"
 #include "utils.hpp"
 
 using namespace std;
@@ -17,6 +18,10 @@ using namespace std;
  * Minimalistic main function
  */
 int main(int argc, char* argv[]) {
+    if(argc > 1) {
+        usage();
+    }
+    
 	return 0;
 }
 

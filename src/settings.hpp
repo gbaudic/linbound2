@@ -17,6 +17,8 @@
 #ifndef _H_SETTINGS_
 #define _H_SETTINGS_
 
+#include <map>
+#include <string>
 #include <SDL2/SDL.h>
 
 /**
@@ -24,12 +26,12 @@
  */
 class Settings {
 public:
-	Uint8 getEffectsVolume();
+	Uint16 getEffectsVolume();
 	void setEffectsVolume(Uint8 newEffectsVolume);
 	Uint16 getHeight();
 	void setHeight(Uint16 newHeight);
 	static Settings* getInstance();
-	Uint8 getMusicVolume();
+	Uint16 getMusicVolume();
 	void setMusicVolume(Uint8 newMusicVolume);
 	Uint16 getWidth();
 	void setWidth(Uint16 newWidth);
@@ -38,10 +40,7 @@ public:
 	void save();
 
 private:
-	Uint8 musicVolume;
-	Uint8 effectsVolume;
-	Uint16 height;
-	Uint16 width; //! window size
+	std::map<std::string,Uint16> values;
 	bool isServer;
 	bool isServerSet; //ensure boolean above is only touched once
 	static Settings* instance;
