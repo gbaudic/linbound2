@@ -11,7 +11,7 @@ install:
   - bash -lc "export PKG_CONFIG_PATH=$PKG_CONFIG_PATH:/mingw64/lib/pkgconfig; git clone https://github.com/gbaudic/guisan.git && pushd guisan && scons prefix=/mingw64 && scons install prefix=/mingw64 && popd"  
   
 build_script:
-  - bash -lc "export PKG_CONFIG_PATH=$PKG_CONFIG_PATH:/mingw64/lib/pkgconfig; cd $APPVEYOR_BUILD_FOLDER; cmake . && cmake --build ." 
+  - bash -lc "export PKG_CONFIG_PATH=$PKG_CONFIG_PATH:/mingw64/lib/pkgconfig; cd $APPVEYOR_BUILD_FOLDER; mkdir build; cd build; CC=gcc CXX=g++ cmake .. && cmake --build .." 
   
 matrix:
   fast_finish: true
