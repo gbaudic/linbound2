@@ -9,7 +9,7 @@ set (Linbound_VERSION_MINOR 1)
 set (Linbound_VERSION_RELEASE 0)
 set (ENABLE_SERVER false)
 
-if(WIN32)
+if(NOT UNIX)
 	set(resource_prefix "./res")
 else()
 	set(resource_prefix "/usr/share/games/${PROJECT_NAME}")
@@ -20,8 +20,8 @@ set(EXECUTABLE_OUTPUT_PATH bin/${CMAKE_BUILD_TYPE})
 # configure a header file to pass some of the CMake settings
 # to the source code
 configure_file (
-  "src/config.hpp.in"
-  "src/config.hpp"
+  "${PROJECT_SOURCE_DIR}/src/config.hpp.in"
+  "${PROJECT_SOURCE_DIR}/src/config.hpp"
   )
   
 file(GLOB_RECURSE source_files src/*)
