@@ -28,21 +28,41 @@ file(GLOB_RECURSE source_files src/*)
 
 add_executable(${PROJECT_NAME} ${source_files})
 
-INCLUDE(FindPkgConfig)
-INCLUDE(FindGettext)
+if(NOT MSVC)
+	INCLUDE(FindPkgConfig)
+	INCLUDE(FindGettext)
+endif()
 INCLUDE(CheckIncludeFiles)
 
-PKG_SEARCH_MODULE(SDL2 REQUIRED sdl2)
-PKG_SEARCH_MODULE(SDL2_IMAGE REQUIRED SDL2_image>=2.0.0)
-PKG_SEARCH_MODULE(SDL2_TTF REQUIRED SDL2_ttf)
-PKG_SEARCH_MODULE(SDL2_GFX REQUIRED SDL2_gfx)
-PKG_SEARCH_MODULE(SDL2_MIXER REQUIRED SDL2_mixer)
-PKG_SEARCH_MODULE(SDL2_NET REQUIRED SDL2_net)
-PKG_SEARCH_MODULE(GUISAN REQUIRED guisan>=0.9.0)
+if(NOT MSVC)
+	PKG_SEARCH_MODULE(SDL2 REQUIRED sdl2)
+	PKG_SEARCH_MODULE(SDL2_IMAGE REQUIRED SDL2_image>=2.0.0)
+	PKG_SEARCH_MODULE(SDL2_TTF REQUIRED SDL2_ttf)
+	PKG_SEARCH_MODULE(SDL2_GFX REQUIRED SDL2_gfx)
+	PKG_SEARCH_MODULE(SDL2_MIXER REQUIRED SDL2_mixer)
+	PKG_SEARCH_MODULE(SDL2_NET REQUIRED SDL2_net)
+	PKG_SEARCH_MODULE(GUISAN REQUIRED guisan>=0.9.0)
+	
+	find_library(TINYXML2 REQUIRED libtinyxml2)
+	find_library(SQLITE3 REQUIRED libsqlite3)
+	find_library(BOX2D REQUIRED libbox2d)
+else(MSVC)
+	find_library(SDL2 REQUIRED sdl2)
+	find_library(SDL2_IMAGE REQUIRED SDL2_image>=2.0.0)
+	find_library(SDL2_TTF REQUIRED SDL2_ttf)
+	find_library(SDL2_GFX REQUIRED SDL2_gfx)
+	find_library(SDL2_MIXER REQUIRED SDL2_mixer)
+	find_library(SDL2_NET REQUIRED SDL2_net)
+	find_library(GUISAN REQUIRED guisan>=0.9.0)
+
+	find_library(TINYXML2 REQUIRED tinyxml2)
+	find_library(SQLITE3 REQUIRED sqlite3)
+	find_library(BOX2D CONFIG REQUIRED)
+endif()
 #todo  make sure errors are printed 
-find_library(TINYXML2 REQUIRED libtinyxml2)
-find_library(SQLITE3 REQUIRED libsqlite3)
-find_library(BOX2D REQUIRED libbox2d)
+
+
+enable_testing()
 
 INCLUDE_DIRECTORIES(${SDL2_INCLUDE_DIRS} 
 	${SDL2_IMAGE_INCLUDE_DIRS} 
