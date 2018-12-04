@@ -1,4 +1,4 @@
-#include "../settings.hpp"
+#include "../src/settings.hpp"
 #include "gtest/gtest.h" 
 
 
