@@ -12,7 +12,7 @@
 const int MAJOR_VERSION = @Linbound_VERSION_MAJOR@;
 const int MINOR_VERSION = @Linbound_VERSION_MINOR@;
 const int PATCH_VERSION = @Linbound_VERSION_RELEASE@;
-const bool ENABLE_SERVER = @ENABLE_SERVER@;
+const bool ENABLE_SERVER = @Linbound_ENABLE_SERVER@;
 
 #define RESOURCE_PREFIX @resource_prefix@
 
