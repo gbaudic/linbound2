@@ -122,7 +122,7 @@ if(ENABLE_TESTS)
 endif()
 
 
-# install(TARGETS ${EXECUTABLE_OUTPUT_PATH}/${EXECUTABLE_NAME} DESTINATION bin)
+# install(TARGETS ${PROJECT_NAME} DESTINATION bin)
 
 include (InstallRequiredSystemLibraries)
 set (CPACK_RESOURCE_FILE_LICENSE  
