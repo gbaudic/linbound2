@@ -57,21 +57,24 @@ if(NOT MSVC)
 	PKG_SEARCH_MODULE(SQLITE3 REQUIRED sqlite3)
 	find_library(BOX2D libBox2D PATHS /mingw64/lib /mingw32/lib)
 else(MSVC)
-	find_library(SDL2 NAMES SDL2)
-	find_library(SDL2_IMAGE NAMES SDL2_image)
-	find_library(SDL2_TTF NAMES SDL2_ttf)
-	find_library(SDL2_GFX NAMES SDL2_gfx)
-	find_library(SDL2_MIXER NAMES SDL2_mixer)
-	find_library(SDL2_NET NAMES SDL2_net)
-	find_library(GUISAN NAMES guisan)
+	find_library(SDL2_LIBRARIES NAMES SDL2)
+	find_library(SDL2MAIN NAMES SDL2main)
+	find_library(SDL2_IMAGE_LIBRARIES NAMES SDL2_image)
+	find_library(SDL2_TTF_LIBRARIES NAMES SDL2_ttf)
+	find_library(SDL2_GFX_LIBRARIES NAMES SDL2_gfx)
+	find_library(SDL2_MIXER_LIBRARIES NAMES SDL2_mixer)
+	find_library(SDL2_NET_LIBRARIES NAMES SDL2_net)
+	find_library(GUISAN_LIBRARIES NAMES guisan)
 	
 	if(ENABLE_TESTS)
 		find_library(GTEST NAMES gtest_main)
 	endif()
 
-	find_library(TINYXML2 NAMES tinyxml2)
-	find_library(SQLITE3 NAMES sqlite3)
-	find_library(BOX2D NAMES Box2D)
+	find_library(TINYXML2_LIBRARIES NAMES tinyxml2)
+	find_library(SQLITE3_LIBRARIES NAMES sqlite3)
+	find_library(BOX2D_LIBRARIES NAMES Box2D)
+
+	find_path(TINYXML2_INCLUDE_DIRS tinyxml2.h)
 endif()
 
 INCLUDE_DIRECTORIES(${SDL2_INCLUDE_DIRS} 
@@ -86,6 +89,7 @@ INCLUDE_DIRECTORIES(${SDL2_INCLUDE_DIRS}
 	${BOX2D_INCLUDE_DIRS})
 	
 TARGET_LINK_LIBRARIES(${PROJECT_NAME} ${SDL2_LIBRARIES} 
+	${SDL2MAIN}   # only used in Windows
 	${SDL2_IMAGE_LIBRARIES} 
 	${SDL2_TTF_LIBRARIES}
 	${SDL2_GFX_LIBRARIES}
