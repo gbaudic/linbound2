@@ -64,7 +64,7 @@ else(MSVC)
 	find_library(SDL2_GFX_LIBRARIES NAMES SDL2_gfx)
 	find_library(SDL2_MIXER_LIBRARIES NAMES SDL2_mixer)
 	find_library(SDL2_NET_LIBRARIES NAMES SDL2_net)
-	find_library(GUISAN_LIBRARIES NAMES guisan)
+	find_library(GUISAN_LIBRARIES NAMES Guisan)
 	
 	if(ENABLE_TESTS)
 		find_library(GTEST NAMES gtest_main)
@@ -75,6 +75,10 @@ else(MSVC)
 	find_library(BOX2D_LIBRARIES NAMES Box2D)
 
 	find_path(TINYXML2_INCLUDE_DIRS tinyxml2.h)
+	find_path(SDL2_INCLUDE_DIRS SDL.h)
+	if(SDL2_INCLUDE_DIRS STREQUAL SDL2_INCLUDE_DIRS-NOTFOUND)
+		find_path(SDL2_INCLUDE_DIRS SDL.h HINTS "${TINYXML2_INCLUDE_DIRS}/SDL2")
+	endif()
 endif()
 
 INCLUDE_DIRECTORIES(${SDL2_INCLUDE_DIRS} 
