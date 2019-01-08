@@ -1,6 +1,6 @@
 /**
  * A subwindow to display the credits directly from the menu
- * Data will be fetched from the existing AUTHORS file
+ * Data will be fetched from the existing AUTHORS file, if any
  */
 /* This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0.
  * If a copy of the MPL was not distributed with this file,
@@ -16,10 +16,11 @@
 #include <guisan.hpp>
 #include <guisan/sdl.hpp>
 
-class CreditsWindow {
+class CreditsWindow : public gcn::ActionListener {
 public:
 	CreditsWindow();
 	void setVisible(bool visible);
+	void action(const gcn::ActionEvent& actionEvent);
 
 private:
 	gcn::Window creditsWindow;

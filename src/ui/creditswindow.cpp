@@ -36,6 +36,9 @@ CreditsWindow::CreditsWindow() : creditsWindow(), tb_text(), sa_scroll(), btn_cl
 	}
 
 	input.close();
+	
+	btn_close.setActionEventId("close");
+	btn_close.addActionListener(this);
 
 	//Add widgets to window
 	creditsWindow.add(&sa_scroll, 2, 20);
@@ -47,4 +50,10 @@ CreditsWindow::CreditsWindow() : creditsWindow(), tb_text(), sa_scroll(), btn_cl
  */
 void CreditsWindow::setVisible(bool visible) {
 	creditsWindow.setVisible(visible);
+}
+
+void CreditsWindow::action(const gcn::ActionEvent& actionEvent) {
+	if(actionEvent.getId() == "close") {
+		setVisible(false);
+	}
 }
