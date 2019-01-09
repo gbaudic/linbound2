@@ -18,6 +18,7 @@
 
 #include <SDL2/SDL.h>
 #include <string>
+#include <guisan.hpp>
  
 #include "config.hpp"
 
@@ -31,6 +32,7 @@ namespace linbound {
     int getVersion();
     std::string prettifyIP(Uint32 address);
 
+	void addCenteredWidget(gcn::Widget *source, gcn::Container *destination);
 }
  
 #endif 
