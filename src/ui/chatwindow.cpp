@@ -9,15 +9,15 @@
 #include "chatwindow.hpp"
 using namespace std;
 
-LB_ChatWindow::LB_ChatWindow(string friendName) : chatWindow(), tf_msg(), sa_scroll(),
+LB_ChatWindow::LB_ChatWindow(string friendName) : tf_msg(), sa_scroll(),
 tb_chat(), btn_close("x"), btn_send("Send") {
-	chatWindow.setCaption(friendName);
-	chatWindow.setWidth(200);
-	chatWindow.setHeight(300);
+	setCaption(friendName);
+	setWidth(200);
+	setHeight(300);
 	gcn::Color color(0x1f, 0x75, 0xf5, 0);
 	gcn::Color bckColor(0, 0, 0x66, 0);
 	gcn::Color textColor(0xff, 0xff, 0xff, 0);
-	chatWindow.setBaseColor(color);
+	setBaseColor(color);
 
 	tb_chat.setEditable(false);
 	tb_chat.setBackgroundColor(bckColor);
@@ -40,10 +40,10 @@ tb_chat(), btn_close("x"), btn_send("Send") {
 	tf_msg.addActionListener(this);
 
 	//Add widgets
-	chatWindow.add(&btn_close, 200 - 2 - btn_close.getWidth(), 2);
-	chatWindow.add(&sa_scroll, 2, 20);
-	chatWindow.add(&tf_msg, 2, 20 + 250 + 2);
-	chatWindow.add(&btn_send, 200 - 2 - btn_send.getWidth(), 20 + 250 + 2);
+	add(&btn_close, 200 - 2 - btn_close.getWidth(), 2);
+	add(&sa_scroll, 2, 20);
+	add(&tf_msg, 2, 20 + 250 + 2);
+	add(&btn_send, 200 - 2 - btn_send.getWidth(), 20 + 250 + 2);
 
 	recipient = friendName;
 }
@@ -53,13 +53,6 @@ tb_chat(), btn_close("x"), btn_send("Send") {
  */
 LB_ChatWindow::LB_ChatWindow(string friendName, string message) : LB_ChatWindow(friendName) {
 	this->addMessage(friendName, message);
-}
-
-/**
- * Change visibility of the internal gcn::window
- */
-void LB_ChatWindow::setVisible(bool visible) {
-	chatWindow.setVisible(visible);
 }
 
 void LB_ChatWindow::action(const gcn::ActionEvent &actionEvent) {
@@ -82,7 +75,7 @@ void LB_ChatWindow::action(const gcn::ActionEvent &actionEvent) {
  */
 void LB_ChatWindow::addMessage(std::string author, std::string message) {
 	tb_chat.addRow(author + "] " + message);
-	chatWindow.setVisible(true); //put the window back in foreground if necessary
+	setVisible(true); //put the window back in foreground if necessary
 }
 
 /**
@@ -91,6 +84,6 @@ void LB_ChatWindow::addMessage(std::string author, std::string message) {
  *  of an ongoing conversation (existing window) or if it is a new one (constructor call necessary)
  *  \return the friend name, as a std::string
  */
-string LB_ChatWindow::getRecipientName() {
+string const LB_ChatWindow::getRecipientName() {
 	return recipient;
 }

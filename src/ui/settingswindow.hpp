@@ -1,6 +1,6 @@
 /**
- * \file settings.hpp
- * \brief Settings-related classes
+ * \file settingswindow.hpp
+ * \brief Subwindow to set a few parameters
  * \version 0.1a
  * \author G. B.
  * \date 29/10/2016
@@ -23,15 +23,13 @@
 /**
  *  \brief Subwindow to control settings from main menu
  */
-class SettingsWindow : public gcn::ActionListener {
+class SettingsWindow : public gcn::Window, public gcn::ActionListener {
 public:
 	SettingsWindow();
 	~SettingsWindow();
 	void action(const gcn::ActionEvent& actionEvent);
-	void setVisible(bool visible);
 	
 private:
-	gcn::Window settings;
 	gcn::Button btn_ok;
 	gcn::Button btn_cancel;
 	gcn::Label lbl_music;

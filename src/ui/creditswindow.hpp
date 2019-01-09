@@ -16,14 +16,12 @@
 #include <guisan.hpp>
 #include <guisan/sdl.hpp>
 
-class CreditsWindow : public gcn::ActionListener {
+class CreditsWindow : public gcn::Window, public gcn::ActionListener {
 public:
 	CreditsWindow();
-	void setVisible(bool visible);
 	void action(const gcn::ActionEvent& actionEvent);
 
 private:
-	gcn::Window creditsWindow;
 	gcn::TextBox tb_text;
 	gcn::ScrollArea sa_scroll;
 	gcn::Button btn_close;

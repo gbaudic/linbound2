@@ -12,10 +12,10 @@
 #include "creditswindow.hpp"
 using namespace std;
 
-CreditsWindow::CreditsWindow() : creditsWindow(), tb_text(), sa_scroll(), btn_close("Close") {
+CreditsWindow::CreditsWindow() : tb_text(), sa_scroll(), btn_close("Close") {
 
-	creditsWindow.setCaption("Credits");
-	creditsWindow.setVisible(false); //we will show it on demand afterwards
+	setCaption("Credits");
+	setVisible(false); //we will show it on demand afterwards
 	btn_close.adjustSize();
 	tb_text.setEditable(false);
 
@@ -41,15 +41,8 @@ CreditsWindow::CreditsWindow() : creditsWindow(), tb_text(), sa_scroll(), btn_cl
 	btn_close.addActionListener(this);
 
 	//Add widgets to window
-	creditsWindow.add(&sa_scroll, 2, 20);
-	creditsWindow.add(&btn_close, 100, 200); //TODO: adjust coords
-}
-
-/**
- * Change visibility of the internal gcn::window
- */
-void CreditsWindow::setVisible(bool visible) {
-	creditsWindow.setVisible(visible);
+	add(&sa_scroll, 2, 20);
+	add(&btn_close, 100, 200); //TODO: adjust coords
 }
 
 void CreditsWindow::action(const gcn::ActionEvent& actionEvent) {

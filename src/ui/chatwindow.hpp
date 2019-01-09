@@ -17,17 +17,15 @@
 #include <guisan.hpp>
 #include <guisan/sdl.hpp>
 
-class LB_ChatWindow : public gcn::ActionListener {
+class LB_ChatWindow : public gcn::Window, public gcn::ActionListener {
 public:
 	LB_ChatWindow(std::string friendName);
 	LB_ChatWindow(std::string friendName, std::string message);
-	void setVisible(bool visible);
 	void addMessage(std::string author, std::string message);
 	void action(const gcn::ActionEvent &actionEvent);
-	std::string getRecipientName();
+	std::string const getRecipientName();
 
 private:
-	gcn::Window chatWindow;
 	gcn::TextField tf_msg;
 	gcn::ScrollArea sa_scroll;
 	gcn::TextBox tb_chat;

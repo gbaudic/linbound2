@@ -1,6 +1,6 @@
 /**
- * \file settings.cpp
- * \brief Settings-related classes
+ * \file settingswindow.cpp
+ * \brief Subwindow to set a few parameters
  * \version 0.1a
  * \author G. B.
  * \date 29/10/2016
@@ -23,11 +23,12 @@
 /**
  * \brief Constructor
  */
-SettingsWindow::SettingsWindow() : settings("Settings"),
+SettingsWindow::SettingsWindow() : 
 btn_ok("OK"), btn_cancel("Cancel"),
 lbl_music("Music volume"), lbl_effects("Effects volume"),
 sl_music(0, MIX_MAX_VOLUME), sl_effects(0, MIX_MAX_VOLUME)
 {
+	setCaption("Settings");
 	sl_music.setValue(Settings::getInstance()->getMusicVolume());
 	sl_effects.setValue(Settings::getInstance()->getEffectsVolume());
 	btn_cancel.adjustSize();
@@ -39,15 +40,15 @@ sl_music(0, MIX_MAX_VOLUME), sl_effects(0, MIX_MAX_VOLUME)
 	btn_cancel.addActionListener(this);
 	
 	gcn::Color color(0x1f, 0x75, 0xf5, 0);
-	settings.setBaseColor(color);
-	settings.add(&btn_ok, settings.getWidth() / 2 - 2 - btn_ok.getWidth(), 100);
-	settings.add(&btn_cancel, settings.getWidth() / 2 + 2, 100);
-	settings.add(&lbl_music, 10, 30);
-	settings.add(&lbl_effects, 10, 60);
-	settings.add(&sl_music, 60, 30);
-	settings.add(&sl_effects, 60, 60);
+	setBaseColor(color);
+	add(&btn_ok, getWidth() / 2 - 2 - btn_ok.getWidth(), 100);
+	add(&btn_cancel, getWidth() / 2 + 2, 100);
+	add(&lbl_music, 10, 30);
+	add(&lbl_effects, 10, 60);
+	add(&sl_music, 60, 30);
+	add(&sl_effects, 60, 60);
 
-	settings.setVisible(true);
+	setVisible(true);
 }
 
 /**
@@ -73,11 +74,4 @@ void SettingsWindow::action(const gcn::ActionEvent& actionEvent) {
 	}
 }
 
-/**
- * \brief Shows or hides the settings window
- * \param visible new visibility
- */
-void SettingsWindow::setVisible(bool visible) {
-	settings.setVisible(visible);
-}
 
