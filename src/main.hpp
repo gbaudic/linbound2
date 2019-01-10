@@ -10,5 +10,6 @@
 #define _H_MAIN_
 
 void usage();
+void loop();
 
 #endif // _H_MAIN_
