@@ -23,7 +23,7 @@
 /**
  *  \brief Subwindow to control settings from main menu
  */
-class SettingsWindow : public gcn::Window, public gcn::ActionListener {
+class SettingsWindow final : public gcn::Window, public gcn::ActionListener {
 public:
 	SettingsWindow();
 	~SettingsWindow();

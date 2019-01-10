@@ -16,7 +16,7 @@
 #include <guisan.hpp>
 #include <guisan/sdl.hpp>
 
-class CreditsWindow : public gcn::Window, public gcn::ActionListener {
+class CreditsWindow final : public gcn::Window, public gcn::ActionListener {
 public:
 	CreditsWindow();
 	void action(const gcn::ActionEvent& actionEvent);

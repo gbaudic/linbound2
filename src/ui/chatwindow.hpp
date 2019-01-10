@@ -17,9 +17,9 @@
 #include <guisan.hpp>
 #include <guisan/sdl.hpp>
 
-class LB_ChatWindow : public gcn::Window, public gcn::ActionListener {
+class LB_ChatWindow final : public gcn::Window, public gcn::ActionListener {
 public:
-	LB_ChatWindow(std::string friendName);
+	explicit LB_ChatWindow(std::string friendName);
 	LB_ChatWindow(std::string friendName, std::string message);
 	void addMessage(std::string author, std::string message);
 	void action(const gcn::ActionEvent &actionEvent);

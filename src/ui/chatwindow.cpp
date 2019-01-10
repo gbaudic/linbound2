@@ -10,7 +10,7 @@
 using namespace std;
 
 LB_ChatWindow::LB_ChatWindow(string friendName) : tf_msg(), sa_scroll(),
-tb_chat(), btn_close("x"), btn_send("Send") {
+tb_chat(), btn_close("x"), btn_send("Send"), recipient(friendName) {
 	setCaption(friendName);
 	setWidth(200);
 	setHeight(300);
@@ -44,8 +44,6 @@ tb_chat(), btn_close("x"), btn_send("Send") {
 	add(&sa_scroll, 2, 20);
 	add(&tf_msg, 2, 20 + 250 + 2);
 	add(&btn_send, 200 - 2 - btn_send.getWidth(), 20 + 250 + 2);
-
-	recipient = friendName;
 }
 
 /**
