@@ -17,6 +17,7 @@ class Menu : public gcn::Container, public gcn::ActionListener {
 public:
 	Menu();
 	void action(const gcn::ActionEvent &actionEvent);
+	void moveToGame(bool move);
 
 private:
 	gcn::ImageButton btn_newGame;

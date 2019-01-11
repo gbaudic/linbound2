@@ -22,12 +22,19 @@ btn_webGame(RESOURCE_PREFIX + "/menu/webgame.png")
 {
 	lbl_version.setCaption("Version " + linbound::getVersionString());
 
+	btn_newGame.setActionEventId("new");
+	btn_newGame.addActionListener(this);
 	btn_credits.setActionEventId("credits");
 	btn_settings.setActionEventId("settings");
 	btn_credits.addActionListener(this);
 	btn_settings.addActionListener(this);
+	btn_back.setActionEventId("back");
+	btn_back.addActionListener(this);
+	btn_quit.setActionEventId("quit");
+	btn_quit.addActionListener(this);
 
 	btn_back.setVisible(false);
+	btn_lanGame.setVisible(false);
 	btn_localGame.setVisible(false);
 	btn_webGame.setVisible(false);
 
@@ -45,4 +52,28 @@ void Menu::action(const gcn::ActionEvent & actionEvent)
 	if (actionEvent.getId() == "settings") {
 		settings.setVisible(true);
 	}
+
+	if (actionEvent.getId() == "back") {
+		moveToGame(false);
+	}
+	else if (actionEvent.getId() == "new") {
+		moveToGame(true);
+	}
+}
+
+/**
+  \brief Toggle visibility of buttons between the two modes
+  \param move true to show game choice buttons, false to show main menu
+*/
+void Menu::moveToGame(bool move)
+{
+	btn_quit.setVisible(!move);
+	btn_credits.setVisible(!move);
+	btn_settings.setVisible(!move);
+	btn_newGame.setVisible(!move);
+
+	btn_back.setVisible(move);
+	btn_lanGame.setVisible(move);
+	btn_localGame.setVisible(move);
+	btn_webGame.setVisible(move);
 }

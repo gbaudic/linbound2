@@ -49,6 +49,7 @@ int main(int argc, char* argv[]) {
 	TTF_Font* font = TTF_OpenFont(fontPath.c_str(), 12);
 	if (font == NULL) {
 		cout << "Font opening failed! " << TTF_GetError() << endl;
+		return -1;
 	}
 
 	gcn::SDLImageLoader *imageLoader = nullptr;
@@ -56,7 +57,7 @@ int main(int argc, char* argv[]) {
 	gcn::SDLInput input;
 	gcn::SDLGraphics graphics;
 
-	if (settings->isAServer()) {
+	if (!settings->isAServer()) {
 		// Init sound
 		if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 4096) == -1) {
 			cout << "Mix_OpenAudio: " << Mix_GetError() << endl;
