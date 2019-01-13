@@ -90,6 +90,8 @@ int main(int argc, char* argv[]) {
 		SDL_DisableScreenSaver();
 	}
 
+	SoundManager sndMgr;
+
 	// insert call to loop here
 
 	TTF_CloseFont(font);
