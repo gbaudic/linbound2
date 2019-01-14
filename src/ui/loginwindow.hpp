@@ -20,6 +20,7 @@ public:
 	void action(const gcn::ActionEvent &event) override;
 	std::string getPassword() const;
 	std::string getLogin() const;
+	void onLogin(bool success);
 
 private:
 	gcn::Button btn_ok;
@@ -27,6 +28,10 @@ private:
 	gcn::Label lbl_status;
 	gcn::TextField tf_login;
 	gcn::PasswordField tf_password;
+	gcn::Label lbl_login;
+	gcn::Label lbl_password;
+
+	void addWidgets();
 };
 
 #endif // !_H_LOGINWINDOW_
