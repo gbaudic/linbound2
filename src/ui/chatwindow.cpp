@@ -9,7 +9,11 @@
 #include "chatwindow.hpp"
 using namespace std;
 
-LB_ChatWindow::LB_ChatWindow(string friendName) : tf_msg(), sa_scroll(),
+/**
+  Constructor
+  \param friendName username of the friend
+*/
+ChatWindow::ChatWindow(const string friendName) : tf_msg(), sa_scroll(),
 tb_chat(), btn_close("x"), btn_send("Send"), recipient(friendName) {
 	setCaption(friendName);
 	setWidth(200);
@@ -34,33 +38,44 @@ tb_chat(), btn_close("x"), btn_send("Send"), recipient(friendName) {
 	btn_send.setActionEventId("send");
 	btn_send.addActionListener(this);
 
-	tf_msg.setWidth(200 - 3 * 2 - btn_send.getWidth()); //avoid overlap between textfield and button
+	tf_msg.setWidth(getWidth() - 3 * getPadding() - btn_send.getWidth()); //avoid overlap between textfield and button
 	tf_msg.setBackgroundColor(bckColor);
 	tf_msg.setForegroundColor(textColor);
 	tf_msg.addActionListener(this);
 
 	//Add widgets
-	add(&btn_close, 200 - 2 - btn_close.getWidth(), 2);
-	add(&sa_scroll, 2, 20);
-	add(&tf_msg, 2, 20 + 250 + 2);
-	add(&btn_send, 200 - 2 - btn_send.getWidth(), 20 + 250 + 2);
+	addWidgets();
 }
 
 /**
  *  2-parameter constructor to start new conversation from incoming message
+ * \param friendName name of the friend
+ * \param message message to show
  */
-LB_ChatWindow::LB_ChatWindow(string friendName, string message) : LB_ChatWindow(friendName) {
+ChatWindow::ChatWindow(const string friendName, const string message) : ChatWindow(friendName) {
 	this->addMessage(friendName, message);
 }
 
-void LB_ChatWindow::action(const gcn::ActionEvent &actionEvent) {
+///
+/// Actually add the widgets to the container
+/// Put outside the constructor to please Sonar
+///
+void ChatWindow::addWidgets() {
+	add(&sa_scroll, getPadding(), getPadding());
+	add(&btn_close, getWidth() - getPadding() - btn_close.getWidth(), getPadding());
+	add(&tf_msg, getPadding(), sa_scroll.getHeight() + 2 * getPadding());
+	add(&btn_send, getWidth() - getPadding() - btn_send.getWidth(), sa_scroll.getHeight() + 2 * getPadding());
+}
+
+void ChatWindow::action(const gcn::ActionEvent &actionEvent) {
 	if (actionEvent.getId() == "close") {
 		setVisible(false);
 	}
 	else if (actionEvent.getId() == "send" || actionEvent.getSource() == &tf_msg) {
-		string message = tf_msg.getText();
-		if (!message.empty()) {
-			//TODO: forward message to the connection mgr
+		messageSent = tf_msg.getText();
+		if (!messageSent.empty()) {
+			addMessage(sender, messageSent);
+			generateAction();
 			tf_msg.setText("");
 		}
 	}
@@ -71,7 +86,7 @@ void LB_ChatWindow::action(const gcn::ActionEvent &actionEvent) {
  * \param author writer name
  * \param message text message
  */
-void LB_ChatWindow::addMessage(std::string author, std::string message) {
+void ChatWindow::addMessage(const std::string author, const std::string message) {
 	tb_chat.addRow(author + "] " + message);
 	setVisible(true); //put the window back in foreground if necessary
 }
@@ -82,6 +97,19 @@ void LB_ChatWindow::addMessage(std::string author, std::string message) {
  *  of an ongoing conversation (existing window) or if it is a new one (constructor call necessary)
  *  \return the friend name, as a std::string
  */
-string const LB_ChatWindow::getRecipientName() {
+string const ChatWindow::getRecipientName() {
 	return recipient;
+}
+
+string const ChatWindow::getMessage() {
+	return messageSent;
+}
+
+/**
+ * Set the name of the player currently connected
+ * It is static because there is only one user connected...
+ * \param myName player name
+ */
+void ChatWindow::setMyName(const string myName) {
+	sender = myName;
 }

@@ -17,13 +17,15 @@
 #include <guisan.hpp>
 #include <guisan/sdl.hpp>
 
-class LB_ChatWindow final : public gcn::Window, public gcn::ActionListener {
+class ChatWindow final : public gcn::Window, public gcn::ActionListener {
 public:
-	explicit LB_ChatWindow(std::string friendName);
-	LB_ChatWindow(std::string friendName, std::string message);
-	void addMessage(std::string author, std::string message);
+	explicit ChatWindow(const std::string friendName);
+	ChatWindow(const std::string friendName, const std::string message);
+	void addMessage(const std::string author, const std::string message);
 	void action(const gcn::ActionEvent &actionEvent);
 	std::string const getRecipientName();
+	std::string const getMessage();
+	static void setMyName(const std::string myName);
 
 private:
 	gcn::TextField tf_msg;
@@ -32,8 +34,13 @@ private:
 	gcn::Button btn_close;
 	gcn::Button btn_send;
 	std::string recipient; //! necessary if caption displays other infos
-	// TODO: reference to the chat manager
+	static std::string sender; //! name of the player
+	std::string messageSent;
+	
+	void addWidgets();
 };
+
+std::string ChatWindow::sender; // init
 
 #endif // !_H_CHATWINDOW_
 
