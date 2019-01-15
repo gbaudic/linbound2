@@ -20,7 +20,7 @@ public:
 	void action(const gcn::ActionEvent &event) override;
 	std::string getPassword() const;
 	std::string getLogin() const;
-	void onLogin(bool success);
+	void onLogin(const bool success);
 
 private:
 	gcn::Button btn_ok;

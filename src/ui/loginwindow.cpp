@@ -34,13 +34,18 @@ lbl_login("Login"), lbl_password("Password")
 	addWidgets();
 }
 
-void LoginWindow::action(const gcn::ActionEvent & event)
-{
+void LoginWindow::action(const gcn::ActionEvent & event) {
 	if (event.getId() == "cancel") {
 		setVisible(false);
 	}
 
 	if (event.getId() == "ok") {
+		// Validation logic
+		if(tf_login.getText().size() < 2) {
+			lbl_status.setCaption("Invalid login.");
+			return;
+		}
+		
 		btn_ok.setVisible(false);
 		btn_cancel.setVisible(false);
 		tf_login.setEnabled(false);
@@ -53,21 +58,18 @@ void LoginWindow::action(const gcn::ActionEvent & event)
 /**
   Getter for password value
  */
-string LoginWindow::getPassword() const
-{
+string LoginWindow::getPassword() const {
 	return tf_password.getText();
 }
 
 /**
   Getter for login value
  */
-string LoginWindow::getLogin() const
-{
+string LoginWindow::getLogin() const {
 	return tf_login.getText();
 }
 
-void LoginWindow::onLogin(bool success)
-{
+void LoginWindow::onLogin(const bool success) {
 	btn_ok.setVisible(true);
 	btn_cancel.setVisible(true);
 	tf_login.setEnabled(true);
@@ -84,8 +86,7 @@ void LoginWindow::onLogin(bool success)
 	}
 }
 
-void LoginWindow::addWidgets()
-{
+void LoginWindow::addWidgets() {
 	add(&lbl_login, getPadding(), getPadding());
 	add(&lbl_password, getPadding(), 2 * getPadding() + lbl_login.getHeight());
 	add(&lbl_status, getPadding(), lbl_password.getY() + getPadding() + lbl_password.getHeight());
