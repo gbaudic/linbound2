@@ -40,7 +40,5 @@ private:
 	void addWidgets();
 };
 
-std::string ChatWindow::sender; // init
-
 #endif // !_H_CHATWINDOW_
 

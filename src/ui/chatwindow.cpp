@@ -9,6 +9,8 @@
 #include "chatwindow.hpp"
 using namespace std;
 
+std::string ChatWindow::sender; // init
+
 /**
   Constructor
   \param friendName username of the friend
@@ -22,6 +24,7 @@ tb_chat(), btn_close("x"), btn_send("Send"), recipient(friendName) {
 	gcn::Color bckColor(0, 0, 0x66, 0);
 	gcn::Color textColor(0xff, 0xff, 0xff, 0);
 	setBaseColor(color);
+	setActionEventId(friendName);
 
 	tb_chat.setEditable(false);
 	tb_chat.setBackgroundColor(bckColor);
