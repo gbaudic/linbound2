@@ -11,6 +11,7 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_ttf.h>
 #include <SDL2/SDL_mixer.h>
+#include <SDL2/SDL2_framerate.h>
 #include <guisan.hpp>
 #include <guisan/sdl.hpp>
 
@@ -19,8 +20,13 @@
 #include "settings.hpp"
 #include "sound.hpp"
 #include "utils.hpp"
+#include "context.hpp"
 
 using namespace std;
+
+Context *currentContext = nullptr;
+FPSmanager fpsMgr;
+gcn::Gui *gui = nullptr;
 
 /**
  * Minimalistic main function
@@ -87,18 +93,40 @@ int main(int argc, char* argv[]) {
 		gcnfont = new gcn::SDLTrueTypeFont(fontPath, 12);
 		gcn::Widget::setGlobalFont(gcnfont);
 
+		gui = new gcn::Gui();
+		gui->setGraphics(&graphics);
+		gui->setInput(&input);
+
 		SDL_DisableScreenSaver();
 	}
 
 	SoundManager sndMgr;
+	SDL_setFramerate(&fpsMgr, 30);
 
 	// insert call to loop here
+	/*try {
+		loop();
+	}
+	catch (gcn::Exception &e) {
+		cerr << e.getMessage() << endl;
+		return 1;
+	}
+	catch (std::exception &e) {
+		cerr << "Std exception: " << e.what() << endl;
+		return 1;
+	}
+	catch (...) {
+		cerr << "Unknown exception" << endl;
+		return 1;
+	}*/
 
 	TTF_CloseFont(font);
 	TTF_Quit();
 
 	delete gcnfont;
 	delete imageLoader;
+	// delete top;
+	delete gui;
 
 	Mix_Quit();
 	Mix_CloseAudio();
@@ -116,6 +144,18 @@ void usage() {
 
 void loop() {
 	for (;;) {
+		// do something
 
+		gui->logic();
+
+		//**Background
+		currentContext->drawBackground();
+
+		//**Foreground
+		currentContext->drawMiddleground();
+
+		gui->draw();
+
+		SDL_framerateDelay(&fpsMgr);
 	}
 }

@@ -33,6 +33,8 @@ private:
 
 	CreditsWindow credits;
 	SettingsWindow settings;
+
+	void addWidgets();
 };
 
 #endif // !_H_MENU_

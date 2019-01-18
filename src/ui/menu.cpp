@@ -41,6 +41,7 @@ btn_webGame(RESOURCE_PREFIX + "/menu/webgame.png")
 	linbound::addCenteredWidget(&credits, this);
 	linbound::addCenteredWidget(&settings, this);
 
+	addWidgets();
 }
 
 void Menu::action(const gcn::ActionEvent & actionEvent)
@@ -76,4 +77,8 @@ void Menu::moveToGame(bool move)
 	btn_lanGame.setVisible(move);
 	btn_localGame.setVisible(move);
 	btn_webGame.setVisible(move);
+}
+
+void Menu::addWidgets() {
+
 }

@@ -19,7 +19,7 @@ public:
 	SoundManager();
 	~SoundManager();
 
-	void playSound(std::string sndName, int loops);
+	void playSound(std::string sndName, int loops = 1);
 	void changeMode(std::string newMode); // use an enum instead...
 
 	static int countGoldRepeat(Sint16 value);
