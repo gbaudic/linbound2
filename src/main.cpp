@@ -27,6 +27,7 @@ using namespace std;
 Context *currentContext = nullptr;
 FPSmanager fpsMgr;
 gcn::Gui *gui = nullptr;
+SDL_Renderer *renderer = nullptr;
 
 /**
  * Minimalistic main function
@@ -149,10 +150,10 @@ void loop() {
 		gui->logic();
 
 		//**Background
-		currentContext->drawBackground();
+		currentContext->drawBackground(renderer);
 
 		//**Foreground
-		currentContext->drawMiddleground();
+		currentContext->drawMiddleground(renderer);
 
 		gui->draw();
 

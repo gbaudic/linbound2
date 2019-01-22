@@ -20,7 +20,8 @@ enum class ContextName {
 	ROOM_LIST,
 	ROOM_LOBBY,
 	ROOM,
-	ITEM_SHOP
+	ITEM_SHOP,
+	EXIT // for quitting
 };
 
 class Context {
@@ -28,15 +29,15 @@ public:
 	Context(ContextName type, gcn::Container *topContainer);
 	virtual ~Context();
 	ContextName const getName();
-	virtual void drawBackground() = 0;
-	virtual void drawMiddleground() = 0;
+	virtual void drawBackground(SDL_Renderer *screen) = 0;
+	virtual void drawMiddleground(SDL_Renderer *screen) {};
 
 	virtual void enter() = 0;
 	virtual void leave() = 0;
-	virtual void processMessage(const Uint16 code, const std::string &message) = 0;
+	virtual void processMessage(const Uint16 code, const std::string &message) {};
 	virtual void processEvent(SDL_Event &event) = 0;
 
-private:
+protected:
 	gcn::Container *parent;
 	ContextName name;
 	gcn::Container top;

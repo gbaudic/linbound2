@@ -10,15 +10,16 @@
 using namespace std;
 
 Context::Context(ContextName type, gcn::Container *topContainer) : 
-	parent(topContainer), name(type)
+    parent(topContainer), name(type)
 {
-
+	top.setWidth(parent->getWidth());
+	top.setHeight(parent->getHeight());
 }
 
 Context::~Context() {
-
+    parent->remove(&top);
 }
 
 ContextName const Context::getName() {
-	return name;
+    return name;
 }
