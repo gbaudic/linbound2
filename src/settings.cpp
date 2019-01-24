@@ -68,6 +68,8 @@ void Settings::setWidth( Uint16 newWidth) {
 
 Settings::Settings() {
 	init();
+	isServerSet = false;
+	isServer = false;
 }
 
 Settings::~Settings() {
@@ -98,7 +100,7 @@ void Settings::init(){
 	if(input.is_open()) {
         while(getline(input, line) && !input.eof()){
             if(!line.empty() && line.front() != '['){
-                int eqpos = line.find('=');
+                size_t eqpos = line.find('=');
                 if(eqpos != string::npos){
                     //Maybe a value here
                     //determine if we know this key
@@ -107,7 +109,7 @@ void Settings::init(){
                     //if yes, check value consistency and inject; if no, ignore
                     try {
                         values[key] = stoi(value);
-                    } catch (exception &e) {
+                    } catch (exception) {
                         cout << "Error loading settings key: " << key << endl;
                     }
                 }

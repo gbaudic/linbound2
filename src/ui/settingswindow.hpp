@@ -26,8 +26,7 @@
 class SettingsWindow final : public gcn::Window, public gcn::ActionListener {
 public:
 	SettingsWindow();
-	~SettingsWindow();
-	void action(const gcn::ActionEvent& actionEvent);
+	void action(const gcn::ActionEvent& actionEvent) override;
 	
 private:
 	gcn::Button btn_ok;
@@ -37,6 +36,7 @@ private:
 	gcn::Slider sl_music;
 	gcn::Slider sl_effects;
 	
+	void addWidgets();
 };
 
 #endif // _H_SETTINGSWINDOW_

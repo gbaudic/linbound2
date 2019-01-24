@@ -6,12 +6,14 @@
  * as defined by the Mozilla Public License, v. 2.0.
  */
 
+#include "SDL2/SDL_image.h"
 #include "menu.hpp"
 #include "../utils.hpp"
 #include "../config.hpp"
 using namespace std;
 
-Menu::Menu() : btn_newGame(RESOURCE_PREFIX + "/menu/newgame.png"),
+Menu::Menu(gcn::Container *p) : Context(ContextName::MAIN_MENU, p),
+btn_newGame(RESOURCE_PREFIX + "/menu/newgame.png"),
 btn_credits(RESOURCE_PREFIX + "/menu/credits.png"), 
 btn_settings(RESOURCE_PREFIX + "/menu/settings.png"),
 btn_quit(RESOURCE_PREFIX + "/menu/quit.png"),
@@ -38,10 +40,23 @@ btn_webGame(RESOURCE_PREFIX + "/menu/webgame.png")
 	btn_localGame.setVisible(false);
 	btn_webGame.setVisible(false);
 
-	linbound::addCenteredWidget(&credits, this);
-	linbound::addCenteredWidget(&settings, this);
+	string backgroundPath = RESOURCE_PREFIX + "menu/LB_menu.png";
+	background = IMG_Load(backgroundPath.c_str());
+
+	linbound::addCenteredWidget(&credits, &top);
+	linbound::addCenteredWidget(&settings, &top);
 
 	addWidgets();
+}
+
+Menu::~Menu()
+{
+	if (background) {
+		SDL_FreeSurface(background);
+	}
+	if (backTexture) {
+		SDL_DestroyTexture(backTexture);
+	}
 }
 
 void Menu::action(const gcn::ActionEvent & actionEvent)
@@ -79,6 +94,29 @@ void Menu::moveToGame(bool move)
 	btn_webGame.setVisible(move);
 }
 
-void Menu::addWidgets() {
+void Menu::drawBackground(SDL_Renderer * screen) {
+	if (!backTexture) {
+		backTexture = SDL_CreateTextureFromSurface(screen, background);
+	}
+	SDL_RenderCopy(screen, backTexture, NULL, NULL);
+}
 
+void Menu::enter() {
+	parent->add(&top);
+}
+
+void Menu::leave() {
+	parent->remove(&top);
+}
+
+void Menu::addWidgets() {
+	top.add(&btn_newGame, 70, 225);
+	top.add(&btn_settings, 50 + 2 * 20 + 150, 225);
+	top.add(&btn_credits, 50 + 3 * 20 + 2 * 150, 225);
+	top.add(&btn_quit, 50 + 4 * 20 + 3 * 150, 225);
+
+	top.add(&btn_back, 70, 225);
+	top.add(&btn_localGame, 50 + 2 * 20 + 150, 225);
+	top.add(&btn_lanGame, 50 + 3 * 20 + 2 * 150, 225);
+	top.add(&btn_webGame, 50 + 4 * 20 + 3 * 150, 225);
 }

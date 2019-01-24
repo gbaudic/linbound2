@@ -19,7 +19,7 @@
 class CreditsWindow final : public gcn::Window, public gcn::ActionListener {
 public:
 	CreditsWindow();
-	void action(const gcn::ActionEvent& actionEvent);
+	void action(const gcn::ActionEvent& actionEvent) override;
 
 private:
 	gcn::TextBox tb_text;

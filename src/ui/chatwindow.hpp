@@ -22,7 +22,7 @@ public:
 	explicit ChatWindow(const std::string friendName);
 	ChatWindow(const std::string friendName, const std::string message);
 	void addMessage(const std::string author, const std::string message);
-	void action(const gcn::ActionEvent &actionEvent);
+	void action(const gcn::ActionEvent &actionEvent) override;
 	std::string const getRecipientName();
 	std::string const getMessage();
 	static void setMyName(const std::string myName);

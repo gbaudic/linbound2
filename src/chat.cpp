@@ -20,12 +20,13 @@ ChatManager::~ChatManager() {
 	}
 }
 
-void ChatManager::addMessage(string sender, string message) {
+void ChatManager::addMessage(const string &sender, const string &message) {
 	try {
 		ChatWindow* w = windows.at(sender);
 		w->addMessage(sender, message);
 	}
 	catch (out_of_range) {
+		// Unknown sender: create a new window
 		windows[sender] = new ChatWindow(sender, message);
 		windows[sender]->addActionListener(this);
 		top->add(windows[sender], top->getWidth() - 20 - windows[sender]->getWidth(), 20);
@@ -33,5 +34,13 @@ void ChatManager::addMessage(string sender, string message) {
 }
 
 void ChatManager::action(const gcn::ActionEvent & action) {
-
+	string dest = action.getId();
+	try {
+	    ChatWindow* w = windows.at(dest);
+		string message = w->getMessage();
+		// Send the message to the network system
+	}
+	catch (out_of_range) {
+		// Should never happen
+	}
 }

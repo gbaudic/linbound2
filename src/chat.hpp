@@ -17,10 +17,10 @@
 
 class ChatManager final : public gcn::ActionListener {
 public:
-	ChatManager(gcn::Container *topContainer);
+	explicit ChatManager(gcn::Container *topContainer);
 	~ChatManager();
-	void addMessage(std::string sender, std::string message);
-	void action(const gcn::ActionEvent &action);
+	void addMessage(const std::string &sender, const std::string &message);
+	void action(const gcn::ActionEvent &action) override;
 
 private:
 	std::map<std::string, ChatWindow*> windows;
