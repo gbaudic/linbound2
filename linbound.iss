@@ -22,10 +22,11 @@ AppSupportURL={#MyAppURL}
 AppUpdatesURL={#MyAppURL}
 DefaultDirName={pf}\{#MyAppName}
 DisableProgramGroupPage=yes
-LicenseFile=COPYING
+LicenseFile=LICENSE
 OutputBaseFilename=LinboundSetup
 Compression=lzma
 SolidCompression=yes
+MinVersion=6.1
 
 [Languages]
 Name: "english"; MessagesFile: "compiler:Default.isl"
@@ -38,6 +39,8 @@ Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{
 
 [Files]
 Source: "linbound.exe"; DestDir: "{app}"; Flags: ignoreversion
+Source: "AUTHORS"; DestDir: "{app}"
+Source: "LICENSE"; DestDir: "{app}"; Flags: ignoreversion
 Source: "dll/*.dll"; DestDir: "{app}"
 Source: "res/*"; DestDir: "{app}/res"; Flags: ignoreversion
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
