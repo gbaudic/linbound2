@@ -23,6 +23,8 @@ CreditsWindow::CreditsWindow() : tb_text(), sa_scroll(), btn_close("Close") {
 	tb_text.setEditable(false);
 
 	sa_scroll.setContent(&tb_text);
+	sa_scroll.setWidth(getWidth() - 4 * mPadding - 2 * getBorderSize());
+	sa_scroll.setHeight(getHeight() - 6*mPadding - 2*getBorderSize() - (int)getTitleBarHeight() - btn_close.getHeight());
 
 	//Add text to tb_text	
 	ifstream input("AUTHORS", ios::in);

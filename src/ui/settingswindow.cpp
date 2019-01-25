@@ -29,6 +29,8 @@ lbl_music("Music volume"), lbl_effects("Effects volume"),
 sl_music(0, MIX_MAX_VOLUME), sl_effects(0, MIX_MAX_VOLUME)
 {
 	setCaption("Settings");
+	setWidth(Settings::getInstance()->getWidth() / 2);
+	setHeight(Settings::getInstance()->getHeight() / 2);
 	sl_music.setValue(Settings::getInstance()->getMusicVolume());
 	sl_effects.setValue(Settings::getInstance()->getEffectsVolume());
 	btn_cancel.adjustSize();
@@ -43,7 +45,7 @@ sl_music(0, MIX_MAX_VOLUME), sl_effects(0, MIX_MAX_VOLUME)
 	setBaseColor(color);
 	addWidgets();
 
-	setVisible(true);
+	setVisible(false);
 }
 
 /**

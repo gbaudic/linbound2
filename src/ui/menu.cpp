@@ -6,7 +6,7 @@
  * as defined by the Mozilla Public License, v. 2.0.
  */
 
-#include "SDL2/SDL_image.h"
+#include <SDL2/SDL_image.h>
 #include "menu.hpp"
 #include "../utils.hpp"
 #include "../config.hpp"
@@ -26,27 +26,36 @@ btn_webGame(RESOURCE_PREFIX + "/menu/webgame.png")
 
 	btn_newGame.setActionEventId("new");
 	btn_newGame.addActionListener(this);
+	btn_newGame.adjustSize();
 	btn_credits.setActionEventId("credits");
 	btn_settings.setActionEventId("settings");
 	btn_credits.addActionListener(this);
+	btn_credits.adjustSize();
 	btn_settings.addActionListener(this);
+	btn_settings.adjustSize();
 	btn_back.setActionEventId("back");
 	btn_back.addActionListener(this);
+	btn_back.adjustSize();
 	btn_quit.setActionEventId("quit");
 	btn_quit.addActionListener(this);
+	btn_quit.adjustSize();
 
 	btn_back.setVisible(false);
+	btn_back.adjustSize();
 	btn_lanGame.setVisible(false);
+	btn_lanGame.adjustSize();
 	btn_localGame.setVisible(false);
+	btn_localGame.adjustSize();
 	btn_webGame.setVisible(false);
+	btn_webGame.adjustSize();
 
-	string backgroundPath = RESOURCE_PREFIX + "menu/LB_menu.png";
+	string backgroundPath = RESOURCE_PREFIX + "/menu/LB_menu.png";
 	background = IMG_Load(backgroundPath.c_str());
+
+	addWidgets();
 
 	addCenteredWidget(&credits);
 	addCenteredWidget(&settings);
-
-	addWidgets();
 }
 
 Menu::~Menu()
@@ -67,6 +76,7 @@ void Menu::action(const gcn::ActionEvent & actionEvent)
 
 	if (actionEvent.getId() == "settings") {
 		settings.setVisible(true);
+
 	}
 
 	if (actionEvent.getId() == "back") {

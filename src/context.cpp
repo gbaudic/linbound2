@@ -15,10 +15,10 @@ Context::Context(ContextName type, gcn::Container *topContainer) :
 {
 	top.setWidth(parent->getWidth());
 	top.setHeight(parent->getHeight());
+	top.setOpaque(false);
 }
 
 Context::~Context() {
-    parent->remove(&top);
 }
 
 ContextName const Context::getName() {
