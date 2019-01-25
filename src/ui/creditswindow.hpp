@@ -25,6 +25,8 @@ private:
 	gcn::TextBox tb_text;
 	gcn::ScrollArea sa_scroll;
 	gcn::Button btn_close;
+
+	void addWidgets();
 };
 
 #endif // !_H_CREDITSWINDOW_

@@ -105,18 +105,4 @@ namespace linbound {
         return to_string(ip32)+"."+to_string(ip24)+"."+to_string(ip16)+"."+to_string(ip8);
     }
 
-	/**
-	*  Helper function to insert widgets centered w.r.t. a parent
-	*  \param source widget to insert
-	*  \param destination parent to insert to
-	*/
-	void addCenteredWidget(gcn::Widget * source, gcn::Container * destination)
-	{
-		int x = (destination->getWidth() - source->getWidth()) / 2;
-		int y = (destination->getHeight() - source->getHeight()) / 2;
-
-		destination->add(source, x, y);
-	}
-
-
 }

@@ -24,6 +24,7 @@ void ChatManager::addMessage(const string &sender, const string &message) {
 	try {
 		ChatWindow* w = windows.at(sender);
 		w->addMessage(sender, message);
+		top->moveToTop(w);
 	}
 	catch (out_of_range) {
 		// Unknown sender: create a new window

@@ -43,8 +43,8 @@ btn_webGame(RESOURCE_PREFIX + "/menu/webgame.png")
 	string backgroundPath = RESOURCE_PREFIX + "menu/LB_menu.png";
 	background = IMG_Load(backgroundPath.c_str());
 
-	linbound::addCenteredWidget(&credits, &top);
-	linbound::addCenteredWidget(&settings, &top);
+	addCenteredWidget(&credits);
+	addCenteredWidget(&settings);
 
 	addWidgets();
 }
@@ -101,24 +101,16 @@ void Menu::drawBackground(SDL_Renderer * screen) {
 	SDL_RenderCopy(screen, backTexture, NULL, NULL);
 }
 
-void Menu::enter() {
-	parent->add(&top);
-}
-
-void Menu::leave() {
-	parent->remove(&top);
-}
-
 void Menu::addWidgets() {
-	top.add(&btn_newGame, 70, 225);
-	top.add(&btn_settings, 50 + 2 * 20 + 150, 225);
-	top.add(&btn_credits, 50 + 3 * 20 + 2 * 150, 225);
-	top.add(&btn_quit, 50 + 4 * 20 + 3 * 150, 225);
+	addWidget(&btn_newGame, 70, 225);
+	addWidget(&btn_settings, 50 + 2 * 20 + 150, 225);
+	addWidget(&btn_credits, 50 + 3 * 20 + 2 * 150, 225);
+	addWidget(&btn_quit, 50 + 4 * 20 + 3 * 150, 225);
 
-	top.add(&btn_back, 70, 225);
-	top.add(&btn_localGame, 50 + 2 * 20 + 150, 225);
-	top.add(&btn_lanGame, 50 + 3 * 20 + 2 * 150, 225);
-	top.add(&btn_webGame, 50 + 4 * 20 + 3 * 150, 225);
-	
-	top.add(&lbl_version, 20, top.getHeight() - 40);
+	addWidget(&btn_back, 70, 225);
+	addWidget(&btn_localGame, 50 + 2 * 20 + 150, 225);
+	addWidget(&btn_lanGame, 50 + 3 * 20 + 2 * 150, 225);
+	addWidget(&btn_webGame, 50 + 4 * 20 + 3 * 150, 225);
+
+	addWidget(&lbl_version, 20, background->h - 40);
 }

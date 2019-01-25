@@ -31,8 +31,6 @@ namespace linbound {
     std::string getVersionString();
     int getVersion();
     std::string prettifyIP(Uint32 address);
-
-	void addCenteredWidget(gcn::Widget *source, gcn::Container *destination);
 }
  
 #endif 

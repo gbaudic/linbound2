@@ -10,11 +10,14 @@
 #include <fstream>
 #include <string>
 #include "creditswindow.hpp"
+#include "../settings.hpp"
 using namespace std;
 
 CreditsWindow::CreditsWindow() : tb_text(), sa_scroll(), btn_close("Close") {
 
 	setCaption("Credits");
+	setWidth(Settings::getInstance()->getWidth() / 2);
+	setHeight(Settings::getInstance()->getHeight() / 2);
 	setVisible(false); //we will show it on demand afterwards
 	btn_close.adjustSize();
 	tb_text.setEditable(false);
@@ -30,7 +33,7 @@ CreditsWindow::CreditsWindow() : tb_text(), sa_scroll(), btn_close("Close") {
 			tb_text.addRow(line);
 		}
 	}
-	//TODO: check if we managed to get some text
+	// Check if we managed to get some text
 	if (tb_text.getNumberOfRows() == 0) {
 		tb_text.addRow("Error while trying to open AUTHORS credits file. ");
 	}
@@ -41,12 +44,17 @@ CreditsWindow::CreditsWindow() : tb_text(), sa_scroll(), btn_close("Close") {
 	btn_close.addActionListener(this);
 
 	//Add widgets to window
-	add(&sa_scroll, 2, 20);
-	add(&btn_close, 100, 200); //TODO: adjust coords
+	addWidgets();
 }
 
 void CreditsWindow::action(const gcn::ActionEvent& actionEvent) {
 	if(actionEvent.getId() == "close") {
 		setVisible(false);
 	}
+}
+
+void CreditsWindow::addWidgets() {
+	add(&sa_scroll, 2, 20);
+	add(&btn_close, getWidth() - 2 * getBorderSize() - 2 * mPadding - btn_close.getWidth(), 
+		getHeight() - (int)getTitleBarHeight() - 2 * getBorderSize() - 2 * mPadding - btn_close.getHeight());
 }

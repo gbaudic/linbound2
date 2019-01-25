@@ -109,9 +109,13 @@ void Settings::init(){
                     //if yes, check value consistency and inject; if no, ignore
                     try {
                         values[key] = stoi(value);
-                    } catch (exception) {
+                    } catch (invalid_argument) {
                         cout << "Error loading settings key: " << key << endl;
-                    }
+						values[key] = 0;
+					}
+					catch (out_of_range) {
+						values[key] = 0;
+					}
                 }
             }
         }

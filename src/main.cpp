@@ -129,6 +129,8 @@ int main(int argc, char* argv[]) {
 	// delete top;
 	delete gui;
 
+	SDL_DestroyRenderer(renderer);
+
 	Mix_Quit();
 	Mix_CloseAudio();
 
@@ -144,18 +146,27 @@ void usage() {
 }
 
 void loop() {
+	SDL_Event event;
+
 	for (;;) {
 		// do something
+		while (SDL_PollEvent(&event) == 1) {
+			currentContext->processEvent(event);
+			
+			// input->pushInput(event);
+		}
 
 		gui->logic();
 
-		//**Background
+		SDL_RenderClear(renderer);
+
+		//** Background (and foreground if necessary)
 		currentContext->drawBackground(renderer);
 
-		//**Foreground
-		currentContext->drawMiddleground(renderer);
-
+		//** GUI
 		gui->draw();
+
+		SDL_RenderPresent(renderer);
 
 		SDL_framerateDelay(&fpsMgr);
 	}

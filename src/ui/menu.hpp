@@ -23,8 +23,6 @@ public:
 
 	virtual void drawBackground(SDL_Renderer *screen) override;
 
-	virtual void enter() override;
-	virtual void leave() override;
 	virtual void processEvent(SDL_Event &event) override {};
 
 private:

@@ -30,14 +30,19 @@ public:
 	virtual ~Context();
 	ContextName const getName();
 	virtual void drawBackground(SDL_Renderer *screen) = 0;
-	virtual void drawMiddleground(SDL_Renderer *screen) {};
 
-	virtual void enter() = 0;
-	virtual void leave() = 0;
-	virtual void processMessage(const Uint16 code, const std::string &message) {};
+	virtual void enter();
+	virtual void leave();
+	virtual void processMessage(const Uint16 code, const std::string &message) { 
+		// Left empty because some derived classes will not need this
+	};
 	virtual void processEvent(SDL_Event &event) = 0;
 
 protected:
+	void addWidget(gcn::Widget *widget, int x = 0, int y = 0);
+	void addCenteredWidget(gcn::Widget *widget);
+
+private:
 	gcn::Container *parent;
 	ContextName name;
 	gcn::Container top;
