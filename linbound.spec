@@ -11,7 +11,7 @@ Group: Amusements/Games/Action/Shoot
 Source: https://github.com/gbaudic/linbound2/archive/master.zip
 URL: https://github.com/gbaudic/linbound2
 Packager: Your Name <email@mail.com>
-BuildRequires: libsdl2-devel, libsdl2-image-devel, libsdl2-mixer-devel, libsdl2-gfx-devel, libsdl2-net-devel, libsdl2-ttf-devel, libsqlite3-devel, tinyxml2-devel
+BuildRequires: libsdl2-devel, libsdl2-image-devel, libsdl2-mixer-devel, libsdl2-gfx-devel, libsdl2-net-devel, libsdl2-ttf-devel, libsqlite3-devel, tinyxml2-devel, git, scons
 Requires: SDL2, SDL2_ttf, SDL2_image, SDL2_net, SDL2_gfx, SDL2_mixer, libsqlite3, tinyxml2
 
 %description
@@ -22,19 +22,23 @@ but it aims to be as cross-platform as possible.
           
 %prep
 %setup -n linbound-master
+git clone https://github.com/gbaudic/guisan
+pushd guisan && scons && scons install && popd
 
 %build
-%configure
+cmake . -DENABLE_SERVER=ON
 make
 
 %install
 make install
 
 %files
-%doc README.md AUTHORS
+%doc README.md
+%doc AUTHORS
+/usr/local/bin/linbound
 res/
 		  
 		  
 %changelog
 * date <email@mail.com> 
-- change
+- Initial version
