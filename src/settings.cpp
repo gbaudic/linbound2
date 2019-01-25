@@ -123,24 +123,27 @@ void Settings::init(){
         cout << "Error opening settings file -- using defaults value" << endl;
     }
 
-	//Consistency check
-	if(values.count("Width") == 0 || values["Width"] < 300) {
-		values["Width"] = 800;
-	}
-	
-	if(values.count("Height") == 0 || values["Height"] < 200) {
-		values["Height"] = 600;
-	}
-	
-	if(values.count("MusicVolume") == 0) {
-		values["MusicVolume"] = MIX_MAX_VOLUME / 2;
-    }
-	
-	if(values.count("EffectsVolume") == 0) {
-		values["EffectsVolume"] = MIX_MAX_VOLUME / 2;
-    }
+	checkConsistency();	
 
 	input.close();
+}
+
+void Settings::checkConsistency() {
+	if (values.count("Width") == 0 || values["Width"] < 300) {
+		values["Width"] = 800;
+	}
+
+	if (values.count("Height") == 0 || values["Height"] < 200) {
+		values["Height"] = 600;
+	}
+
+	if (values.count("MusicVolume") == 0) {
+		values["MusicVolume"] = MIX_MAX_VOLUME / 2;
+	}
+
+	if (values.count("EffectsVolume") == 0) {
+		values["EffectsVolume"] = MIX_MAX_VOLUME / 2;
+	}
 }
 
 /**

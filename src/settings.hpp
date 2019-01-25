@@ -47,6 +47,7 @@ private:
 	Settings();
 	~Settings();
 	void init();
+	void checkConsistency();
 	Settings& operator= (const Settings&) = delete; //ensure singleton
 	Settings (const Settings&) = delete;
 };

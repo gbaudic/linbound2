@@ -12,7 +12,6 @@
 #include <string>
 #include <SDL2/SDL.h>
 #include <guisan.hpp>
-#include "sound.hpp"
 
 enum class ContextName {
 	MAIN_MENU,

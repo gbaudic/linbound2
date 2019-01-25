@@ -13,6 +13,7 @@
 #include <string>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_mixer.h>
+#include "context.hpp"
 
 class SoundManager final {
 public:
@@ -20,7 +21,7 @@ public:
 	~SoundManager();
 
 	void playSound(std::string sndName, int loops = 1);
-	void changeMode(std::string newMode); // use an enum instead...
+	void changeMode(ContextName &newMode);
 
 	static int countGoldRepeat(Sint16 value);
 

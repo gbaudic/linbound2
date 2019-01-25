@@ -32,7 +32,7 @@ SoundManager::~SoundManager() {
 	}
 	Mix_HaltChannel(-1);
 
-	for (auto item : effects) {
+	for (auto &item : effects) {
 		Mix_FreeChunk(item.second);
 	}
 }
@@ -46,13 +46,13 @@ void SoundManager::playSound(string sndName, int loops) {
 	try {
 		Mix_PlayChannel(-1, effects.at(sndName), loops);
 	}
-	catch (const out_of_range& e) {
+	catch (const out_of_range) {
 		string errstring = "Sound effect not found: " + sndName;
 		SDL_SetError(errstring.c_str());
 	}
 }
 
-void SoundManager::changeMode(string newMode) {
+void SoundManager::changeMode(ContextName &newMode) {
 	if (Mix_PlayingMusic() == 1) {
 		Mix_HaltMusic();
 		Mix_FreeMusic(music);
@@ -60,6 +60,15 @@ void SoundManager::changeMode(string newMode) {
 	}
 	
 	// load and pick the right music depending on the mode
+	string menuMusic = RESOURCE_PREFIX + "/music/";
+	switch (newMode) {
+	case ContextName::MAIN_MENU:
+		menuMusic += "diabolicux.ogg";
+		music = Mix_LoadMUS(menuMusic.c_str());
+		break;
+	default:
+		break;
+	}
 
 	
 	if (music != NULL) {

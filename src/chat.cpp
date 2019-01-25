@@ -6,6 +6,7 @@
  * as defined by the Mozilla Public License, v. 2.0.
  */
  
+#include <iostream>
 #include "chat.hpp"
 using namespace std;
 
@@ -42,6 +43,6 @@ void ChatManager::action(const gcn::ActionEvent & action) {
 		// Send the message to the network system
 	}
 	catch (out_of_range) {
-		// Should never happen
+		cerr << "Received an action from an unknown widget" << endl;
 	}
 }
