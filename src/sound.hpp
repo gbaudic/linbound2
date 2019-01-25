@@ -18,10 +18,10 @@
 class SoundManager final {
 public:
 	SoundManager();
-	~SoundManager();
 
 	void playSound(std::string sndName, int loops = 1);
 	void changeMode(ContextName &newMode);
+	void close();
 
 	static int countGoldRepeat(Sint16 value);
 

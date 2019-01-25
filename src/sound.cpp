@@ -24,19 +24,6 @@ SoundManager::SoundManager() {
 
 }
 
-SoundManager::~SoundManager() {
-	Mix_HaltMusic();
-	if (music) {
-		Mix_FreeMusic(music);
-		music = nullptr;
-	}
-	Mix_HaltChannel(-1);
-
-	for (auto &item : effects) {
-		Mix_FreeChunk(item.second);
-	}
-}
-
 /**
  * Plays a sound which is not the background music, e.g. SFX
  * @param sndName the name of the effect to play
@@ -73,6 +60,19 @@ void SoundManager::changeMode(ContextName &newMode) {
 	
 	if (music != NULL) {
 		Mix_PlayMusic(music, -1);
+	}
+}
+
+void SoundManager::close() {
+	Mix_HaltMusic();
+	if (music) {
+		Mix_FreeMusic(music);
+		music = nullptr;
+	}
+	Mix_HaltChannel(-1);
+
+	for (auto &item : effects) {
+		Mix_FreeChunk(item.second);
 	}
 }
 

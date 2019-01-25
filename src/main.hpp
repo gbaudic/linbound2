@@ -10,6 +10,6 @@
 #define _H_MAIN_
 
 void usage();
-void loop();
+void loop(gcn::SDLInput &input);
 
 #endif // _H_MAIN_

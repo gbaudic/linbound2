@@ -9,6 +9,7 @@
 #include <iostream>
 #include <string>
 #include <SDL2/SDL.h>
+#include <SDL2/SDL_image.h>
 #include <SDL2/SDL_ttf.h>
 #include <SDL2/SDL_mixer.h>
 #include <SDL2/SDL2_framerate.h>
@@ -21,6 +22,7 @@
 #include "sound.hpp"
 #include "utils.hpp"
 #include "context.hpp"
+#include "ui/menu.hpp"
 
 using namespace std;
 
@@ -28,9 +30,12 @@ Context *currentContext = nullptr;
 FPSmanager fpsMgr;
 gcn::Gui *gui = nullptr;
 SDL_Renderer *renderer = nullptr;
+SDL_Window *window = nullptr;
+SDL_Surface *guiSurface = nullptr;
+SDL_Texture *guiTexture = nullptr;
 
 /**
- * Minimalistic main function
+ * Main function
  */
 int main(int argc, char* argv[]) {
 	if (argc > 1) {
@@ -60,10 +65,59 @@ int main(int argc, char* argv[]) {
 		return -1;
 	}
 
+	window = SDL_CreateWindow("LinBound", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 
+		settings->getWidth(), settings->getHeight(), SDL_WINDOW_SHOWN);
+	renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_TARGETTEXTURE);
+	if (!window) {
+		cout << "FATAL : Cannot create window: " << SDL_GetError() << endl;
+		return 1;
+	}
+	if (!renderer) {
+		cout << "FATAL : Cannot create renderer: " << SDL_GetError() << endl;
+		return 1;
+	}
+	SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
+
+	//Set up GUI rendering surfaces
+	guiSurface = SDL_CreateRGBSurface(0, settings->getWidth(), settings->getHeight(), 32, 0x00FF0000,
+		0x0000FF00, 0x000000FF, 0xFF000000);
+	SDL_SetColorKey(guiSurface, SDL_TRUE, SDL_MapRGB(guiSurface->format, 0xff, 0, 0xff));
+	SDL_SetSurfaceRLE(guiSurface, 1);
+	guiTexture = SDL_CreateTextureFromSurface(renderer, guiSurface);
+	if (!guiSurface || !guiTexture) {
+		cout << "FATAL : Cannot create GUI surface: " << SDL_GetError() << endl;
+		return 1;
+	}
+	SDL_SetTextureBlendMode(guiTexture, SDL_BLENDMODE_BLEND);
+
+	//Give an icon to the window
+	string iconPath = RESOURCE_PREFIX + "/linbound.gif";
+	SDL_Surface* icon = IMG_Load(iconPath.c_str());
+	SDL_SetWindowIcon(window, icon);
+
+	string cursorPath = RESOURCE_PREFIX + "/cursor.png";
+	SDL_Surface *cursor = IMG_Load(cursorPath.c_str());
+
+	if (SDL_SetColorKey(cursor, SDL_TRUE, SDL_MapRGB(cursor->format, 0xff, 0, 0xff)) != 0) {
+		cout << SDL_GetError() << endl;
+	}
+	SDL_SetSurfaceRLE(cursor, 1);
+
+	SDL_Cursor* mousePointer = SDL_CreateColorCursor(cursor, 0, 0);
+	if (!mousePointer) {
+		cout << "FATAL : Cannot create cursor: " << SDL_GetError() << endl;
+		return 1;
+	}
+	SDL_SetCursor(mousePointer);
+
+	//The next function puts the cursor at the center of our screen
+	SDL_WarpMouseInWindow(window, settings->getWidth() / 2, settings->getHeight() / 2);
+
 	gcn::SDLImageLoader *imageLoader = nullptr;
 	gcn::SDLTrueTypeFont *gcnfont = nullptr;
 	gcn::SDLInput input;
 	gcn::SDLGraphics graphics;
+	gcn::Container top;
 
 	if (!settings->isAServer()) {
 		// Init sound
@@ -94,9 +148,14 @@ int main(int argc, char* argv[]) {
 		gcnfont = new gcn::SDLTrueTypeFont(fontPath, 12);
 		gcn::Widget::setGlobalFont(gcnfont);
 
+		top.setOpaque(false);
+		top.setDimension(gcn::Rectangle(0, 0, settings->getWidth(), settings->getHeight()));
+
 		gui = new gcn::Gui();
 		gui->setGraphics(&graphics);
 		gui->setInput(&input);
+		gui->setTop(&top);
+		graphics.setTarget(guiSurface);
 
 		SDL_DisableScreenSaver();
 	}
@@ -104,9 +163,12 @@ int main(int argc, char* argv[]) {
 	SoundManager sndMgr;
 	SDL_setFramerate(&fpsMgr, 30);
 
+	currentContext = new Menu(&top);
+	currentContext->enter();
+
 	// insert call to loop here
-	/*try {
-		loop();
+	try {
+		loop(input);
 	}
 	catch (gcn::Exception &e) {
 		cerr << e.getMessage() << endl;
@@ -119,21 +181,29 @@ int main(int argc, char* argv[]) {
 	catch (...) {
 		cerr << "Unknown exception" << endl;
 		return 1;
-	}*/
+	}
 
 	TTF_CloseFont(font);
+
+	currentContext->leave();
+	delete currentContext; // once complete, should not be done like this
+	delete gui;
+	delete imageLoader;
+	delete gcnfont;
 	TTF_Quit();
 
-	delete gcnfont;
-	delete imageLoader;
-	// delete top;
-	delete gui;
-
+	SDL_FreeCursor(mousePointer);
+	SDL_DestroyTexture(guiTexture);
+	SDL_FreeSurface(guiSurface);
+	SDL_FreeSurface(cursor);
+	SDL_FreeSurface(icon);
 	SDL_DestroyRenderer(renderer);
+	SDL_DestroyWindow(window);
 
-	Mix_Quit();
+	sndMgr.close();
 	Mix_CloseAudio();
-
+	Mix_Quit();
+	
 	SDL_Quit();
     
 	return 0;
@@ -145,26 +215,34 @@ void usage() {
     return;
 }
 
-void loop() {
+void loop(gcn::SDLInput &input) {
 	SDL_Event event;
 
 	for (;;) {
 		// do something
 		while (SDL_PollEvent(&event) == 1) {
+			if (event.type == SDL_QUIT)
+				return;
+
 			currentContext->processEvent(event);
 			
-			// input->pushInput(event);
+			input.pushInput(event);
 		}
 
 		gui->logic();
 
 		SDL_RenderClear(renderer);
+		SDL_FillRect(guiSurface, NULL, SDL_MapRGB(guiSurface->format, 0xff, 0, 0xff));
 
 		//** Background (and foreground if necessary)
 		currentContext->drawBackground(renderer);
 
 		//** GUI
 		gui->draw();
+
+		SDL_UpdateTexture(guiTexture, NULL, guiSurface->pixels, guiSurface->pitch);
+		//Copy texture to screen
+		SDL_RenderCopy(renderer, guiTexture, NULL, NULL);
 
 		SDL_RenderPresent(renderer);
 
