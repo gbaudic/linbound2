@@ -2,7 +2,7 @@
  * If a copy of the MPL was not distributed with this file,
  * You can obtain one at http://mozilla.org/MPL/2.0/.
  *
- * This Source Code Form is ìIncompatible With Secondary Licensesî,
+ * This Source Code Form is ‚ÄúIncompatible With Secondary Licenses‚Äù,
  * as defined by the Mozilla Public License, v. 2.0.
  */
 
@@ -119,4 +119,6 @@ void Menu::addWidgets() {
 	top.add(&btn_localGame, 50 + 2 * 20 + 150, 225);
 	top.add(&btn_lanGame, 50 + 3 * 20 + 2 * 150, 225);
 	top.add(&btn_webGame, 50 + 4 * 20 + 3 * 150, 225);
+	
+	top.add(&lbl_version, 20, top.getHeight() - 40);
 }
