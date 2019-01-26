@@ -23,6 +23,7 @@ btn_localGame(RESOURCE_PREFIX + "/menu/localgame.png"),
 btn_webGame(RESOURCE_PREFIX + "/menu/webgame.png")
 {
 	lbl_version.setCaption("Version " + linbound::getVersionString());
+	lbl_version.adjustSize();
 
 	btn_newGame.setActionEventId("new");
 	btn_newGame.addActionListener(this);
@@ -76,7 +77,12 @@ void Menu::action(const gcn::ActionEvent & actionEvent)
 
 	if (actionEvent.getId() == "settings") {
 		settings.setVisible(true);
+	}
 
+	if (actionEvent.getId() == "quit") {
+		SDL_Event exit;
+		exit.type = SDL_QUIT;
+		SDL_PushEvent(&exit);
 	}
 
 	if (actionEvent.getId() == "back") {

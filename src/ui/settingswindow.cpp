@@ -30,9 +30,13 @@ sl_music(0, MIX_MAX_VOLUME), sl_effects(0, MIX_MAX_VOLUME)
 {
 	setCaption("Settings");
 	setWidth(Settings::getInstance()->getWidth() / 2);
-	setHeight(Settings::getInstance()->getHeight() / 2);
+	setHeight(120);
 	sl_music.setValue(Settings::getInstance()->getMusicVolume());
+	sl_music.setWidth(getWidth() / 2);
+	sl_music.setHeight(20);
 	sl_effects.setValue(Settings::getInstance()->getEffectsVolume());
+	sl_effects.setWidth(getWidth() / 2);
+	sl_effects.setHeight(20);
 	btn_cancel.adjustSize();
 	btn_ok.setWidth(btn_cancel.getWidth());
 	btn_ok.setHeight(btn_cancel.getHeight()); //just for aesthetics
@@ -41,7 +45,7 @@ sl_music(0, MIX_MAX_VOLUME), sl_effects(0, MIX_MAX_VOLUME)
 	btn_cancel.setActionEventId("cancel");
 	btn_cancel.addActionListener(this);
 	
-	gcn::Color color(0x1f, 0x75, 0xf5, 0);
+	gcn::Color color(0x1f, 0x75, 0xf5);
 	setBaseColor(color);
 	addWidgets();
 
@@ -65,12 +69,12 @@ void SettingsWindow::action(const gcn::ActionEvent& actionEvent) {
 }
 
 void SettingsWindow::addWidgets() {
-	add(&btn_ok, getWidth() / 2 - 2 - btn_ok.getWidth(), 100);
-	add(&btn_cancel, getWidth() / 2 + 2, 100);
-	add(&lbl_music, 10, 30);
-	add(&lbl_effects, 10, 60);
-	add(&sl_music, 60, 30);
-	add(&sl_effects, 60, 60);
+	add(&btn_ok, getWidth() / 2 - 2 - btn_ok.getWidth(), 70);
+	add(&btn_cancel, getWidth() / 2 + 2, 70);
+	add(&lbl_music, 20, 10);
+	add(&lbl_effects, 20, 40);
+	add(&sl_music, lbl_effects.getX() + lbl_effects.getWidth() + 10 * mPadding, 10 - 3);
+	add(&sl_effects, lbl_effects.getX() + lbl_effects.getWidth() + 10 * mPadding, 40 - 3);
 }
 
 

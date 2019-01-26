@@ -83,6 +83,7 @@ int main(int argc, char* argv[]) {
 		0x0000FF00, 0x000000FF, 0xFF000000);
 	SDL_SetColorKey(guiSurface, SDL_TRUE, SDL_MapRGB(guiSurface->format, 0xff, 0, 0xff));
 	SDL_SetSurfaceRLE(guiSurface, 1);
+	SDL_SetSurfaceBlendMode(guiSurface, SDL_BLENDMODE_NONE);
 	guiTexture = SDL_CreateTextureFromSurface(renderer, guiSurface);
 	if (!guiSurface || !guiTexture) {
 		cout << "FATAL : Cannot create GUI surface: " << SDL_GetError() << endl;
@@ -232,7 +233,7 @@ void loop(gcn::SDLInput &input) {
 		gui->logic();
 
 		SDL_RenderClear(renderer);
-		SDL_FillRect(guiSurface, NULL, SDL_MapRGB(guiSurface->format, 0xff, 0, 0xff));
+		SDL_FillRect(guiSurface, NULL, SDL_MapRGBA(guiSurface->format, 0xff, 0, 0xff, 0));
 
 		//** Background (and foreground if necessary)
 		currentContext->drawBackground(renderer);

@@ -56,7 +56,7 @@ void CreditsWindow::action(const gcn::ActionEvent& actionEvent) {
 }
 
 void CreditsWindow::addWidgets() {
-	add(&sa_scroll, 2, 20);
+	add(&sa_scroll, mPadding, mPadding);
 	add(&btn_close, getWidth() - 2 * getBorderSize() - 2 * mPadding - btn_close.getWidth(), 
 		getHeight() - (int)getTitleBarHeight() - 2 * getBorderSize() - 2 * mPadding - btn_close.getHeight());
 }
