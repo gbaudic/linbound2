@@ -78,19 +78,6 @@ int main(int argc, char* argv[]) {
 	}
 	SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
 
-	//Set up GUI rendering surfaces
-	guiSurface = SDL_CreateRGBSurface(0, settings->getWidth(), settings->getHeight(), 32, 0x00FF0000,
-		0x0000FF00, 0x000000FF, 0xFF000000);
-	SDL_SetColorKey(guiSurface, SDL_TRUE, SDL_MapRGB(guiSurface->format, 0xff, 0, 0xff));
-	SDL_SetSurfaceRLE(guiSurface, 1);
-	SDL_SetSurfaceBlendMode(guiSurface, SDL_BLENDMODE_NONE);
-	guiTexture = SDL_CreateTextureFromSurface(renderer, guiSurface);
-	if (!guiSurface || !guiTexture) {
-		cout << "FATAL : Cannot create GUI surface: " << SDL_GetError() << endl;
-		return 1;
-	}
-	SDL_SetTextureBlendMode(guiTexture, SDL_BLENDMODE_BLEND);
-
 	//Give an icon to the window
 	string iconPath = RESOURCE_PREFIX + "/linbound.gif";
 	SDL_Surface* icon = IMG_Load(iconPath.c_str());
@@ -117,7 +104,7 @@ int main(int argc, char* argv[]) {
 	gcn::SDLImageLoader *imageLoader = nullptr;
 	gcn::SDLTrueTypeFont *gcnfont = nullptr;
 	gcn::SDLInput input;
-	gcn::SDLGraphics graphics;
+	gcn::SDL2Graphics graphics;
 	gcn::Container top;
 
 	if (!settings->isAServer()) {
@@ -145,18 +132,19 @@ int main(int argc, char* argv[]) {
 
 		//Create GUI base objects
 		imageLoader = new gcn::SDLImageLoader();
+		imageLoader->setRenderer(renderer);
 		gcn::Image::setImageLoader(imageLoader);
 		gcnfont = new gcn::SDLTrueTypeFont(fontPath, 12);
 		gcn::Widget::setGlobalFont(gcnfont);
 
 		top.setOpaque(false);
 		top.setDimension(gcn::Rectangle(0, 0, settings->getWidth(), settings->getHeight()));
+		graphics.setTarget(renderer, settings->getWidth(), settings->getHeight());
 
 		gui = new gcn::Gui();
 		gui->setGraphics(&graphics);
 		gui->setInput(&input);
-		gui->setTop(&top);
-		graphics.setTarget(guiSurface);
+		gui->setTop(&top);		
 
 		SDL_DisableScreenSaver();
 	}
@@ -194,8 +182,6 @@ int main(int argc, char* argv[]) {
 	TTF_Quit();
 
 	SDL_FreeCursor(mousePointer);
-	SDL_DestroyTexture(guiTexture);
-	SDL_FreeSurface(guiSurface);
 	SDL_FreeSurface(cursor);
 	SDL_FreeSurface(icon);
 	SDL_DestroyRenderer(renderer);
@@ -233,17 +219,12 @@ void loop(gcn::SDLInput &input) {
 		gui->logic();
 
 		SDL_RenderClear(renderer);
-		SDL_FillRect(guiSurface, NULL, SDL_MapRGBA(guiSurface->format, 0xff, 0, 0xff, 0));
 
 		//** Background (and foreground if necessary)
 		currentContext->drawBackground(renderer);
 
 		//** GUI
 		gui->draw();
-
-		SDL_UpdateTexture(guiTexture, NULL, guiSurface->pixels, guiSurface->pitch);
-		//Copy texture to screen
-		SDL_RenderCopy(renderer, guiTexture, NULL, NULL);
 
 		SDL_RenderPresent(renderer);
 
