@@ -25,6 +25,10 @@ ContextName const Context::getName() {
     return name;
 }
 
+ContextName const Context::getNextContext() {
+	return next;
+}
+
 void Context::enter() {
 	parent->add(&top);
 }
@@ -46,4 +50,8 @@ void Context::addCenteredWidget(gcn::Widget * widget) {
 	int y = (top.getHeight() - widget->getHeight()) / 2;
 
 	addWidget(widget, x, y);
+}
+
+void Context::setNextContext(const ContextName newContext) {
+	next = newContext;
 }

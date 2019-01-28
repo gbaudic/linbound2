@@ -23,7 +23,9 @@ public:
 
 	virtual void drawBackground(SDL_Renderer *screen) override;
 
-	virtual void processEvent(SDL_Event &event) override {};
+	virtual void processEvent(SDL_Event &event) override {
+		// No specific handling to be done here, GUI handles everything
+	};
 
 private:
 	gcn::ImageButton btn_newGame;

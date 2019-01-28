@@ -28,6 +28,7 @@ public:
 	Context(ContextName type, gcn::Container *topContainer);
 	virtual ~Context();
 	ContextName const getName();
+	ContextName const getNextContext();
 	virtual void drawBackground(SDL_Renderer *screen) = 0;
 
 	virtual void enter();
@@ -40,10 +41,12 @@ public:
 protected:
 	void addWidget(gcn::Widget *widget, int x = 0, int y = 0);
 	void addCenteredWidget(gcn::Widget *widget);
+	void setNextContext(const ContextName newContext);
 
 private:
 	gcn::Container *parent;
 	ContextName name;
+	ContextName next;
 	gcn::Container top;
 };
 

@@ -57,6 +57,8 @@ btn_webGame(RESOURCE_PREFIX + "/menu/webgame.png")
 
 	addCenteredWidget(&credits);
 	addCenteredWidget(&settings);
+
+	setNextContext(ContextName::MAIN_MENU);
 }
 
 Menu::~Menu()
