@@ -7,6 +7,7 @@
  */
 
 #include "config.hpp"
+#include "context.hpp"
 #include "sound.hpp"
 using namespace std;
 
@@ -29,7 +30,7 @@ SoundManager::SoundManager() {
  * @param sndName the name of the effect to play
  * @param loops the number of iterations of the sound
  */
-void SoundManager::playSound(string sndName, int loops) {
+void SoundManager::playSound(string sndName, const int loops) {
 	try {
 		Mix_PlayChannel(-1, effects.at(sndName), loops);
 	}
@@ -80,7 +81,7 @@ void SoundManager::close() {
  *  Determine how many times we have to repeat the sound for money
  *  @return the number of times to play between 1 and 5
  */
-int SoundManager::countGoldRepeat(Sint16 value) {
+int SoundManager::countGoldRepeat(const Sint16 value) {
 	int repeats = 1;
 	int absolute = abs(value);
 	if (absolute > 50)

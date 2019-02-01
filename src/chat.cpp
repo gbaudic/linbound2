@@ -35,6 +35,21 @@ void ChatManager::addMessage(const string &sender, const string &message) {
 	}
 }
 
+void ChatManager::startConversation(const std::string &other) {
+	try {
+		// Bring back the window if it exists
+		ChatWindow* w = windows.at(other);
+		w->setVisible(true);
+		top->moveToTop(w);
+	}
+	catch (out_of_range) {
+		// Otherwise, create a new, empty one
+		windows[other] = new ChatWindow(other);
+		windows[other]->addActionListener(this);
+		top->add(windows[other], top->getWidth() - 20 - windows[other]->getWidth(), 20);
+	}
+}
+
 void ChatManager::action(const gcn::ActionEvent & action) {
 	string dest = action.getId();
 	try {

@@ -22,6 +22,9 @@ public:
 	void moveToGame(bool move);
 
 	virtual void drawBackground(SDL_Renderer *screen) override;
+	virtual void drawOverlay(SDL_Renderer *screen) override {
+		// There will never be any overlays in Menu
+	};
 
 	virtual void processEvent(SDL_Event &event) override {
 		// No specific handling to be done here, GUI handles everything

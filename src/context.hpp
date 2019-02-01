@@ -30,6 +30,7 @@ public:
 	ContextName const getName();
 	ContextName const getNextContext();
 	virtual void drawBackground(SDL_Renderer *screen) = 0;
+	virtual void drawOverlay(SDL_Renderer *screen) = 0;
 
 	virtual void enter();
 	virtual void leave();

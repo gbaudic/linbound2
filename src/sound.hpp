@@ -19,11 +19,11 @@ class SoundManager final {
 public:
 	SoundManager();
 
-	void playSound(std::string sndName, int loops = 1);
+	void playSound(std::string sndName, const int loops = 1);
 	void changeMode(ContextName &newMode);
 	void close();
 
-	static int countGoldRepeat(Sint16 value);
+	static int countGoldRepeat(const Sint16 value);
 
 private:
 	std::map<std::string, Mix_Chunk*> effects;

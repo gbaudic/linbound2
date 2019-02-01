@@ -20,6 +20,7 @@ public:
 	explicit ChatManager(gcn::Container *topContainer);
 	~ChatManager();
 	void addMessage(const std::string &sender, const std::string &message);
+	void startConversation(const std::string &other);
 	void action(const gcn::ActionEvent &action) override;
 
 private:

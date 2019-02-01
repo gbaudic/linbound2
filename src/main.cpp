@@ -226,6 +226,9 @@ void loop(gcn::SDLInput &input) {
 		//** GUI
 		gui->draw();
 
+		//** Overlay
+		currentContext->drawOverlay(renderer);
+
 		SDL_RenderPresent(renderer);
 
 		SDL_framerateDelay(&fpsMgr);
