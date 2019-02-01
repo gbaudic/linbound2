@@ -31,14 +31,19 @@ sl_music(0, MIX_MAX_VOLUME), sl_effects(0, MIX_MAX_VOLUME)
 	setCaption("Settings");
 	setWidth(Settings::getInstance()->getWidth() / 2);
 	setHeight(120);
+	
 	sl_music.setValue(Settings::getInstance()->getMusicVolume());
 	sl_music.setWidth(getWidth() / 2);
 	sl_music.setHeight(20);
 	sl_music.setActionEventId("music");
+	sl_music.addActionListener(this);
+	
 	sl_effects.setValue(Settings::getInstance()->getEffectsVolume());
 	sl_effects.setWidth(getWidth() / 2);
 	sl_effects.setHeight(20);
 	sl_effects.setActionEventId("effects");
+	sl_effects.addActionListener(this);
+	
 	btn_cancel.adjustSize();
 	btn_ok.setWidth(btn_cancel.getWidth());
 	btn_ok.setHeight(btn_cancel.getHeight()); //just for aesthetics
@@ -59,6 +64,7 @@ sl_music(0, MIX_MAX_VOLUME), sl_effects(0, MIX_MAX_VOLUME)
  */
 void SettingsWindow::action(const gcn::ActionEvent& actionEvent) {
 	if(actionEvent.getId() == "cancel") {
+		// Revert values in SDL_Mixer and in GUI
 		sl_music.setValue(Settings::getInstance()->getMusicVolume());
 		sl_effects.setValue(Settings::getInstance()->getEffectsVolume());
 		Mix_Volume(-1, Settings::getInstance()->getEffectsVolume());
@@ -72,8 +78,10 @@ void SettingsWindow::action(const gcn::ActionEvent& actionEvent) {
         params->save();
 		setVisible(false);
 	} else if (actionEvent.getId() == "music") {
+		// Update music volume for immediate user feedback
 		Mix_VolumeMusic(static_cast<int>(sl_music.getValue()));
 	} else if (actionEvent.getId() == "effects") {
+		// Update volume for all effects
 		Mix_Volume(-1, static_cast<int>(sl_effects.getValue()));
 	}
 }
