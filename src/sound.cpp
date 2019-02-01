@@ -11,7 +11,10 @@
 #include "sound.hpp"
 using namespace std;
 
+SoundManager* SoundManager::instance = nullptr;
+
 SoundManager::SoundManager() {
+	music = nullptr;
 	string effectNames[] = { "wind1", "turn", "victory", "lose", "money",
 							"cow", "duck", "electron", "goat", "ice", "pig", "sheep", "tea", "unicorn" };
 
@@ -23,6 +26,13 @@ SoundManager::SoundManager() {
 		}
 	}
 
+}
+
+SoundManager * SoundManager::getInstance() {
+	if (instance == nullptr) {
+		instance = new SoundManager();
+	}
+	return instance;
 }
 
 /**

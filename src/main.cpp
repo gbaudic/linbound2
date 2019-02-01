@@ -149,7 +149,6 @@ int main(int argc, char* argv[]) {
 		SDL_DisableScreenSaver();
 	}
 
-	SoundManager sndMgr;
 	SDL_setFramerate(&fpsMgr, 30);
 
 	currentContext = new Menu(&top);
@@ -187,7 +186,7 @@ int main(int argc, char* argv[]) {
 	SDL_DestroyRenderer(renderer);
 	SDL_DestroyWindow(window);
 
-	sndMgr.close();
+	SoundManager::getInstance()->close();
 	Mix_CloseAudio();
 	Mix_Quit();
 	

@@ -25,7 +25,7 @@
 
 using namespace std;
 
-Settings* Settings::instance = NULL;
+Settings* Settings::instance = nullptr;
 
 Uint16 Settings::getEffectsVolume() {
 	return values["EffectsVolume"];
@@ -44,7 +44,7 @@ void Settings::setHeight( Uint16 newHeight) {
 }
 
 Settings* Settings::getInstance() {
-	if(instance == NULL){
+	if(instance == nullptr){
 		instance = new Settings();
 	}
 	return instance;

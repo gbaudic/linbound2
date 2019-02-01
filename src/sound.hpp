@@ -11,13 +11,14 @@
 
 #include <map>
 #include <string>
+#include <memory>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_mixer.h>
 #include "context.hpp"
 
 class SoundManager final {
 public:
-	SoundManager();
+	static SoundManager* getInstance();
 
 	void playSound(std::string sndName, const int loops = 1);
 	void changeMode(ContextName &newMode);
@@ -26,8 +27,13 @@ public:
 	static int countGoldRepeat(const Sint16 value);
 
 private:
+	SoundManager();
+	static SoundManager* instance;
+
 	std::map<std::string, Mix_Chunk*> effects;
-	Mix_Music* music = nullptr;
+	Mix_Music* music;
+	SoundManager& operator= (const SoundManager&) = delete; //ensure singleton
+	SoundManager(const SoundManager&) = delete;
 };
 
 #endif // !_H_SOUND_
