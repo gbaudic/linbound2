@@ -45,10 +45,16 @@ btn_webGame(RESOURCE_PREFIX + "/menu/webgame.png")
 	btn_back.adjustSize();
 	btn_lanGame.setVisible(false);
 	btn_lanGame.adjustSize();
+	btn_lanGame.setActionEventId("lan");
+	btn_lanGame.addActionListener(this);
 	btn_localGame.setVisible(false);
 	btn_localGame.adjustSize();
+	btn_localGame.setActionEventId("local");
+	btn_localGame.addActionListener(this);
 	btn_webGame.setVisible(false);
 	btn_webGame.adjustSize();
+	btn_webGame.setActionEventId("web");
+	btn_webGame.addActionListener(this);
 
 	string backgroundPath = RESOURCE_PREFIX + "/menu/LB_menu.png";
 	background = IMG_Load(backgroundPath.c_str());
@@ -92,6 +98,12 @@ void Menu::action(const gcn::ActionEvent & actionEvent)
 	}
 	else if (actionEvent.getId() == "new") {
 		moveToGame(true);
+	}
+	else if (actionEvent.getId() == "lan" || actionEvent.getId() == "web") {
+		setNextContext(ContextName::SERVER_LIST);
+	}
+	else if (actionEvent.getId() == "local") {
+		setNextContext(ContextName::ROOM_LOBBY);
 	}
 }
 
