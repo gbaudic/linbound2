@@ -2,7 +2,7 @@
  * If a copy of the MPL was not distributed with this file,
  * You can obtain one at http://mozilla.org/MPL/2.0/.
  *
- * This Source Code Form is ìIncompatible With Secondary Licensesî,
+ * This Source Code Form is ‚ÄúIncompatible With Secondary Licenses‚Äù,
  * as defined by the Mozilla Public License, v. 2.0.
  */
 
@@ -15,10 +15,13 @@
 
 enum class ContextName {
 	MAIN_MENU,
-	SERVER_LIST,
+	SERVER_LIST_LOCAL,
+	SERVER_LIST_WEB,
 	ROOM_LIST,
 	ROOM_LOBBY,
+	ROOM_LOBBY_LOCAL,
 	ROOM,
+	ROOM_SUDDEN_DEATH, // to make it easier for music change
 	ITEM_SHOP,
 	EXIT // for quitting
 };
