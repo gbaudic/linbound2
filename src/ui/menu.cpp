@@ -12,6 +12,10 @@
 #include "../config.hpp"
 using namespace std;
 
+/**
+ * Constructor
+ * @param p main Container for the GUI
+ */
 Menu::Menu(gcn::Container *p) : Context(ContextName::MAIN_MENU, p),
 btn_newGame(RESOURCE_PREFIX + "/menu/newgame.png"),
 btn_credits(RESOURCE_PREFIX + "/menu/credits.png"), 
@@ -67,8 +71,8 @@ btn_webGame(RESOURCE_PREFIX + "/menu/webgame.png")
 	setNextContext(ContextName::MAIN_MENU);
 }
 
-Menu::~Menu()
-{
+Menu::~Menu() {
+	// Cleanup our surfaces
 	if (background) {
 		SDL_FreeSurface(background);
 	}
@@ -99,11 +103,14 @@ void Menu::action(const gcn::ActionEvent & actionEvent)
 	else if (actionEvent.getId() == "new") {
 		moveToGame(true);
 	}
-	else if (actionEvent.getId() == "lan" || actionEvent.getId() == "web") {
-		setNextContext(ContextName::SERVER_LIST);
+	else if (actionEvent.getId() == "lan") {
+		setNextContext(ContextName::SERVER_LIST_LAN);
+	} 
+	else if (actionEvent.getId() == "web") {
+		setNextContext(ContextName::SERVER_LIST_WEB);
 	}
 	else if (actionEvent.getId() == "local") {
-		setNextContext(ContextName::ROOM_LOBBY);
+		setNextContext(ContextName::ROOM_LOBBY_LOCAL);
 	}
 }
 

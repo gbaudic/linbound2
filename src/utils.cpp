@@ -105,4 +105,32 @@ namespace linbound {
         return to_string(ip32)+"."+to_string(ip24)+"."+to_string(ip16)+"."+to_string(ip8);
     }
 
+	/**
+	 * Opposite operation of prettifyIP
+	 * \param input user-specified input
+	 * \return the IPv4 as an Uint32, using system endianness
+	 */
+	Uint32 stringToIP(std::string input)
+	{
+		Uint32 result = 0x0;
+		int part = 3;
+		size_t pos = input.find('.');
+		size_t startPos = 0;
+		while (pos != string::npos) {
+			string val = input.substr(startPos, pos);
+			result |= (stoi(val) << 8 * part);
+
+			startPos = pos + 1;
+			part -= 1;
+			pos = input.find('.', startPos);
+		}
+
+		if (part == 0) {
+			// Do not forget last part!
+			result |= stoi(input.substr(startPos));
+		}
+
+		return result;
+	}
+
 }
