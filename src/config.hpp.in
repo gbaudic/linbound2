@@ -16,7 +16,7 @@ const int MINOR_VERSION = @Linbound_VERSION_MINOR@;
 const int PATCH_VERSION = @Linbound_VERSION_RELEASE@;
 const bool ENABLE_SERVER = @Linbound_ENABLE_SERVER@;
 
-const std::string RESOURCE_PREFIX = "@resource_prefix@";
+const std::string RESOURCE_PREFIX = "@RESOURCE_PREFIX@";
 
 
 #endif // _H_CONFIG_

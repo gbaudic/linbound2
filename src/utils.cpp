@@ -135,9 +135,9 @@ namespace linbound {
                     
                     if(part > 0) {
                         startPos = pos + 1;
-                        part -= 1;
                         pos = input.find('.', startPos);
                     }
+					part -= 1;
                 }
                 
             } catch (invalid_argument) {
@@ -146,10 +146,10 @@ namespace linbound {
             }
 		}
 
-		if (part != 0) {
-            // There was an error
-            result = 0;
-        }
+		if (pos != string::npos) {
+			// There should be nothing left at this point...
+			result = 0;
+		}
 
 		return result;
 	}
