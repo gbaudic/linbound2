@@ -108,27 +108,48 @@ namespace linbound {
 	/**
 	 * Opposite operation of prettifyIP
 	 * \param input user-specified input
-	 * \return the IPv4 as an Uint32, using system endianness
+	 * \return the IPv4 as an Uint32, using system endianness; 0 indicates an error
 	 */
-	Uint32 stringToIP(std::string input)
+	Uint32 stringToIP(const std::string &input)
 	{
 		Uint32 result = 0x0;
 		int part = 3;
 		size_t pos = input.find('.');
 		size_t startPos = 0;
-		while (pos != string::npos) {
-			string val = input.substr(startPos, pos);
-			result |= (stoi(val) << 8 * part);
-
-			startPos = pos + 1;
-			part -= 1;
-			pos = input.find('.', startPos);
+        int converted = 0;
+		while (part >= 0) {
+			string val = input.substr(startPos);
+            
+            if(pos != string::npos) {
+                // Case for the first three parts
+                val = input.substr(startPos, pos - startPos);
+            }
+            
+            try {
+                converted = stoi(val);
+                if (converted < 0 || converted > 0xff) {
+                    result = 0;
+                    break;
+                } else {
+                    result |= (converted << 8 * part);
+                    
+                    if(part > 0) {
+                        startPos = pos + 1;
+                        part -= 1;
+                        pos = input.find('.', startPos);
+                    }
+                }
+                
+            } catch (invalid_argument) {
+                result = 0;
+                break;
+            }
 		}
 
-		if (part == 0) {
-			// Do not forget last part!
-			result |= stoi(input.substr(startPos));
-		}
+		if (part != 0) {
+            // There was an error
+            result = 0;
+        }
 
 		return result;
 	}

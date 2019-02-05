@@ -31,7 +31,7 @@ namespace linbound {
     std::string getVersionString();
     int getVersion();
     std::string prettifyIP(Uint32 address);
-	Uint32 stringToIP(std::string input);
+	Uint32 stringToIP(const std::string &input);
 }
  
 #endif 
