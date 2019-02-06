@@ -102,13 +102,6 @@ TARGET_LINK_LIBRARIES(${PROJECT_NAME} ${SDL2_LIBRARIES}
 	${TINYXML2_LIBRARIES}
 	${SQLITE3_LIBRARIES}
 	${BOX2D_LIBRARIES})
-	
-# TODO install targets
-if(WIN32)
-	set(EXECUTABLE_NAME ${PROJECT_NAME}.exe)
-else()
-	set(EXECUTABLE_NAME ${PROJECT_NAME})
-endif()
 
 
 if(ENABLE_TESTS)
@@ -132,8 +125,18 @@ if(ENABLE_TESTS)
 	endif()
 endif()
 
-
-# install(TARGETS ${PROJECT_NAME} DESTINATION bin)
+# Install instructions
+if(WIN32)
+	install(TARGETS ${PROJECT_NAME} CONFIGURATIONS Release 
+		RUNTIME DESTINATION .)
+	install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/res DESTINATION .)
+	# The next line assumes you have all the necessary DLLs in the dll/ subdirectory
+	install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/dll/ CONFIGURATIONS Release
+		DESTINATION . FILES_MATCHING PATTERN "*.dll" OPTIONAL)
+else()
+	install(TARGETS ${PROJECT_NAME} CONFIGURATIONS Release RUNTIME DESTINATION bin)
+	install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/res/ DESTINATION share/${PROJECT_NAME})
+endif()
 
 include (InstallRequiredSystemLibraries)
 set (CPACK_RESOURCE_FILE_LICENSE  
