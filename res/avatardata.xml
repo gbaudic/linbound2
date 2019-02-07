@@ -1,23 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<AvatarItemList>
-  <Version></Version>
-  <AvatarItem>
-    <Type></Type>
-    <Name></Name>
-    <ToolTip></ToolTip>
-    <Code></Code>
-    <GoldPrice></GoldPrice>
-    <CashPrice></CashPrice>
-    <Statistics>
-      <Delay></Delay>
-      <Popularity></Popularity>
-      <Attack></Attack>
-      <Defense></Defense>
-      <Energy></Energy>
-      <Shield></Shield>
-      <ItemDelay></ItemDelay>
-      <Pit></Pit>
-    </Statistics>
-  </AvatarItem>
+<AvatarItemList version="1">
+  <item type="hair" name="Knight Helmet" code="1" description="Where is my horse?">
+    <image></image>
+    <Gold>10000</Gold>
+    <Cash>-1</Cash>
+    <Statistics delay="0" popularity="2" attack="5" defense="0" energy="1" shield="0" itemdelay="0" pit="0" />
+  </item>
+  <item type="hair" name="King's Crown" code="2" description="This is my castle">
+    <image></image>
+    <Gold>15000</Gold>
+    <Cash>1500</Cash>
+    <Statistics delay="0" popularity="10" attack="2" defense="0" energy="0" shield="0" itemdelay="0" pit="0" />
+  </item>
+  <item type="body" name="Yellow vest" code="3" description="I am not happy">
+    <image></image>
+    <Gold>-1</Gold>
+    <Cash>100</Cash>
+    <Statistics delay="0" popularity="0" attack="0" defense="0" energy="10" shield="0" itemdelay="0" pit="6" />
+  </item>
+  <item type="glasses" name="Invisible glasses" code="4" description="Unbeatable protection">
+    <image></image>
+    <Gold>1000</Gold>
+    <Cash>100</Cash>
+    <Statistics delay="0" popularity="2" attack="0" defense="10" energy="0" shield="2" itemdelay="0" pit="0" />
+  </item>
 </AvatarItemList>
