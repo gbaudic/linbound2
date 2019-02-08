@@ -10,7 +10,8 @@
 #include "sprite.hpp"
 using namespace std;
 
-Sprite::Sprite(const std::string filename, const int width, const int height, const Uint16 duration) {
+Sprite::Sprite(const std::string filename, const int width, const int height, const Uint16 duration): 
+	stepDuration(duration) {
 
 	surface = IMG_Load(filename.c_str());
 	SDL_SetColorKey(surface, SDL_RLEACCEL, SDL_MapRGB(surface->format, 0xff, 0, 0xff));
@@ -18,7 +19,6 @@ Sprite::Sprite(const std::string filename, const int width, const int height, co
 	nbStates = surface->h / height;
 	nbSteps = surface->w / width;
 	currentState = 0;
-	stepDuration = duration;
 
 	currentRect.x = 0;
 	currentRect.y = 0;

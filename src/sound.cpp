@@ -62,11 +62,15 @@ void SoundManager::changeMode(ContextName &newMode) {
 	switch (newMode) {
 	case ContextName::MAIN_MENU:
 		menuMusic += "diabolicux.ogg";
-		music = Mix_LoadMUS(menuMusic.c_str());
+		break;
+	case ContextName::SERVER_LIST_LAN: // fallthrough
+	case ContextName::SERVER_LIST_WEB:
+		menuMusic += "diabolicux.ogg";  // change once we have several files...		
 		break;
 	default:
 		break;
 	}
+	music = Mix_LoadMUS(menuMusic.c_str());
 
 	
 	if (music != NULL) {

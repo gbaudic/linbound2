@@ -22,7 +22,7 @@
 #include "sound.hpp"
 #include "utils.hpp"
 #include "context.hpp"
-#include "ui/menu.hpp"
+#include "views/menu.hpp"
 
 using namespace std;
 

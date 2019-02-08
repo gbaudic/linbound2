@@ -46,6 +46,9 @@ const Uint8 PLAYER_ROOM_MSG = 58; //! New player arriving, team changes
 const Uint8 ADMIN_ROOM_MSG = 59;
 const Uint8 ITEMS_ROOM_MSG = 60; //! Request item list
 
+const Uint8 SELL_ITEM_MSG = 80; //! Sell an existing item from inventory
+const Uint8 BUY_ITEM_MSG = 81; //! Add a new item to my inventory
+
 const Uint8 SERVER_INFO = 200; //! Basic server info
 const Uint8 ROOM0_INFO = 210; //! Basic room info in channel: number, title, type, map used, status
 const Uint8 ROOM5_INFO = 215; //! Full room info: size, settings...

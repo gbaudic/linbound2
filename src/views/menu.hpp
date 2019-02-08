@@ -11,8 +11,8 @@
 
 #include <guisan.hpp>
 #include "../context.hpp"
-#include "creditswindow.hpp"
-#include "settingswindow.hpp"
+#include "../ui/creditswindow.hpp"
+#include "../ui/settingswindow.hpp"
 
 class Menu : public Context, public gcn::ActionListener {
 public:
