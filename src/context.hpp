@@ -37,7 +37,7 @@ public:
 
 	virtual void enter();
 	virtual void leave();
-	virtual void processMessage(const Uint16 code, const std::string &message) { 
+	virtual void processMessage(const Uint8 code, const std::string &message) { 
 		// Left empty because some derived classes will not need this
 	};
 	virtual void processEvent(SDL_Event &event) = 0;
