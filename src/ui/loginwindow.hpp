@@ -13,6 +13,9 @@
 #include <guisan.hpp>
 #include <guisan/sdl.hpp>
 
+/**
+ * Utility window to get identification details from the user
+ */
 class LoginWindow final : public gcn::Window, public gcn::ActionListener {
 
 public:

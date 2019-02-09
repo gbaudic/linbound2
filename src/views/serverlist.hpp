@@ -14,9 +14,27 @@
 #include <guisan.hpp>
 #include <SDL2/SDL.h>
 #include "../context.hpp"
+#include "../ui/loginwindow.hpp"
 
+struct ServerInfo {
+	Uint32 ip;
+	std::string name;
+	Uint8 levelMin;
+	Uint8 levelMax;
+	Uint8 busy; // level of attendance
+};
+
+/**
+ * View representing the list of servers, used in LAN and web game modes
+ */
 class ServerList : public Context, public gcn::ActionListener {
 public:
+	enum State { NONE,
+		LOGIN, // Login sent, waiting for answer
+		RECEIVING_BC, // Receiving server data from LAN
+		RECEIVING_IP  // Receiving server data from manual IP
+	};
+
 	ServerList(ContextName name, gcn::Container *p);
 	virtual ~ServerList();
 	void action(const gcn::ActionEvent &actionEvent) override;
@@ -31,17 +49,29 @@ public:
 		// No specific handling to be done here, GUI handles everything
 	};
 
+	Uint32 getIP() const;
+
 private:
+	State state;
+	Uint32 currentIP;
+
 	gcn::Button btn_back;
 	gcn::Button btn_manualIP;
 	gcn::Button btn_rescan;
 	// gcn::InputBox input_ip;
+	LoginWindow w_login;
 
 	SDL_Texture *backTexture = nullptr;
 	SDL_Surface *background = nullptr;
 
+	const int REQUEST_TIMEOUT = 5000; // 5 seconds
+
+	std::vector<ServerInfo> serversFound;
+
 	void addWidgets();
 	void scanNetwork();
+	void sendRequest(Uint32 ip);
+	void login(Uint32 ip, const std::string &login, const std::string &password);
 };
 
 #endif // !_H_SERVERLIST_
