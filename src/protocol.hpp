@@ -35,8 +35,8 @@ const Uint8 STATUS_PONG = 9;
 const Uint8 LOGIN_MSG = 10; //! Server login
 const Uint8 LOGOUT_REPLY = 254;
 const Uint8 LOGOUT_MSG = 255;
-const Uint8 PWD_MSG = 11; //! Password change
-const Uint8 CREATE_MSG = 12; //! Account creation
+const Uint8 PWD_MSG = 20; //! Password change
+const Uint8 CREATE_MSG = 21; //! Account creation
 
 const Uint8 ENTER_ROOM_MSG = 49; //! Try to join an existing room 
 const Uint8 CREATE_ROOM_MSG = 50; //! New room
@@ -44,7 +44,7 @@ const Uint8 EXIT_ROOM_MSG = 51; //! User-triggered exit
 const Uint8 UPDATE_ROOM_MSG = 52;
 const Uint8 PLAYER_ROOM_MSG = 58; //! New player arriving, team changes
 const Uint8 ADMIN_ROOM_MSG = 59;
-const Uint8 ITEMS_ROOM_MSG = 60; //! Request item list
+const Uint8 ITEMS_ROOM_MSG = 60; //! Request item list / warn of changes from admin
 
 const Uint8 SELL_ITEM_MSG = 80; //! Sell an existing item from inventory
 const Uint8 BUY_ITEM_MSG = 81; //! Add a new item to my inventory
@@ -52,12 +52,15 @@ const Uint8 BUY_ITEM_MSG = 81; //! Add a new item to my inventory
 const Uint8 SERVER_INFO = 200; //! Basic server info
 const Uint8 ROOM0_INFO = 210; //! Basic room info in channel: number, title, type, map used, status
 const Uint8 ROOM5_INFO = 215; //! Full room info: size, settings...
-const Uint8 USER0_INFO = 220; //! Name, guild, level; location for buddies
+const Uint8 USER0_INFO = 220; //! Name, guild, level 
+const Uint8 FRIEND_INFO = 221; //! Location for buddies
 const Uint8 USER5_INFO = 225; //! Full statistics
 const Uint8 ITEM0_INFO = 230; //! The 4 or 5 items worn while playing
 const Uint8 ITEM5_INFO = 235; //! Full list of items used while in the "avatar shop"
 const Uint8 MOBILE_INFO = 240; //! Choice of mobile(s) for the battle
 
+const Uint8 FRIEND_ADD = 90;
+const Uint8 FRIEND_DEL = 91;
 const Uint8 KICK_MSG = 95; //! Exclude a user from a room
 const Uint8 MUTE_MSG = 99; //! Silence a user
 const Uint8 CHAT_MSG = 100; //! Chat message (add the message type to this value to get the final packet type)
