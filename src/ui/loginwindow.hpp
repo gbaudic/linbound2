@@ -5,6 +5,11 @@
  * This Source Code Form is “Incompatible With Secondary Licenses”,
  * as defined by the Mozilla Public License, v. 2.0.
  */
+/**
+ * \file loginwindow.hpp
+ * \date 12/2018
+ * \author G. Baudic
+ */
 
 #ifndef _H_LOGINWINDOW_
 #define _H_LOGINWINDOW_
@@ -23,12 +28,12 @@ public:
 	void action(const gcn::ActionEvent &event) override;
 	std::string getPassword() const;
 	std::string getLogin() const;
-	void onLogin(const bool success);
+	void onLogin(const int success);
 
 private:
 	gcn::Button btn_ok;
 	gcn::Button btn_cancel;
-	gcn::Label lbl_status;
+	gcn::Label lbl_status;  //! Communicate info to the user
 	gcn::TextField tf_login;
 	gcn::PasswordField tf_password;
 	gcn::Label lbl_login;
