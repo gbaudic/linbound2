@@ -7,7 +7,7 @@
  */
 
 #include <SDL2/SDL_image.h>
-#include <SDL2/SDL_gfxPrimitives.h>
+#include <SDL2/SDL2_gfxPrimitives.h>
 #include <tinyxml2.h>
 #include "config.hpp"
 #include "gamemap.hpp"
@@ -17,8 +17,47 @@ using namespace std;
  * Constructor
  * Only actually loads the preview, to save space
  */
-GameMap::GameMap(string mapName) {
+GameMap::GameMap(const string mapName): hasBSide(false), bSide(false) {
     // Open XML and read it
+    XMLDocument doc;
+    string fullPath = RESOURCE_PREFIX + "/maps/" + mapName + "/map.xml";
+    doc.LoadFile(fullPath.c_str());
+    
+    XMLElement *root = doc.RootElement();
+    XMLElement *sides = root->FirstChildElement("sides");
+    int nbSides = 0;
+    if(sides) {
+        sides->QueryIntText(&nbSides);
+    }
+    hasBSide = nbSides == 2;
+    
+    // Map name
+    XMLElement *nameEl = root->FirstChildElement("name");
+    name.assign(nameEl->getText());
+    
+    // Music recommendation (optional)
+    XMLElement *music = root->FirstChildElement("music_playlist");
+    if(music) {
+        musicFile.assign(music->getText());
+    }
+    
+    // File paths
+    XMLElement *surface = root->FirstChildElement("surface");
+    if(surface) {
+        string type(root->Attribute("name"));
+        string value(root->Attribute("file"));
+        
+        if(type == "preview") {
+            // Load preview
+        } else if(type == "background") {
+            pathToBack.assign(RESOURCE_PREFIX + "/maps/" + mapName + "/" + value);
+        } else if(type == "mapA") {
+            pathToFrontA.assign(RESOURCE_PREFIX + "/maps/" + mapName + "/" + value);
+        } else if(type == "mapB") {
+            pathToFrontB.assign(RESOURCE_PREFIX + "/maps/" + mapName + "/" + value);
+        }
+    }
+    // TODO: repeat while there is another sibling
 }
 
 GameMap::~GameMap() {
@@ -71,4 +110,18 @@ SDL_Texture *GameMap::getForeground() {
 
 SDL_Texture *GameMap::getPreview() {
     return preview;
+}
+
+string GameMap::getMusicFile() const {
+    return musicFile;
+}
+
+/**
+ * Toggle between A and B side, if possible
+ * \param use true for B, false for A
+ */
+void useBSide(const bool use) {
+    if(hasBSide) {
+        bSide = use;
+    }
 }

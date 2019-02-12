@@ -18,14 +18,16 @@
  */
 class GameMap {
 public:
-    GameMap(std::string mapName);
+    GameMap(const std::string mapName);
     ~GameMap();
     void load();
     void unload();
+    void useBSide(const bool use);
     void makeHole(const int x, const int y, const int radius);
     SDL_Texture *getBackground();
     SDL_Texture *getForeground();
     SDL_Texture *getPreview();
+    std::string getMusicFile() const;
     
 private:
     SDL_Renderer *mapRenderer; //! internal one
@@ -33,10 +35,14 @@ private:
     SDL_Texture *foreground;
     SDL_Texture *preview;
     
+    std::string name;
     std::string pathToBack;
-    std::string pathToFront;
+    std::string pathToFrontA;
+    std::string pathToFrontB;
+    std::string musicFile;
     
     bool hasBSide;
+    bool bSide;
 };
 
 #endif // _H_GAMEMAP_
