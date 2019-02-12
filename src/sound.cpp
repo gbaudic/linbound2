@@ -109,3 +109,9 @@ int SoundManager::countGoldRepeat(const Sint16 value) {
 
 	return repeats;
 }
+
+std::string SoundManager::pickGameMusic() {
+	string musics[] = { "diabolicux.ogg" };
+	int index = rand() % 1;
+	return musics[index];
+}

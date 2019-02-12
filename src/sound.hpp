@@ -25,6 +25,7 @@ public:
 	void close();
 
 	static int countGoldRepeat(const Sint16 value);
+	static std::string pickGameMusic();
 
 private:
 	SoundManager();

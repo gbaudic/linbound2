@@ -12,6 +12,7 @@
 #include "config.hpp"
 #include "gamemap.hpp"
 using namespace std;
+using namespace tinyxml2;
 
 /**
  * Constructor
@@ -33,12 +34,12 @@ GameMap::GameMap(const string mapName): hasBSide(false), bSide(false) {
     
     // Map name
     XMLElement *nameEl = root->FirstChildElement("name");
-    name.assign(nameEl->getText());
+    name.assign(nameEl->GetText());
     
     // Music recommendation (optional)
     XMLElement *music = root->FirstChildElement("music_playlist");
     if(music) {
-        musicFile.assign(music->getText());
+        musicFile.assign(music->GetText());
     }
     
     // File paths
@@ -120,7 +121,7 @@ string GameMap::getMusicFile() const {
  * Toggle between A and B side, if possible
  * \param use true for B, false for A
  */
-void useBSide(const bool use) {
+void GameMap::useBSide(const bool use) {
     if(hasBSide) {
         bSide = use;
     }
