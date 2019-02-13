@@ -30,10 +30,9 @@ CreditsWindow::CreditsWindow() : tb_text(), sa_scroll(), btn_close("Close") {
 	ifstream input("AUTHORS", ios::in);
 	string line;
 
-	while (getline(input, line) && !input.eof()) {
-		if (!line.empty()) {
-			tb_text.addRow(line);
-		}
+	while (!input.eof()) {
+        getline(input, line);
+        tb_text.addRow(line);
 	}
 	// Check if we managed to get some text
 	if (tb_text.getNumberOfRows() == 0) {
