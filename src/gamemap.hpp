@@ -18,7 +18,7 @@
  */
 class GameMap {
 public:
-    GameMap(const std::string mapName);
+    explicit GameMap(const std::string mapName);
     ~GameMap();
     void load();
     void unload();
@@ -43,6 +43,8 @@ private:
     
     bool hasBSide;
     bool bSide;
+    
+    void storePath(const std::string &key, const std::string &value);
 };
 
 #endif // _H_GAMEMAP_

@@ -17,6 +17,7 @@ using namespace tinyxml2;
 /**
  * Constructor
  * Only actually loads the preview, to save space
+ * \param mapName name of the map, corresponds to its folder name
  */
 GameMap::GameMap(const string mapName): hasBSide(false), bSide(false) {
     // Open XML and read it
@@ -25,6 +26,7 @@ GameMap::GameMap(const string mapName): hasBSide(false), bSide(false) {
     doc.LoadFile(fullPath.c_str());
     
     XMLElement *root = doc.RootElement();
+    // Number of sides (1 or 2) (optional)
     XMLElement *sides = root->FirstChildElement("sides");
     int nbSides = 0;
     if(sides) {
@@ -32,7 +34,7 @@ GameMap::GameMap(const string mapName): hasBSide(false), bSide(false) {
     }
     hasBSide = nbSides == 2;
     
-    // Map name
+    // Map name (mandatory)
     XMLElement *nameEl = root->FirstChildElement("name");
     name.assign(nameEl->GetText());
     
@@ -42,23 +44,29 @@ GameMap::GameMap(const string mapName): hasBSide(false), bSide(false) {
         musicFile.assign(music->GetText());
     }
     
-    // File paths
+    // File paths (mandatory)
     XMLElement *surface = root->FirstChildElement("surface");
-    if(surface) {
-        string type(root->Attribute("name"));
-        string value(root->Attribute("file"));
+    while(surface) {
+        string type(surface->Attribute("name"));
+        string value(surface->Attribute("file"));
         
-        if(type == "preview") {
-            // Load preview
-        } else if(type == "background") {
-            pathToBack.assign(RESOURCE_PREFIX + "/maps/" + mapName + "/" + value);
-        } else if(type == "mapA") {
-            pathToFrontA.assign(RESOURCE_PREFIX + "/maps/" + mapName + "/" + value);
-        } else if(type == "mapB") {
-            pathToFrontB.assign(RESOURCE_PREFIX + "/maps/" + mapName + "/" + value);
-        }
+        storePath(type, value);
+        
+        // repeat while there is another sibling
+        surface = surface->NextSiblingElement("surface");
+    }    
+}
+
+void GameMap::storePath(const string &key, const string &value) {
+    if(type == "preview") {
+        // Load preview
+    } else if(type == "background") {
+        pathToBack.assign(RESOURCE_PREFIX + "/maps/" + mapName + "/" + value);
+    } else if(type == "mapA") {
+        pathToFrontA.assign(RESOURCE_PREFIX + "/maps/" + mapName + "/" + value);
+    } else if(type == "mapB") {
+        pathToFrontB.assign(RESOURCE_PREFIX + "/maps/" + mapName + "/" + value);
     }
-    // TODO: repeat while there is another sibling
 }
 
 GameMap::~GameMap() {
