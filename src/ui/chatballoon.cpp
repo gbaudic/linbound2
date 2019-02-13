@@ -50,5 +50,5 @@ void ChatBalloon::draw(SDL_Renderer *renderer) {
 }
 
 bool ChatBalloon::isVisible() const {
-    return SDL_Ticks() <= creationTime + FULL_DELAY + (message.size() - 1) * 1000 / CHARACTERS_PER_SECOND;
+    return SDL_GetTicks() <= creationTime + FULL_DELAY + (message.size() - 1) * 1000 / CHARACTERS_PER_SECOND;
 }

@@ -29,13 +29,17 @@ CreditsWindow::CreditsWindow() : tb_text(), sa_scroll(), btn_close("Close") {
 	//Add text to tb_text	
 	ifstream input("AUTHORS", ios::in);
 	string line;
+	bool hasText = false;
 
-	while (!input.eof()) {
-        getline(input, line);
-        tb_text.addRow(line);
+	if (input.is_open()) {
+		while (!input.eof()) {
+			getline(input, line);
+			tb_text.addRow(line);
+			hasText = true;
+		}
 	}
 	// Check if we managed to get some text
-	if (tb_text.getNumberOfRows() == 0) {
+	if (!hasText) {
 		tb_text.addRow("Error while trying to open AUTHORS credits file. ");
 	}
 

@@ -50,7 +50,7 @@ GameMap::GameMap(const string mapName): hasBSide(false), bSide(false) {
         string type(surface->Attribute("name"));
         string value(surface->Attribute("file"));
         
-        storePath(type, value);
+        storePath(type, RESOURCE_PREFIX + "/maps/" + mapName + "/" + value);
         
         // repeat while there is another sibling
         surface = surface->NextSiblingElement("surface");
@@ -58,14 +58,14 @@ GameMap::GameMap(const string mapName): hasBSide(false), bSide(false) {
 }
 
 void GameMap::storePath(const string &key, const string &value) {
-    if(type == "preview") {
+    if(key == "preview") {
         // Load preview
-    } else if(type == "background") {
-        pathToBack.assign(RESOURCE_PREFIX + "/maps/" + mapName + "/" + value);
-    } else if(type == "mapA") {
-        pathToFrontA.assign(RESOURCE_PREFIX + "/maps/" + mapName + "/" + value);
-    } else if(type == "mapB") {
-        pathToFrontB.assign(RESOURCE_PREFIX + "/maps/" + mapName + "/" + value);
+    } else if(key == "background") {
+        pathToBack.assign(value);
+    } else if(key == "mapA") {
+        pathToFrontA.assign(value);
+    } else if(key == "mapB") {
+        pathToFrontB.assign(value);
     }
 }
 
