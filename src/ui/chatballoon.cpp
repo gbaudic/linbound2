@@ -11,6 +11,8 @@
 #include "chatballoon.hpp"
 using namespace std;
 
+TTF_Font *ChatBalloon::font = nullptr;
+
 /**
  * Constructor
  * \param text message to display
@@ -29,26 +31,72 @@ ChatBalloon::~ChatBalloon() {
 }
 
 void ChatBalloon::draw(SDL_Renderer *renderer) {
+	// Update line width if necessary
     if(nbCharsDisplayed < message.size()) {
         Uint32 delta = SDL_GetTicks() - creationTime;
         nbCharsDisplayed = 1 + delta / (1000 / CHARACTERS_PER_SECOND);
     }
     
-    int textWidth = nbCharsDisplayed >= BALLOON_WIDTH ? BALLOON_WIDTH : nbCharsDisplayed;
+	// Compute balloon size
+    int charsInLine = nbCharsDisplayed >= BALLOON_WIDTH ? BALLOON_WIDTH : nbCharsDisplayed;
+	int textWidth = 0;
+	int lineHeight = 0;
+	string testText(charsInLine, 'M');
+	TTF_SizeText(font, testText.c_str(), &textWidth, &lineHeight);
     int nbLines = 1 + nbCharsDisplayed / BALLOON_WIDTH;
     if(nbCharsDisplayed % BALLOON_WIDTH == 0) {
         nbLines -= 1;
     }
     
-    // Draw tip
-    filledTrigonRGBA(renderer, _x, _y, _x + 10, _y - 10, _x - 10, _y - 10, 0xff, 0xff, 0xff, 0xff);
-    
-    // Draw balloon
+    // Draw white balloon and black outline
+	roundedBoxColor(renderer, _x - PADDING - textWidth / 2, _y - 9 - 2 * PADDING - nbLines * lineHeight,
+		_x + textWidth / 2 + PADDING, _y - 9, 3, 0xffffffff);
+	roundedRectangleColor(renderer, _x - PADDING - textWidth / 2, _y - 9 - 2 * PADDING - nbLines * lineHeight,
+		_x + textWidth / 2 + PADDING, _y - 9, 3, 0x000000ff);
+
+	// Draw white tip and black outline
+	filledTrigonRGBA(renderer, _x, _y, _x + 10, _y - 10, _x - 10, _y - 10, 0xff, 0xff, 0xff, 0xff);
+	lineColor(renderer, _x, _y, _x + 10, _y - 10, 0x000000ff);
+	lineColor(renderer, _x, _y, _x - 10, _y - 10, 0x000000ff);
     
     // Draw text, line by line
+	int idx = 0;
+	SDL_Color black;
+	black.a = 0xff;
+	SDL_Rect dest;
+	dest.y = _y - 9 - PADDING - nbLines * lineHeight;
+	
+	while (idx < nbCharsDisplayed) {
+		int len = BALLOON_WIDTH;
+		// Count the right number of characters
+		if (idx + len > nbCharsDisplayed) {
+			len = nbCharsDisplayed - idx;
+		}
+
+		// Create text surface
+		string text = message.substr(idx, len);
+		SDL_Surface *textLine = TTF_RenderUTF8_Solid(font, text.c_str(), black);
+		SDL_Texture *tx = SDL_CreateTextureFromSurface(renderer, textLine);
+		dest.x = _x - textLine->w / 2;
+		dest.w = textLine->w;
+		dest.h = textLine->h;
+
+		// Place it in the balloon, and update coords for next line
+		SDL_RenderCopy(renderer, tx, NULL, &dest);
+		idx += BALLOON_WIDTH;
+		dest.y += textLine->h;
+
+		// Cleanup
+		SDL_DestroyTexture(tx);
+		SDL_FreeSurface(textLine);
+	}
     
 }
 
 bool ChatBalloon::isVisible() const {
     return SDL_GetTicks() <= creationTime + FULL_DELAY + (message.size() - 1) * 1000 / CHARACTERS_PER_SECOND;
+}
+
+void ChatBalloon::setFont(TTF_Font * textFont) {
+	font = textFont;
 }

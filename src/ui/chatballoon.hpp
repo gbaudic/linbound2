@@ -23,6 +23,8 @@ public:
     
     void draw(SDL_Renderer *renderer);
     bool isVisible() const;
+
+	static void setFont(TTF_Font *textFont);
     
 private:
     std::string message;
@@ -32,6 +34,8 @@ private:
     Uint32 creationTime;
     
     const int PADDING = 5; //! in pixels
+
+	static TTF_Font* font;
 };
 
 #endif // _H_CHATBALLOON_
