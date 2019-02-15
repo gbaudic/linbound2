@@ -15,14 +15,7 @@
 #include <SDL2/SDL.h>
 #include "../context.hpp"
 #include "../ui/loginwindow.hpp"
-
-struct ServerInfo {
-	Uint32 ip;
-	std::string name;
-	Uint8 levelMin;
-	Uint8 levelMax;
-	Uint8 busy; // level of attendance
-};
+#include "../ui/serverlistelement.hpp"
 
 /**
  * View representing the list of servers, used in LAN and web game modes
