@@ -21,7 +21,7 @@ public:
     ChatBalloon(const std::string &text, const int x, const int y);
     ~ChatBalloon();
     
-    void draw(SDL_Renderer *renderer);
+    void draw(SDL_Renderer *renderer, const int xOffset = 0, const int yOffset = 0);
     bool isVisible() const;
 
 	static void setFont(TTF_Font *textFont);

@@ -30,12 +30,21 @@ ChatBalloon::~ChatBalloon() {
     
 }
 
-void ChatBalloon::draw(SDL_Renderer *renderer) {
+/**
+ * Perform the drawing of the balloon
+ * \param renderer object to perform drawing
+ * \param xOffset value >= 0, used only in Room mode
+ * \param yOffset value >= 0, used only in Room mode
+ */
+void ChatBalloon::draw(SDL_Renderer *renderer, const int xOffset, const int yOffset) {
 	// Update line width if necessary
     if(nbCharsDisplayed < message.size()) {
         Uint32 delta = SDL_GetTicks() - creationTime;
         nbCharsDisplayed = 1 + delta / (1000 / CHARACTERS_PER_SECOND);
     }
+
+	int x = _x - xOffset;
+	int y = _y - yOffset;
     
 	// Compute balloon size
     int charsInLine = nbCharsDisplayed >= BALLOON_WIDTH ? BALLOON_WIDTH : nbCharsDisplayed;
@@ -44,27 +53,27 @@ void ChatBalloon::draw(SDL_Renderer *renderer) {
 	string testText(charsInLine, 'M');
 	TTF_SizeText(font, testText.c_str(), &textWidth, &lineHeight);
     int nbLines = 1 + nbCharsDisplayed / BALLOON_WIDTH;
-    if(nbCharsDisplayed % BALLOON_WIDTH == 0) {
+    if(nbCharsDisplayed > 0 && nbCharsDisplayed % BALLOON_WIDTH == 0) {
         nbLines -= 1;
     }
     
     // Draw white balloon and black outline
-	roundedBoxColor(renderer, _x - PADDING - textWidth / 2, _y - 9 - 2 * PADDING - nbLines * lineHeight,
-		_x + textWidth / 2 + PADDING, _y - 9, 3, 0xffffffff);
-	roundedRectangleColor(renderer, _x - PADDING - textWidth / 2, _y - 9 - 2 * PADDING - nbLines * lineHeight,
-		_x + textWidth / 2 + PADDING, _y - 9, 3, 0x000000ff);
+	roundedBoxColor(renderer, x - PADDING - textWidth / 2, y - 9 - 2 * PADDING - nbLines * lineHeight,
+		x + textWidth / 2 + PADDING, y - 9, 3, 0xffffffff);
+	roundedRectangleColor(renderer, x - PADDING - textWidth / 2, y - 9 - 2 * PADDING - nbLines * lineHeight,
+		x + textWidth / 2 + PADDING, y - 9, 3, 0x000000ff);
 
 	// Draw white tip and black outline
-	filledTrigonRGBA(renderer, _x, _y, _x + 10, _y - 10, _x - 10, _y - 10, 0xff, 0xff, 0xff, 0xff);
-	lineColor(renderer, _x, _y, _x + 10, _y - 10, 0x000000ff);
-	lineColor(renderer, _x, _y, _x - 10, _y - 10, 0x000000ff);
+	filledTrigonRGBA(renderer, x, y, x + 10, y - 10, x - 10, y - 10, 0xff, 0xff, 0xff, 0xff);
+	lineColor(renderer, x, y, x + 10, y - 10, 0x000000ff);
+	lineColor(renderer, x, y, x - 10, y - 10, 0x000000ff);
     
     // Draw text, line by line
 	int idx = 0;
 	SDL_Color black;
 	black.a = 0xff;
 	SDL_Rect dest;
-	dest.y = _y - 9 - PADDING - nbLines * lineHeight;
+	dest.y = y - 9 - PADDING - nbLines * lineHeight;
 	
 	while (idx < nbCharsDisplayed) {
 		int len = BALLOON_WIDTH;
@@ -77,7 +86,7 @@ void ChatBalloon::draw(SDL_Renderer *renderer) {
 		string text = message.substr(idx, len);
 		SDL_Surface *textLine = TTF_RenderUTF8_Solid(font, text.c_str(), black);
 		SDL_Texture *tx = SDL_CreateTextureFromSurface(renderer, textLine);
-		dest.x = _x - textLine->w / 2;
+		dest.x = x - textLine->w / 2;
 		dest.w = textLine->w;
 		dest.h = textLine->h;
 
@@ -93,10 +102,17 @@ void ChatBalloon::draw(SDL_Renderer *renderer) {
     
 }
 
+/**
+ * Determine if the balloon should be drawn or not
+ */
 bool ChatBalloon::isVisible() const {
     return SDL_GetTicks() <= creationTime + FULL_DELAY + (message.size() - 1) * 1000 / CHARACTERS_PER_SECOND;
 }
 
+/**
+ * Set the TTF_Font object to use for all balloons
+ * \param textFont the font to use. Should have been already loaded beforehand. 
+ */
 void ChatBalloon::setFont(TTF_Font * textFont) {
 	font = textFont;
 }
