@@ -13,7 +13,11 @@
 #include <SDL2/SDL.h>
 #include <guisan.hpp>
 
+/**
+ * Enum to tell the different states for the software
+ */
 enum class ContextName {
+	NONE, // only used at startup
 	MAIN_MENU,
 	SERVER_LIST_LAN,
 	SERVER_LIST_WEB,
@@ -28,10 +32,11 @@ enum class ContextName {
 
 class Context {
 public:
-	Context(ContextName type, gcn::Container *topContainer);
+	Context(ContextName type);
 	virtual ~Context();
 	ContextName const getName();
-	ContextName const getNextContext();
+	ContextName const getNextContextName();
+	static void setParent(gcn::Container* topContainer);
 	virtual void drawBackground(SDL_Renderer *screen) = 0;
 	virtual void drawOverlay(SDL_Renderer *screen) = 0;
 
@@ -42,16 +47,21 @@ public:
 	};
 	virtual void processEvent(SDL_Event &event) = 0;
 
+	static Context* getNextContext(ContextName nextName);
+
 protected:
 	void addWidget(gcn::Widget *widget, int x = 0, int y = 0);
 	void addCenteredWidget(gcn::Widget *widget);
 	void setNextContext(const ContextName newContext);
 
 private:
-	gcn::Container *parent;
+	static gcn::Container *parent;
 	ContextName name;
 	ContextName next;
 	gcn::Container top;
+
+	static Context* currentContext;
+	static Context* lastContext;
 };
 
 #endif // !_H_CONTEXT_

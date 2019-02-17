@@ -8,10 +8,16 @@
 
 #include "sound.hpp"
 #include "context.hpp"
+#include "views/menu.hpp"
+#include "views/serverlist.hpp"
 using namespace std;
 
-Context::Context(ContextName type, gcn::Container *topContainer) : 
-    parent(topContainer), name(type)
+Context* Context::currentContext = nullptr;
+Context* Context::lastContext = nullptr;
+gcn::Container* Context::parent = nullptr;
+
+Context::Context(ContextName type) : 
+    name(type)
 {
 	top.setWidth(parent->getWidth());
 	top.setHeight(parent->getHeight());
@@ -25,8 +31,12 @@ ContextName const Context::getName() {
     return name;
 }
 
-ContextName const Context::getNextContext() {
+ContextName const Context::getNextContextName() {
 	return next;
+}
+
+void Context::setParent(gcn::Container * topContainer) {
+	parent = topContainer;
 }
 
 void Context::enter() {
@@ -35,6 +45,31 @@ void Context::enter() {
 
 void Context::leave() {
 	parent->remove(&top);
+}
+
+Context * Context::getNextContext(ContextName nextName) {
+	switch (nextName) {
+	case ContextName::MAIN_MENU:
+		if (currentContext) {
+			currentContext->leave();
+			delete currentContext;
+		}
+		currentContext = new Menu();
+		currentContext->enter();
+		break;
+	case ContextName::SERVER_LIST_LAN: // fallthrough
+	case ContextName::SERVER_LIST_WEB:
+		if (currentContext) {
+			currentContext->leave();
+			delete currentContext;
+		}
+		currentContext = new ServerList(nextName);
+		currentContext->enter();
+		break;
+	default:
+		break;
+	}
+	return currentContext;
 }
 
 void Context::addWidget(gcn::Widget * widget, int x, int y){

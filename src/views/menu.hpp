@@ -16,7 +16,7 @@
 
 class Menu : public Context, public gcn::ActionListener {
 public:
-	Menu(gcn::Container *parent);
+	Menu();
 	virtual ~Menu();
 	void action(const gcn::ActionEvent &actionEvent) override;
 	void moveToGame(bool move);

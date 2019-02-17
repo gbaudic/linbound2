@@ -28,7 +28,7 @@ public:
 		RECEIVING_IP  // Receiving server data from manual IP
 	};
 
-	ServerList(ContextName name, gcn::Container *p);
+	ServerList(ContextName name);
 	virtual ~ServerList();
 	void action(const gcn::ActionEvent &actionEvent) override;
 

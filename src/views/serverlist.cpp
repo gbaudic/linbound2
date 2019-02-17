@@ -6,13 +6,14 @@
  * as defined by the Mozilla Public License, v. 2.0.
  */
 
+#include <SDL2/SDL_image.h>
 #include <SDL2/SDL_net.h>
 #include "../protocol.hpp"
 #include "../utils.hpp"
 #include "serverlist.hpp"
 using namespace std;
 
-ServerList::ServerList(ContextName name, gcn::Container * p) : Context(name, p), 
+ServerList::ServerList(ContextName name) : Context(name), 
 state(State::NONE), currentIP(0x0), 
 btn_back("< Back"), btn_manualIP("Enter IP"), btn_rescan("Rescan local network")
 {
@@ -24,6 +25,10 @@ btn_back("< Back"), btn_manualIP("Enter IP"), btn_rescan("Rescan local network")
 	w_login.setActionEventId("login");
 	w_login.addActionListener(this);
 	w_login.setVisible(false);
+	btn_manualIP.setWidth(btn_rescan.getWidth());
+
+	string imgPath = RESOURCE_PREFIX + "/menu/lb_serverlist.png";
+	background = IMG_Load(imgPath.c_str());
 
 	if (name == ContextName::SERVER_LIST_WEB) {
 		btn_rescan.setVisible(false); // this is useless for a web game
@@ -88,15 +93,14 @@ void ServerList::processMessage(const Uint8 code, const std::string & message) {
  * Getter so the RoomList can know where to connect to when changing Context
  * \return IP of the server for which connection was accepted
  */
-Uint32 ServerList::getIP() const
-{
+Uint32 ServerList::getIP() const {
 	return currentIP;
 }
 
 void ServerList::addWidgets() {
 	addWidget(&btn_back, 40, background->h - 40);
-	addWidget(&btn_manualIP, 700, background->h / 2);
-	addWidget(&btn_rescan, 700, btn_manualIP.getY() + 40);
+	addWidget(&btn_manualIP, 600, background->h / 2);
+	addWidget(&btn_rescan, 600, btn_manualIP.getY() + 40);
 
 	addCenteredWidget(&w_login);
 }

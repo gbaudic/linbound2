@@ -16,7 +16,7 @@ using namespace std;
  * Constructor
  * @param p main Container for the GUI
  */
-Menu::Menu(gcn::Container *p) : Context(ContextName::MAIN_MENU, p),
+Menu::Menu() : Context(ContextName::MAIN_MENU),
 btn_newGame(RESOURCE_PREFIX + "/menu/newgame.png"),
 btn_credits(RESOURCE_PREFIX + "/menu/credits.png"), 
 btn_settings(RESOURCE_PREFIX + "/menu/settings.png"),

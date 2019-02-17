@@ -14,6 +14,7 @@ ServerListElement::ServerListElement(ServerInfo info) :
 _info(info), btn_connect("Connect") {
 	setWidth(500);
 	setHeight(60);
+	setOpaque(false);
 
 	lbl_name.setCaption(info.name);
 	lbl_name.adjustSize();

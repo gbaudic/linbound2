@@ -154,8 +154,8 @@ int main(int argc, char* argv[]) {
 
 	SDL_setFramerate(&fpsMgr, 30);
 
-	currentContext = new Menu(&top);
-	currentContext->enter();
+	Context::setParent(&top);
+	currentContext = Context::getNextContext(ContextName::MAIN_MENU);
 
 	// insert call to loop here
 	try {
@@ -208,6 +208,11 @@ void loop(gcn::SDLInput &input) {
 	SDL_Event event;
 
 	for (;;) {
+		ContextName next = currentContext->getNextContextName();
+		if (next != currentContext->getName()) {
+			currentContext = Context::getNextContext(next);
+		}
+
 		// do something
 		while (SDL_PollEvent(&event) == 1) {
 			if (event.type == SDL_QUIT)
