@@ -12,6 +12,7 @@
 #include "views/serverlist.hpp"
 using namespace std;
 
+// Init of static class members
 Context* Context::currentContext = nullptr;
 Context* Context::lastContext = nullptr;
 gcn::Container* Context::parent = nullptr;
@@ -35,18 +36,36 @@ ContextName const Context::getNextContextName() {
 	return next;
 }
 
+/**
+ * Set the main top gui container
+ * As per Guisan design, there is only one of these for the whole application,
+ * so it makes sense to make it static in Context
+ * Must be set before instantiating any of the child classes of Context!
+ * \param topContainer top Container in Guisan
+ */
 void Context::setParent(gcn::Container * topContainer) {
 	parent = topContainer;
 }
 
+/**
+ * Call this function when entering this Context
+ */
 void Context::enter() {
 	parent->add(&top);
 }
 
+/**
+ * Call this function when leaving a Context, either to another one or when exiting the app
+ */
 void Context::leave() {
 	parent->remove(&top);
 }
 
+/**
+ * Create and replace the current Context in the application
+ * Closely related to the Factory design pattern
+ * \param nextName name for the context to go to
+ */
 Context * Context::getNextContext(ContextName nextName) {
 	switch (nextName) {
 	case ContextName::MAIN_MENU:
@@ -72,12 +91,21 @@ Context * Context::getNextContext(ContextName nextName) {
 	return currentContext;
 }
 
+/**
+ * Let child classes add their widgets to the Context top container, which is itself
+ * added to the application main container
+ * \param widget widget to add
+ * \param x x coordinate, in screen coordinates
+ * \param y y coordinate, in screen coordinates
+ * \see Context::addCenteredWidget(gcn::Widget*)
+ */
 void Context::addWidget(gcn::Widget * widget, int x, int y){
 	top.add(widget, x, y);
 }
 
 /**
  *  Helper function to insert widgets centered w.r.t. a parent
+ *  Highly useful for message boxes and input boxes
  *  \param widget widget to insert
  */
 void Context::addCenteredWidget(gcn::Widget * widget) {

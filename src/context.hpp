@@ -32,7 +32,7 @@ enum class ContextName {
 
 class Context {
 public:
-	Context(ContextName type);
+	explicit Context(ContextName type);
 	virtual ~Context();
 	ContextName const getName();
 	ContextName const getNextContextName();

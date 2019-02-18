@@ -5,6 +5,11 @@
  * This Source Code Form is “Incompatible With Secondary Licenses”,
  * as defined by the Mozilla Public License, v. 2.0.
  */
+/**
+ * \file serverlistelement.hpp
+ * \author G. Baudic
+ * \date 02/2019
+ */
 
 #include <SDL2/SDL.h>
 #include <guisan.hpp>
@@ -18,12 +23,15 @@ struct ServerInfo {
 	std::string name;
 	Uint8 levelMin;
 	Uint8 levelMax;
-	Uint8 busy; // level of attendance
+	Uint8 busy; //! level of attendance
 };
 
+/**
+ * Widget to represent server info in the ServerList view
+ */
 class ServerListElement : public gcn::Container, public gcn::ActionListener {
 public:
-	ServerListElement(ServerInfo info);
+	explicit ServerListElement(ServerInfo info);
 	ServerInfo getInfo() const;
 	virtual void action(const gcn::ActionEvent &event) override;
 
