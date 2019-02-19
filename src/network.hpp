@@ -26,7 +26,7 @@ public:
 private:
     const Uint16 SERVER_PORT = 6545;
     
-    UDPSocket clientSock; //! to send data
+    UDPsocket clientSock; //! to send data
     IPaddress serverInfo;
 };
 

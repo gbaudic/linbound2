@@ -22,6 +22,7 @@
 #include "settings.hpp"
 #include "sound.hpp"
 #include "utils.hpp"
+#include "network.hpp"
 #include "context.hpp"
 #include "views/menu.hpp"
 
@@ -153,6 +154,8 @@ int main(int argc, char* argv[]) {
 	}
 
 	SDL_setFramerate(&fpsMgr, 30);
+
+	NetworkManager network;
 
 	Context::setParent(&top);
 	currentContext = Context::getNextContext(ContextName::MAIN_MENU);

@@ -18,8 +18,6 @@
 #ifndef _H_PROTOCOL_
 #define _H_PROTOCOL_
 
-#include <SDL2/SDL.h>
-
 /******* Message types *******/
 const Uint8 STATUS_INTERNAL = 1; //! Used for server-side errors...
 const Uint8 STATUS_OK = 0; //! Like 200 for HTTP
@@ -86,13 +84,5 @@ const Uint8 RESULTS_MSG = 150; //Results of the battle : wins/loses, rewards
 
 const Uint8 LB_PROTOCOL_VERSION = 1; //! Used to denote incompatibilities between versions
 const Uint8 HELLO_MSG = 123; //! 1, 2, 3, because it's that easy
-
-/******* Special senders/recipients *******/
-const char* CHANNEL = "ch";
-const char* SERVER = "sr";
-const char* CLIENT = "cl";
-const char* TEAM = "te";
-const char* ROOM = "ro";
-
 
 #endif /* _H_PROTOCOL_ */

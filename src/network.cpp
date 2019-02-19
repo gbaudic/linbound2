@@ -17,6 +17,9 @@ NetworkManager::NetworkManager() {
     if(init == 0) {
         clientSock = SDLNet_UDP_Open(0); // pick the pork you want
     }
+
+	serverInfo.host = INADDR_ANY;
+	serverInfo.port = 0;
 }
 
 NetworkManager::~NetworkManager() {
@@ -26,13 +29,13 @@ NetworkManager::~NetworkManager() {
 }
 
 void NetworkManager::send(Uint8 code, const std::string & message) {
-    int dataSize = message.size() + 1;
+    int dataSize = static_cast<int>(message.size()) + 1 + 1;
     UDPpacket *packet = SDLNet_AllocPacket(dataSize);
     
     packet->len = dataSize;
     packet->address = serverInfo;
     packet->data[0] = code;
-    packet->data[1] = message.c_str();
+	strncpy((char*)packet->data+1, message.c_str(), message.size() + 1);
     
     SDLNet_UDP_Send(clientSock, -1, packet);
     
@@ -46,7 +49,7 @@ void NetworkManager::receive(Context* currentContext) {
     while(nbRecv == 1) {
         if(packet->len > 1) {
             Uint8 code = packet->data[0];
-            string data(packet->data[1]);
+            string data((char*)packet->data+1);
             
             // Based on the code, do something with the packet...
         }
@@ -76,12 +79,13 @@ void NetworkManager::findServer() {
     broadcast.host = INADDR_BROADCAST;
     SDLNet_Write16(SERVER_PORT, &broadcast.port);
     
-    UDPpacket *packet = SDLNet_AllocPacket(5 + 1);
+	int size = static_cast<int>(msg.size()) + 1 + 1;
+    UDPpacket *packet = SDLNet_AllocPacket(size);
     
-    packet->len = 5 + 1;
+    packet->len = size;
     packet->address = broadcast;
     packet->data[0] = HELLO_MSG;
-    packet->data[1] = msg.c_str();
+	strncpy((char*)packet->data + 1, msg.c_str(), 6);
     
     SDLNet_UDP_Send(clientSock, -1, packet);
     
