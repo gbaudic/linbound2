@@ -94,12 +94,5 @@ const char* CLIENT = "cl";
 const char* TEAM = "te";
 const char* ROOM = "ro";
 
-struct LB_Packet {
-	const char* sender;
-	const char* recipient;
-	Uint8 type;
-	const char* content;
-};
-
 
 #endif /* _H_PROTOCOL_ */
