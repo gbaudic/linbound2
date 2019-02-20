@@ -15,7 +15,8 @@ using namespace std;
 
 ServerList::ServerList(ContextName name) : Context(name), 
 state(State::NONE), currentIP(0x0), 
-btn_back("< Back"), btn_manualIP("Enter IP"), btn_rescan("Rescan local network")
+btn_back("< Back"), btn_manualIP("Enter IP"), btn_rescan("Rescan local network"),
+input_ip("IP", "Enter server address")
 {
 	btn_back.setActionEventId("back");
 	btn_back.addActionListener(this);
@@ -52,15 +53,16 @@ void ServerList::action(const gcn::ActionEvent & actionEvent) {
 		setNextContext(ContextName::MAIN_MENU);
 	}
 	else if (actionEvent.getId() == "ip") {
-		// Open the InputBox
+		input_ip.setVisible(true);
 	}
 	else if (actionEvent.getId() == "rescan") {
 		scanNetwork();
 	}
 	else if (actionEvent.getId() == "connect") {
-		currentIP = linbound::stringToIP("127.0.0.1"); // To be replaced once InputBox is in
+		currentIP = linbound::stringToIP(input_ip.getText());
 		if (currentIP != 0) {
 			sendRequest(currentIP);
+			input_ip.setVisible(false);
 		}
 	}
 	else if (actionEvent.getId() == "login") {
@@ -97,14 +99,15 @@ void ServerList::processMessage(const Uint8 code, const string & message) {
 	case SERVER_INFO:
 		// Analyze message and create button, store in vector
 		break;
-	case LOGIN_MSG:
+	case LOGIN_MSG: {
 		// Analyze message, warn of errors
-        int result = stoi(message);
-        w_login.onLogin(result);
-        
-        if(result == 0) {
-            setNextContext(ContextName::ROOM_LIST);
-        }
+		int result = stoi(message);
+		w_login.onLogin(result);
+
+		if (result == 0) {
+			setNextContext(ContextName::ROOM_LIST);
+		}
+	}
 		break;
 	default:
         // Other message types will be ignored
@@ -126,6 +129,7 @@ void ServerList::addWidgets() {
 	addWidget(&btn_rescan, 600, btn_manualIP.getY() + 40);
 
 	addCenteredWidget(&w_login);
+	addCenteredWidget(&input_ip);
 }
 
 /**

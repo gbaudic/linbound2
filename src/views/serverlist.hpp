@@ -51,13 +51,13 @@ private:
 	gcn::Button btn_back;
 	gcn::Button btn_manualIP;
 	gcn::Button btn_rescan;
-	// gcn::InputBox input_ip;
+	gcn::InputBox input_ip;
 	LoginWindow w_login;
 
 	SDL_Texture *backTexture = nullptr;
 	SDL_Surface *background = nullptr;
 
-	const int REQUEST_TIMEOUT = 5000; // 5 seconds
+	const Uint32 REQUEST_TIMEOUT = 5000; // 5 seconds
 	Uint32 lastChangeTime; // to handle timeouts
 
 	std::vector<ServerInfo> serversFound;
