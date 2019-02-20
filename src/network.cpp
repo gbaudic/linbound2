@@ -28,7 +28,7 @@ NetworkManager::~NetworkManager() {
     SDLNet_Quit();
 }
 
-void NetworkManager::send(Uint8 code, const std::string & message) {
+void NetworkManager::send(Uint8 code, const string & message) {
     int dataSize = static_cast<int>(message.size()) + 1 + 1;
     UDPpacket *packet = SDLNet_AllocPacket(dataSize);
     
@@ -72,11 +72,12 @@ void NetworkManager::setServerInfo(Uint32 ip, Uint16 port) {
 
 /**
  * Send the broadcast message to try to find a server on the local network
+ * \param ip server address (IPv4), defaults to broadcast if none supplied
  */
-void NetworkManager::findServer() {
+void NetworkManager::findServer(Uint32 ip) {
     string msg = "HELLO";
     IPaddress broadcast;
-    broadcast.host = INADDR_BROADCAST;
+    SDLNet_Write32(ip, &broadcast.host);
     SDLNet_Write16(SERVER_PORT, &broadcast.port);
     
 	int size = static_cast<int>(msg.size()) + 1 + 1;

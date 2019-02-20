@@ -19,7 +19,7 @@ public:
     NetworkManager();
     ~NetworkManager();
     void send(Uint8 code, const std::string & message);
-    void findServer();
+    void findServer(Uint32 ip = INADDR_BROADCAST);
     void setServerInfo(Uint32 ip, Uint16 port);
     void receive(Context* currentContext);
     

@@ -58,6 +58,7 @@ private:
 	SDL_Surface *background = nullptr;
 
 	const int REQUEST_TIMEOUT = 5000; // 5 seconds
+	Uint32 lastChangeTime; // to handle timeouts
 
 	std::vector<ServerInfo> serversFound;
 

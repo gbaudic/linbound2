@@ -72,19 +72,42 @@ void ServerList::drawBackground(SDL_Renderer * screen) {
 	if (!backTexture) {
 		backTexture = SDL_CreateTextureFromSurface(screen, background);
 	}
+	
+	Uint32 currentTime = SDL_GetTicks();
+    if(state != State::NONE && currentTime - lastChangeTime > REQUEST_TIMEOUT) {
+        switch(state) {
+            case State::LOGIN:
+                w_login.onLogin(5); // code for timeouts
+                break;
+            case State::RECEIVING_IP:
+                // Show a MessageBox warning of timeout
+                break;
+            default:
+                break;
+        }
+        state = State::NONE;
+    }
+	
+	
 	SDL_RenderCopy(screen, backTexture, NULL, NULL);
 }
 
-void ServerList::processMessage(const Uint8 code, const std::string & message) {
+void ServerList::processMessage(const Uint8 code, const string & message) {
 	switch (code) {
 	case SERVER_INFO:
 		// Analyze message and create button, store in vector
 		break;
 	case LOGIN_MSG:
 		// Analyze message, warn of errors
-		setNextContext(ContextName::ROOM_LIST);
+        int result = stoi(message);
+        w_login.onLogin(result);
+        
+        if(result == 0) {
+            setNextContext(ContextName::ROOM_LIST);
+        }
 		break;
 	default:
+        // Other message types will be ignored
 		break;
 	}
 }
@@ -112,6 +135,7 @@ void ServerList::scanNetwork() {
 	// TBD
 
 	state = State::RECEIVING_BC;
+    lastChangeTime = SDL_GetTicks();
 }
 
 /**
@@ -124,9 +148,11 @@ void ServerList::sendRequest(Uint32 ip) {
 	// Send it
 
 	state = State::RECEIVING_IP;
+    lastChangeTime = SDL_GetTicks();
 }
 
 void ServerList::login(Uint32 ip, const std::string & login, const std::string & password) {
 
 	state = State::LOGIN;
+    lastChangeTime = SDL_GetTicks();
 }
