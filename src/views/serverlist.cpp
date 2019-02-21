@@ -7,7 +7,6 @@
  */
 
 #include <SDL2/SDL_image.h>
-#include <SDL2/SDL_net.h>
 #include "../protocol.hpp"
 #include "../utils.hpp"
 #include "serverlist.hpp"
@@ -59,7 +58,7 @@ void ServerList::action(const gcn::ActionEvent & actionEvent) {
 		input_ip.setVisible(true);
 	}
 	else if (actionEvent.getId() == "rescan") {
-		scanNetwork();
+		sendRequest();
 	}
 	else if (actionEvent.getId() == "connect") {
 		currentIP = linbound::stringToIP(input_ip.getText());
@@ -101,6 +100,7 @@ void ServerList::processMessage(const Uint8 code, const string & message) {
 	switch (code) {
 	case SERVER_INFO:
 		// Analyze message and create button, store in vector
+		serversFound.push_back(makeInfo(message));
 		break;
 	case LOGIN_MSG: {
 		// Analyze message, warn of errors
@@ -136,30 +136,28 @@ void ServerList::addWidgets() {
 }
 
 /**
- * Send a broadcast message to find other servers
- */
-void ServerList::scanNetwork() {
-	// TBD
-
-	state = State::RECEIVING_BC;
-    lastChangeTime = SDL_GetTicks();
-}
-
-/**
  * Try to see if a server exists at a given IP
  * \param ip IPv4 as an Uint32, fetched from the user
  */
 void ServerList::sendRequest(Uint32 ip) {
-	// Create message
+	// Set IP
+	setServerIP(ip);
 
 	// Send it
+	send(HELLO_MSG, "HELLO");
 
-	state = State::RECEIVING_IP;
+	if (ip == INADDR_BROADCAST) {
+		state = State::RECEIVING_BC;
+	}
+	else {
+		state = State::RECEIVING_IP;
+	}
     lastChangeTime = SDL_GetTicks();
 }
 
 void ServerList::login(Uint32 ip, const string & login, const string & password) {
     // Set IP in NetworkManager
+	setServerIP(ip);
     
     string message = login + '\3' + password; // yup, in clear
     
@@ -168,4 +166,18 @@ void ServerList::login(Uint32 ip, const string & login, const string & password)
 
 	state = State::LOGIN;
     lastChangeTime = SDL_GetTicks();
+}
+
+ServerInfo ServerList::makeInfo(const std::string & message) {
+	ServerInfo result;
+	vector<string> pieces = linbound::split(message, '\3');
+
+	if (pieces.size() >= 4) {
+		result.name = pieces[0];
+		result.levelMin = static_cast<Uint8>(pieces[1].at(0));
+		result.levelMax = static_cast<Uint8>(pieces[2].at(0));
+		result.busy = static_cast<Uint8>(pieces[3].at(0));
+	}
+
+	return result;
 }

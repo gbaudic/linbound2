@@ -78,20 +78,19 @@ void NetworkManager::setServerInfo(Uint32 ip) {
     SDLNet_Write16(SERVER_PORT, &serverInfo.port);
 }
 
+/**
+ * Extract message code from a packet
+ * \param p packet to handle
+ */
 Uint8 NetworkManager::getCode(UDPpacket *p) {
     return p->data[0];
 }
 
+/**
+ * Extract payload from a packet
+ * \param p packet to handle
+ */
 string NetworkManager::getMessage(UDPpacket *p) {
     string message(reinterpret_cast<char*>(p->data+1));
     return message;
-}
-
-/**
- * Send the broadcast message to try to find a server on the local network
- * \param ip server address (IPv4), defaults to broadcast if none supplied
- */
-void NetworkManager::findServer(Uint32 ip) {
-    setServerInfo(ip);
-    send(HELLO_MSG, "HELLO");
 }

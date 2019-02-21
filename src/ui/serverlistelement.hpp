@@ -19,7 +19,6 @@
 
 struct ServerInfo {
 	Uint32 ip;
-	Uint16 port;
 	std::string name;
 	Uint8 levelMin;
 	Uint8 levelMax;

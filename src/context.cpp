@@ -76,6 +76,10 @@ void Context::send(const Uint8 code, const std::string & message) {
     network.send(code, message);
 }
 
+void Context::setServerIP(const Uint32 ip) {
+	network.setServerInfo(ip);
+}
+
 /**
  * Create and replace the current Context in the application
  * Closely related to the Factory design pattern

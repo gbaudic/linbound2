@@ -13,6 +13,7 @@
 #include <vector>
 #include <guisan.hpp>
 #include <SDL2/SDL.h>
+#include <SDL2/SDL_net.h>
 #include "../context.hpp"
 #include "../ui/loginwindow.hpp"
 #include "../ui/serverlistelement.hpp"
@@ -63,9 +64,9 @@ private:
 	std::vector<ServerInfo> serversFound;
 
 	void addWidgets();
-	void scanNetwork();
-	void sendRequest(Uint32 ip);
+	void sendRequest(Uint32 ip = INADDR_BROADCAST);
 	void login(Uint32 ip, const std::string &login, const std::string &password);
+	ServerInfo makeInfo(const std::string &message);
 };
 
 #endif // !_H_SERVERLIST_

@@ -56,6 +56,7 @@ protected:
 	void addCenteredWidget(gcn::Widget *widget);
 	void setNextContext(const ContextName newContext);
     void send(const Uint8 code, const std::string & message);
+	void setServerIP(const Uint32 ip);
 
 private:
 	static gcn::Container *parent;

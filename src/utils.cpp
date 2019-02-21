@@ -154,4 +154,20 @@ namespace linbound {
 		return result;
 	}
 
+	vector<string> split(const string & str, const char delim) {
+		vector<string> result;
+		size_t currentIndex = 0;
+		size_t end = str.find(delim);
+
+		while (end != string::npos) {
+			result.push_back(str.substr(currentIndex, end - currentIndex));
+
+			currentIndex = end + 1;
+			end = str.find(delim, currentIndex);
+		}
+		result.push_back(str.substr(currentIndex));
+		
+		return result;
+	}
+
 }

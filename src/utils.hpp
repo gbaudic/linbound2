@@ -18,6 +18,7 @@
 
 #include <SDL2/SDL.h>
 #include <string>
+#include <vector>
 #include <guisan.hpp>
  
 #include "config.hpp"
@@ -32,6 +33,7 @@ namespace linbound {
     int getVersion();
     std::string prettifyIP(Uint32 address);
 	Uint32 stringToIP(const std::string &input);
+	std::vector<std::string> split(const std::string &str, const char delim);
 }
  
 #endif 

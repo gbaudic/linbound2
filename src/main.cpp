@@ -22,7 +22,6 @@
 #include "settings.hpp"
 #include "sound.hpp"
 #include "utils.hpp"
-#include "network.hpp"
 #include "context.hpp"
 #include "views/menu.hpp"
 
@@ -155,8 +154,6 @@ int main(int argc, char* argv[]) {
 
 	SDL_setFramerate(&fpsMgr, 30);
 
-	NetworkManager network;
-
 	Context::setParent(&top);
 	currentContext = Context::getNextContext(ContextName::MAIN_MENU);
 
@@ -211,12 +208,13 @@ void loop(gcn::SDLInput &input) {
 	SDL_Event event;
 
 	for (;;) {
+		// Change context if necessary
 		ContextName next = currentContext->getNextContextName();
 		if (next != currentContext->getName()) {
 			currentContext = Context::getNextContext(next);
 		}
 
-		// do something
+		// handle user events
 		while (SDL_PollEvent(&event) == 1) {
 			if (event.type == SDL_QUIT)
 				return;
@@ -225,6 +223,8 @@ void loop(gcn::SDLInput &input) {
 			
 			input.pushInput(event);
 		}
+		// Handle received messages
+		currentContext->receive();
 
 		gui->logic();
 
