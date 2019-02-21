@@ -26,6 +26,9 @@ input_ip("IP", "Enter server address")
 	w_login.setActionEventId("login");
 	w_login.addActionListener(this);
 	w_login.setVisible(false);
+    input_ip.setVisible(false);
+    input_ip.setActionEventId("connect");
+    input_ip.addActionListener(this);
 	btn_manualIP.setWidth(btn_rescan.getWidth());
 
 	string imgPath = RESOURCE_PREFIX + "/menu/lb_serverlist.png";
@@ -155,7 +158,13 @@ void ServerList::sendRequest(Uint32 ip) {
     lastChangeTime = SDL_GetTicks();
 }
 
-void ServerList::login(Uint32 ip, const std::string & login, const std::string & password) {
+void ServerList::login(Uint32 ip, const string & login, const string & password) {
+    // Set IP in NetworkManager
+    
+    string message = login + '\3' + password; // yup, in clear
+    
+    // Send it
+    send(LOGIN_MSG, message);
 
 	state = State::LOGIN;
     lastChangeTime = SDL_GetTicks();

@@ -7,9 +7,9 @@
  */
 
 #include <string>
+#include <vector>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_net.h>
-#include "context.hpp"
 
 #ifndef _H_NETWORK_
 #define _H_NETWORK_
@@ -20,14 +20,20 @@ public:
     ~NetworkManager();
     void send(Uint8 code, const std::string & message);
     void findServer(Uint32 ip = INADDR_BROADCAST);
-    void setServerInfo(Uint32 ip, Uint16 port);
-    void receive(Context* currentContext);
+    void setServerInfo(Uint32 ip);
+    std::vector<UDPpacket*> & receive();
+    
+    static Uint8 getCode(UDPpacket *p);
+    static std::string getMessage(UDPpacket *p);
     
 private:
     const Uint16 SERVER_PORT = 6545;
     
     UDPsocket clientSock; //! to send data
+    UDPsocket serverSock; //! only useful if also a server
     IPaddress serverInfo;
+    
+    std::vector<UDPpacket*> packets;
 };
 
 #endif //! _H_NETWORK_

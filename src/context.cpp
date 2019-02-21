@@ -16,6 +16,7 @@ using namespace std;
 Context* Context::currentContext = nullptr;
 Context* Context::lastContext = nullptr;
 gcn::Container* Context::parent = nullptr;
+NetworkManager Context::network;
 
 Context::Context(ContextName type) : 
     name(type)
@@ -59,6 +60,20 @@ void Context::enter() {
  */
 void Context::leave() {
 	parent->remove(&top);
+}
+
+void Context::receive() {
+    // Get messages from network manager
+    vector<UDPpacket *> data = network.receive();
+    
+    // Unpack and feed context, one by one
+    for(UDPpacket *p : data) {
+        processMessage(NetworkManager::getCode(p), NetworkManager::getMessage(p));
+    }
+}
+
+void Context::send(const Uint8 code, const std::string & message) {
+    network.send(code, message);
 }
 
 /**

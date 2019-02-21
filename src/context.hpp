@@ -12,6 +12,7 @@
 #include <string>
 #include <SDL2/SDL.h>
 #include <guisan.hpp>
+#include "network.hpp"
 
 /**
  * Enum to tell the different states for the software
@@ -42,6 +43,7 @@ public:
 
 	virtual void enter();
 	virtual void leave();
+    void receive();
 	virtual void processMessage(const Uint8 code, const std::string &message) { 
 		// Left empty because some derived classes will not need this
 	};
@@ -53,6 +55,7 @@ protected:
 	void addWidget(gcn::Widget *widget, int x = 0, int y = 0);
 	void addCenteredWidget(gcn::Widget *widget);
 	void setNextContext(const ContextName newContext);
+    void send(const Uint8 code, const std::string & message);
 
 private:
 	static gcn::Container *parent;
@@ -62,6 +65,8 @@ private:
 
 	static Context* currentContext;
 	static Context* lastContext;
+    
+    static NetworkManager network;
 };
 
 #endif // !_H_CONTEXT_

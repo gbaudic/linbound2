@@ -23,6 +23,11 @@ NetworkManager::NetworkManager() {
 }
 
 NetworkManager::~NetworkManager() {
+    for(UDPpacket *p : packets) {
+        SDLNet_FreePacket(p);
+    }
+    packets.clear();
+    
     SDLNet_UDP_Close(clientSock);
     
     SDLNet_Quit();
@@ -42,32 +47,44 @@ void NetworkManager::send(Uint8 code, const string & message) {
     SDLNet_FreePacket(packet);
 }
 
-void NetworkManager::receive(Context* currentContext) {
+vector<UDPpacket*> & NetworkManager::receive() {
+    // Cleanly remove the previously allocated packets, if any
+    for(UDPpacket *p : packets) {
+        SDLNet_FreePacket(p);
+    }
+    packets.clear();
+    
     UDPpacket *packet = SDLNet_AllocPacket(1024);
     
     int nbRecv = SDLNet_UDP_Recv(clientSock, packet);
     while(nbRecv == 1) {
-        if(packet->len > 1) {
-            Uint8 code = packet->data[0];
-            string data((char*)packet->data+1);
-            
-            // Based on the code, do something with the packet...
-        }
+        packets.push_back(packet);
         
+        packet = SDLNet_AllocPacket(1024);
         nbRecv = SDLNet_UDP_Recv(clientSock, packet);
     }
     
-    SDLNet_FreePacket(packet);
+    SDLNet_FreePacket(packet); // the last allocated one is empty
+    
+    return packets;
 }
 
 /**
  * Save server info for future use once chosen by the user
  * \param ip server IPv4, in machine byte order
- * \param port server port, in machine byte order
  */
-void NetworkManager::setServerInfo(Uint32 ip, Uint16 port) {
+void NetworkManager::setServerInfo(Uint32 ip) {
     SDLNet_Write32(ip, &serverInfo.host);
-    SDLNet_Write16(port, &serverInfo.port);
+    SDLNet_Write16(SERVER_PORT, &serverInfo.port);
+}
+
+Uint8 NetworkManager::getCode(UDPpacket *p) {
+    return p->data[0];
+}
+
+string NetworkManager::getMessage(UDPpacket *p) {
+    string message(reinterpret_cast<char*>(p->data+1));
+    return message;
 }
 
 /**
@@ -75,20 +92,6 @@ void NetworkManager::setServerInfo(Uint32 ip, Uint16 port) {
  * \param ip server address (IPv4), defaults to broadcast if none supplied
  */
 void NetworkManager::findServer(Uint32 ip) {
-    string msg = "HELLO";
-    IPaddress broadcast;
-    SDLNet_Write32(ip, &broadcast.host);
-    SDLNet_Write16(SERVER_PORT, &broadcast.port);
-    
-	int size = static_cast<int>(msg.size()) + 1 + 1;
-    UDPpacket *packet = SDLNet_AllocPacket(size);
-    
-    packet->len = size;
-    packet->address = broadcast;
-    packet->data[0] = HELLO_MSG;
-	strncpy((char*)packet->data + 1, msg.c_str(), 6);
-    
-    SDLNet_UDP_Send(clientSock, -1, packet);
-    
-    SDLNet_FreePacket(packet);
+    setServerInfo(ip);
+    send(HELLO_MSG, "HELLO");
 }
