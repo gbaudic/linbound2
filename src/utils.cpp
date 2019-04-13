@@ -13,6 +13,7 @@
  * as defined by the Mozilla Public License, v. 2.0.
  */
 
+#include <stdexcept>
 #include <cstdlib>
 #include <cmath>
 #include <string>

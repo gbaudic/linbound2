@@ -6,6 +6,7 @@
  * as defined by the Mozilla Public License, v. 2.0.
  */
 
+#include <stdexcept>
 #include "config.hpp"
 #include "context.hpp"
 #include "sound.hpp"
