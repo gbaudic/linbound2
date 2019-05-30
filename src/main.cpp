@@ -102,8 +102,6 @@ int main(int argc, char* argv[]) {
 	//The next function puts the cursor at the center of our screen
 	SDL_WarpMouseInWindow(window, settings->getWidth() / 2, settings->getHeight() / 2);
 
-	srand(SDL_GetTicks() + 150);
-
 	gcn::SDLImageLoader *imageLoader = nullptr;
 	gcn::SDLTrueTypeFont *gcnfont = nullptr;
 	gcn::SDLInput input;

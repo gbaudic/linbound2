@@ -18,11 +18,11 @@ public:
 	ServerView();
 	virtual ~ServerView();
 
-	virtual void drawBackground(SDL_Renderer* screen) override;
-	virtual void drawOverlay(SDL_Renderer* screen) override {
+	void drawBackground(SDL_Renderer* screen) override;
+	void drawOverlay(SDL_Renderer* screen) override {
 		// No overlays in ServerView
 	};
-	virtual void processEvent(SDL_Event& event) override {
+	void processEvent(SDL_Event& event) override {
 		// No specific handling to be done here, GUI handles everything
 	};
 	// Inherited via ActionListener

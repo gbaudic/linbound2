@@ -7,6 +7,7 @@
  */
 
 #include <stdexcept>
+#include <random>
 #include "config.hpp"
 #include "context.hpp"
 #include "sound.hpp"
@@ -47,7 +48,7 @@ void SoundManager::playSound(string sndName, const int loops) {
 	}
 	catch (const out_of_range) {
 		string errstring = "Sound effect not found: " + sndName;
-		SDL_SetError(errstring.c_str());
+		SDL_SetError("%s", errstring.c_str());
 	}
 }
 
@@ -67,6 +68,12 @@ void SoundManager::changeMode(ContextName &newMode) {
 	case ContextName::SERVER_LIST_LAN: // fallthrough
 	case ContextName::SERVER_LIST_WEB:
 		menuMusic += "diabolicux.ogg";  // change once we have several files...		
+		break;
+	case ContextName::ROOM:
+		menuMusic += pickGameMusic();
+		break;
+	case ContextName::ROOM_SUDDEN_DEATH:
+		menuMusic += "suddendeath.ogg";
 		break;
 	default:
 		break;
@@ -111,8 +118,16 @@ int SoundManager::countGoldRepeat(const Sint16 value) {
 	return repeats;
 }
 
+/**
+ * Choose a track at random among the ones available
+ * @return filename for the track to play
+ */
 std::string SoundManager::pickGameMusic() {
 	string musics[] = { "diabolicux.ogg" };
-	int index = rand() % 1;
+
+	default_random_engine generator(SDL_GetTicks());
+	uniform_int_distribution<int> distribution(0, 1);
+
+	int index = distribution(generator);
 	return musics[index];
 }
