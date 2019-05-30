@@ -10,6 +10,7 @@
 #include "context.hpp"
 #include "views/menu.hpp"
 #include "views/serverlist.hpp"
+#include "views/serverview.hpp"
 using namespace std;
 
 // Init of static class members
@@ -80,6 +81,14 @@ void Context::setServerIP(const Uint32 ip) {
 	network.setServerInfo(ip);
 }
 
+const int Context::getHeight() const {
+	return top.getHeight();
+}
+
+const int Context::getWidth() const {
+	return top.getWidth();
+}
+
 /**
  * Create and replace the current Context in the application
  * Closely related to the Factory design pattern
@@ -102,6 +111,14 @@ Context * Context::getNextContext(ContextName nextName) {
 			delete currentContext;
 		}
 		currentContext = new ServerList(nextName);
+		currentContext->enter();
+		break;
+	case ContextName::ROOM_LIST:
+		if (currentContext) {
+			currentContext->leave();
+			delete currentContext;
+		}
+		currentContext = new ServerView();
 		currentContext->enter();
 		break;
 	default:

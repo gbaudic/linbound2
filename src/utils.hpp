@@ -2,7 +2,7 @@
  *  \file utils.hpp
  *  \brief Utility functions
  *  \author G. B.
- *  \date /11/2016
+ *  \date 01/11/2016
  *  \version 0.1a
  */
 /* This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. 

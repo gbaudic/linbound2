@@ -58,6 +58,9 @@ protected:
     void send(const Uint8 code, const std::string & message);
 	void setServerIP(const Uint32 ip);
 
+	const int getHeight() const;
+	const int getWidth() const;
+
 private:
 	static gcn::Container *parent;
 	ContextName name;
