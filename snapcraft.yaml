@@ -1,0 +1,66 @@
+name: linbound
+version: "0.1.0"
+license: MPL-2.0
+summary: A turn-based multiplayer arcade shooting game in the style of Worms
+description: |
+  LinBound aims to be an open-source clone of the game 
+  GunBound, a multiplayer turn-based arcade game with 
+  a gameplay very close to Worms, Hedgewars or WarMUX.
+
+confinement: devmode
+base: core18
+
+parts:
+  guisan:
+    plugin: scons
+	source: https://github.com/gbaudic/guisan.git
+	build-packages:
+	  - g++
+	  - make
+	  - pkg-config
+	  - libsdl2-dev
+	  - libsdl2-image-dev
+	  - libsdl2-ttf-dev
+	  - libsdl2-mixer-dev
+	stage-packages:
+	  - libsdl2-mixer-2.0-0
+	  - libsdl2-image-2.0-0
+	  - libsdl2-ttf-2.0-0
+	  - libsdl2-2.0-0
+	  
+  linbound:
+	plugin: cmake
+	configflags:
+	  - -DENABLE_SERVER=ON
+	source: https://github.com/gbaudic/linbound2.git
+	after: [guisan]
+	build-packages:
+	  - g++
+	  - make
+	  - pkg-config
+	  - libsdl2-dev
+	  - libsdl2-image-dev
+	  - libsdl2-ttf-dev
+	  - libsdl2-mixer-dev
+	  - libsdl2-gfx-dev
+	  - libsdl2-net-dev
+	  - libtinyxml2-dev
+	  - libbox2d-dev
+	  - libsqlite3-dev
+	stage-packages:
+	  - libsdl2-mixer-2.0-0
+	  - libsdl2-image-2.0-0
+	  - libsdl2-ttf-2.0-0
+	  - libsdl2-net-2.0-0
+	  - libsdl2-gfx-1.0-0
+	  - libsdl2-2.0-0
+	  - libtinyxml2-2v5
+	  - libbox2d2.3.0
+	  - libsqlite3-0
+	  - libstdc++6
+	  - libgcc1
+
+apps:
+  linbound:
+    command: linbound
+	plugs: [personal-files, network]
