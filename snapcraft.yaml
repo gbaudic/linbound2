@@ -47,6 +47,7 @@ parts:
       - libtinyxml2-dev
       - libbox2d-dev
       - libsqlite3-dev
+      - googletest
     stage-packages:
       - libsdl2-mixer-2.0-0
       - libsdl2-image-2.0-0
