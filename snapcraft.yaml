@@ -31,7 +31,7 @@ parts:
   linbound:
     plugin: cmake
     configflags:
-      - -DENABLE_SERVER=ON
+      - -DENABLE_SERVER=ON -DENABLE_TESTS=OFF
     source: https://github.com/gbaudic/linbound2.git
     after: [guisan]
     build-packages:
@@ -48,6 +48,7 @@ parts:
       - libbox2d-dev
       - libsqlite3-dev
       - googletest
+      - gettext
     stage-packages:
       - libsdl2-mixer-2.0-0
       - libsdl2-image-2.0-0
@@ -60,6 +61,7 @@ parts:
       - libsqlite3-0
       - libstdc++6
       - libgcc1
+      - gettext
 
 apps:
   linbound:
