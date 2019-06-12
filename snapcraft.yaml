@@ -54,7 +54,7 @@ parts:
       - libsdl2-net-2.0-0
       - libsdl2-gfx-1.0-0
       - libsdl2-2.0-0
-      - libtinyxml2-2v5
+      - libtinyxml2-6
       - libbox2d2.3.0
       - libsqlite3-0
       - libstdc++6
@@ -63,4 +63,4 @@ parts:
 apps:
   linbound:
     command: linbound
-    plugs: [personal-files, network]
+    plugs: [personal-files, network, alsa, pulseaudio]
