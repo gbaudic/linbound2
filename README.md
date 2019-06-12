@@ -2,6 +2,7 @@
 
 [![Build Status](https://travis-ci.org/gbaudic/linbound2.svg?branch=master)](https://travis-ci.org/gbaudic/linbound2)
 [![Appveyor Build status](https://ci.appveyor.com/api/projects/status/l7s64j4n2iv2cf2j?svg=true)](https://ci.appveyor.com/project/gbaudic/linbound2)
+[![Snap Status](https://build.snapcraft.io/badge/gbaudic/linbound2.svg)](https://build.snapcraft.io/user/gbaudic/linbound2)
 [![Quality Gate](https://sonarcloud.io/api/project_badges/measure?project=gbaudic-github%3Alinbound2&metric=alert_status)](https://sonarcloud.io/dashboard?id=gbaudic-github%3Alinbound2)
 [![Licence](https://img.shields.io/github/license/gbaudic/linbound2.svg)](/LICENSE)
 
