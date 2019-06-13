@@ -35,6 +35,7 @@ parts:
       - g++
       - make
       - pkg-config
+      - libstdc++-6-dev
       
   linbound:
     plugin: cmake
@@ -56,6 +57,7 @@ parts:
       - libbox2d-dev
       - libsqlite3-dev
       - gettext
+      - libstdc++-6-dev
     stage-packages:
       - libsdl2-mixer-2.0-0
       - libsdl2-image-2.0-0
@@ -66,7 +68,7 @@ parts:
       - libtinyxml2-6
       - libbox2d2.3.0
       - libsqlite3-0
-      - libstdc++6
+      - libstdc++-6
       - libgcc1
       - gettext
 
