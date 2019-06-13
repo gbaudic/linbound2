@@ -68,7 +68,7 @@ parts:
       - libtinyxml2-6
       - libbox2d2.3.0
       - libsqlite3-0
-      - libstdc++-6
+      - libstdc++6
       - libgcc1
       - gettext
 
