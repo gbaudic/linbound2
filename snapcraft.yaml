@@ -30,10 +30,11 @@ parts:
       
   googletest:
     plugin: cmake
-    source: /usr/src/googletest/googletest
+    source: https://github.com/google/googletest.git
     build-packages:
       - g++
       - make
+      - pkg-config
       
   linbound:
     plugin: cmake
@@ -54,7 +55,6 @@ parts:
       - libtinyxml2-dev
       - libbox2d-dev
       - libsqlite3-dev
-      - googletest
       - gettext
     stage-packages:
       - libsdl2-mixer-2.0-0
