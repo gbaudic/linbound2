@@ -6,7 +6,6 @@ install:
   - set PATH=C:\msys64\%MSYSTEM%\bin;C:\msys64\usr\bin;%PATH%
   - bash -lc "pacman -S --needed --noconfirm make cmake scons"
   - bash -lc "pacman -Syu --noconfirm"
-#  - bash -lc "pacman -R --noconfirm mingw-w64-x86_64-gcc-ada mingw-w64-x86_64-gcc-objc"
   - bash -lc "pacman --noconfirm -Sy mingw-w64-x86_64-toolchain mingw-w64-x86_64-readline mingw-w64-x86_64-python3 mingw-w64-x86_64-libc++ mingw-w64-x86_64-SDL2 mingw-w64-x86_64-SDL2_gfx mingw-w64-x86_64-SDL2_image mingw-w64-x86_64-SDL2_mixer mingw-w64-x86_64-SDL2_net mingw-w64-x86_64-SDL2_ttf mingw-w64-x86_64-sqlite3 mingw-w64-x86_64-tinyxml2 mingw-w64-x86_64-box2d mingw-w64-x86_64-gtest"
   - bash -lc "pacman -R --noconfirm mingw-w64-x86_64-pkg-config"
   - bash -lc "export PKG_CONFIG_PATH=$PKG_CONFIG_PATH:/mingw64/lib/pkgconfig; git clone https://github.com/gbaudic/guisan.git && pushd guisan && scons prefix=/mingw64 && scons install prefix=/mingw64 && popd"  
@@ -16,3 +15,27 @@ build_script:
   
 matrix:
   fast_finish: true
+
+# after_build:
+  # - copy /b build\bin\linbound.exe linbound.exe
+  # # TODO copy msys 64-bit DLLs into a dll subdir
+  # # TODO copy redistributables from VS (even if useless for msys)
+  # - "C:\Program Files (x86)\Inno Setup 5\compil32" /cc linbound.iss
+  
+# artifacts:
+  # - path: Output\LinboundSetup.exe
+    # name: Setup
+  
+# deploy:
+  # release: linbound-v$(appveyor_build_version)
+  # description: 'Linbound v$(APPVEYOR_BUILD_VERSION)'
+  # provider: GitHub
+  # auth_token:
+    # secure: <your encrypted token>  # TODO
+  # artifact: Output\LinboundSetup.exe     
+  # draft: true
+  # force_update: true
+  # prerelease: false
+  # on:
+    # branch: master
+    # APPVEYOR_REPO_TAG: true
