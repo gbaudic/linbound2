@@ -8,6 +8,8 @@ description: |
   a gameplay very close to Worms, Hedgewars or WarMUX.
 
 confinement: devmode
+grade: devel
+architectures: [amd64, i386]
 base: core18
 
 parts:
@@ -75,4 +77,4 @@ parts:
 apps:
   linbound:
     command: linbound
-    plugs: [personal-files, network, alsa, pulseaudio]
+    plugs: [home, network, network-bin, alsa, pulseaudio, x11]

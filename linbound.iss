@@ -43,13 +43,13 @@ Source: "AUTHORS"; DestDir: "{app}"
 Source: "LICENSE"; DestDir: "{app}"; Flags: ignoreversion
 Source: "dll\*.dll"; DestDir: "{app}"
 Source: "res\*"; DestDir: "{app}\res"; Flags: ignoreversion
-Source: "vc_redist.x86.exe"; DestDir: "{tmp}"; Flags: deleteafterinstall
-Source: "vc_redist.x64.exe"; DestDir: "{tmp}"; Flags: deleteafterinstall
+Source: "vc_redist.x86.exe"; DestDir: "{tmp}"; Flags: deleteafterinstall skipifsourcedoesntexist
+Source: "vc_redist.x64.exe"; DestDir: "{tmp}"; Flags: deleteafterinstall skipifsourcedoesntexist
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Run]
-Filename: "{tmp}\vc_redist.x86.exe"; StatusMsg: "Installing VS 2019 Redistributable..."; Parameters: "/install /passive /norestart"
-Filename: "{tmp}\vc_redist.x64.exe"; StatusMsg: "Installing VS 2019 Redistributable (64 bit)..."; Parameters: "/install /passive /norestart"; Flags: 64bit; Check: IsWin64 
+Filename: "{tmp}\vc_redist.x86.exe"; StatusMsg: "Installing VS 2019 Redistributable..."; Parameters: "/install /passive /norestart"; Flags: skipifdoesntexist
+Filename: "{tmp}\vc_redist.x64.exe"; StatusMsg: "Installing VS 2019 Redistributable (64 bit)..."; Parameters: "/install /passive /norestart"; Flags: 64bit skipifdoesntexist; Check: IsWin64 
 
 [Icons]
 Name: "{commonprograms}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; WorkingDir: "{app}"
