@@ -19,15 +19,21 @@ input_ip("IP", "Enter server address")
 {
 	btn_back.setActionEventId("back");
 	btn_back.addActionListener(this);
+
 	btn_manualIP.setActionEventId("ip");
 	btn_manualIP.addActionListener(this);
+
 	btn_rescan.setActionEventId("rescan");
+	btn_rescan.addActionListener(this);
+
 	w_login.setActionEventId("login");
 	w_login.addActionListener(this);
 	w_login.setVisible(false);
+
     input_ip.setVisible(false);
     input_ip.setActionEventId("connect");
     input_ip.addActionListener(this);
+
 	btn_manualIP.setWidth(btn_rescan.getWidth());
 
 	string imgPath = RESOURCE_PREFIX + "/menu/lb_serverlist.png";

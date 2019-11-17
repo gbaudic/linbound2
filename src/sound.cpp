@@ -52,6 +52,10 @@ void SoundManager::playSound(string sndName, const int loops) {
 	}
 }
 
+/**
+ * \brief Switch the music theme when changing application context
+ * \param newMode destination context
+ */
 void SoundManager::changeMode(ContextName &newMode) {
 	if (Mix_PlayingMusic() == 1) {
 		Mix_HaltMusic();
