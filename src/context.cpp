@@ -20,20 +20,29 @@ gcn::Container* Context::parent = nullptr;
 NetworkManager Context::network;
 
 Context::Context(ContextName type) : 
-    name(type)
-{
+    name(type), next(ContextName::NONE) {
 	top.setWidth(parent->getWidth());
 	top.setHeight(parent->getHeight());
 	top.setOpaque(false);
 }
 
 Context::~Context() {
+
 }
 
+/**
+ * \brief Getter for context name
+ * \return name of the current context
+ */
 ContextName const Context::getName() {
     return name;
 }
 
+/**
+ * \brief Getter for next context name, i.e., the context we should move to
+ * if an operation triggering a change happened in this Context
+ * \return name of next context
+ */
 ContextName const Context::getNextContextName() {
 	return next;
 }
@@ -63,6 +72,10 @@ void Context::leave() {
 	parent->remove(&top);
 }
 
+/**
+ * Receive a message from the network manager and process them
+ * It is up to the Context to do the processing
+ */
 void Context::receive() {
     // Get messages from network manager
     vector<UDPpacket *> data = network.receive();
@@ -81,10 +94,20 @@ void Context::setServerIP(const Uint32 ip) {
 	network.setServerInfo(ip);
 }
 
+/**
+ * Getter for height
+ * Useful for subclasses when placing widgets if you do not want to code all coordinates in absolute
+ * \return height of the container, in pixels
+ */
 const int Context::getHeight() const {
 	return top.getHeight();
 }
 
+/**
+ * Getter for width
+ * Useful for subclasses when placing widgets if you do not want to code all coordinates in absolute
+ * \return width of the container, in pixels
+ */
 const int Context::getWidth() const {
 	return top.getWidth();
 }
@@ -95,6 +118,8 @@ const int Context::getWidth() const {
  * \param nextName name for the context to go to
  */
 Context * Context::getNextContext(ContextName nextName) {
+	ContextName currentName = ContextName::NONE;
+
 	switch (nextName) {
 	case ContextName::MAIN_MENU:
 		if (currentContext) {
@@ -115,10 +140,11 @@ Context * Context::getNextContext(ContextName nextName) {
 		break;
 	case ContextName::ROOM_LIST:
 		if (currentContext) {
+			currentName = currentContext->getName();
 			currentContext->leave();
 			delete currentContext;
 		}
-		currentContext = new ServerView();
+		currentContext = new ServerView(currentName);
 		currentContext->enter();
 		break;
 	default:

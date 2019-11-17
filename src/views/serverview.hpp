@@ -1,3 +1,8 @@
+/**
+ * \file serverview.hpp
+ * \date 17/11/2019
+ * \brief UI class for server view, where user can chat and select a game room
+ */
 /* This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0.
  * If a copy of the MPL was not distributed with this file,
  * You can obtain one at http://mozilla.org/MPL/2.0/.
@@ -15,7 +20,7 @@
 
 class ServerView final : public Context, public gcn::ActionListener {
 public:
-	ServerView();
+	ServerView(ContextName previous);
 	virtual ~ServerView();
 
 	void drawBackground(SDL_Renderer* screen) override;
@@ -50,11 +55,17 @@ private:
 
 	gcn::InputBox in_addFriend;
 
+	ContextName origin;
+
 	SDL_Texture* backTexture = nullptr;
 	SDL_Surface* background = nullptr;
 	SDL_Texture* playerLvlTexture = nullptr;
 
 	void addWidgets();
+
+	void receiveChatMessage(const std::string& user, const std::string& message);
+	void playerStateChanged();
+	void roomChanged();
 };
 
 #endif // !_H_SERVERVIEW_
