@@ -15,7 +15,7 @@ std::string ChatWindow::sender; // init
   Constructor
   \param friendName username of the friend
 */
-ChatWindow::ChatWindow(const string friendName) : tf_msg(), sa_scroll(),
+ChatWindow::ChatWindow(const string &friendName) : tf_msg(), sa_scroll(),
 tb_chat(), btn_close("x"), btn_send("Send"), recipient(friendName) {
 	setCaption(friendName);
 	setWidth(200);
@@ -55,8 +55,8 @@ tb_chat(), btn_close("x"), btn_send("Send"), recipient(friendName) {
  * \param friendName name of the friend
  * \param message message to show
  */
-ChatWindow::ChatWindow(const string friendName, const string message) : ChatWindow(friendName) {
-	this->addMessage(friendName, message);
+ChatWindow::ChatWindow(const string &friendName, const string &message) : ChatWindow(friendName) {
+	addMessage(friendName, message);
 }
 
 ///
@@ -89,7 +89,7 @@ void ChatWindow::action(const gcn::ActionEvent &actionEvent) {
  * \param author writer name
  * \param message text message
  */
-void ChatWindow::addMessage(const std::string author, const std::string message) {
+void ChatWindow::addMessage(const std::string &author, const std::string &message) {
 	tb_chat.addRow(author + "] " + message);
 	setVisible(true); //put the window back in foreground if necessary
 }
@@ -113,6 +113,6 @@ string const ChatWindow::getMessage() {
  * It is static because there is only one user connected...
  * \param myName player name
  */
-void ChatWindow::setMyName(const string myName) {
+void ChatWindow::setMyName(const string &myName) {
 	sender = myName;
 }

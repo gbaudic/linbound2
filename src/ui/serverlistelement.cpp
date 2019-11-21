@@ -10,7 +10,7 @@
 #include "serverlistelement.hpp"
 using namespace std;
 
-ServerListElement::ServerListElement(ServerInfo info) : 
+ServerListElement::ServerListElement(ServerInfo &info) : 
 _info(info), btn_connect("Connect") {
 	setWidth(500);
 	setHeight(60);

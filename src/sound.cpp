@@ -42,7 +42,7 @@ SoundManager * SoundManager::getInstance() {
  * @param sndName the name of the effect to play
  * @param loops the number of iterations of the sound
  */
-void SoundManager::playSound(string sndName, const int loops) {
+void SoundManager::playSound(string &sndName, const int loops) {
 	try {
 		Mix_PlayChannel(-1, effects.at(sndName), loops);
 	}
@@ -72,6 +72,10 @@ void SoundManager::changeMode(ContextName &newMode) {
 	case ContextName::SERVER_LIST_LAN: // fallthrough
 	case ContextName::SERVER_LIST_WEB:
 		menuMusic += "diabolicux.ogg";  // change once we have several files...		
+		break;
+	case ContextName::ROOM_LOBBY: // fallthrough
+	case ContextName::ROOM_LOBBY_LOCAL:
+		menuMusic += "diabolicux.ogg";
 		break;
 	case ContextName::ROOM:
 		menuMusic += pickGameMusic();

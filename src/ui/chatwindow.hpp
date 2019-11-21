@@ -19,13 +19,13 @@
 
 class ChatWindow final : public gcn::Window, public gcn::ActionListener {
 public:
-	explicit ChatWindow(const std::string friendName);
-	ChatWindow(const std::string friendName, const std::string message);
-	void addMessage(const std::string author, const std::string message);
+	explicit ChatWindow(const std::string &friendName);
+	ChatWindow(const std::string &friendName, const std::string &message);
+	void addMessage(const std::string &author, const std::string &message);
 	void action(const gcn::ActionEvent &actionEvent) override;
 	std::string const getRecipientName();
 	std::string const getMessage();
-	static void setMyName(const std::string myName);
+	static void setMyName(const std::string &myName);
 
 private:
 	gcn::TextField tf_msg;

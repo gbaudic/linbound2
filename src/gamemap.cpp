@@ -19,7 +19,7 @@ using namespace tinyxml2;
  * Only actually loads the preview, to save space
  * \param mapName name of the map, corresponds to its folder name
  */
-GameMap::GameMap(const string mapName): hasBSide(false), bSide(false) {
+GameMap::GameMap(const string &mapName): hasBSide(false), bSide(false) {
     // Open XML and read it
     XMLDocument doc;
     string fullPath = RESOURCE_PREFIX + "/maps/" + mapName + "/map.xml";

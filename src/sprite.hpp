@@ -14,7 +14,7 @@
 
 class Sprite {
 public:
-	Sprite(const std::string filename, const int width, const int height, const Uint16 duration);
+	Sprite(const std::string &filename, const int width, const int height, const Uint16 duration);
 	~Sprite();
 
 	SDL_Rect & getRect();

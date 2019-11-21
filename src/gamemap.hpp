@@ -18,7 +18,7 @@
  */
 class GameMap {
 public:
-    explicit GameMap(const std::string mapName);
+    explicit GameMap(const std::string &mapName);
     ~GameMap();
     void load();
     void unload();

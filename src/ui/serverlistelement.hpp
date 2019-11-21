@@ -30,7 +30,7 @@ struct ServerInfo {
  */
 class ServerListElement : public gcn::Container, public gcn::ActionListener {
 public:
-	explicit ServerListElement(ServerInfo info);
+	explicit ServerListElement(ServerInfo &info);
 	ServerInfo getInfo() const;
 	virtual void action(const gcn::ActionEvent &event) override;
 

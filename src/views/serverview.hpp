@@ -18,10 +18,13 @@
 #include <guisan.hpp>
 #include "../context.hpp"
 
+/*
+ * UI class for server view
+ */
 class ServerView final : public Context, public gcn::ActionListener {
 public:
-	ServerView(ContextName previous);
-	virtual ~ServerView();
+	explicit ServerView(ContextName previous);
+	~ServerView();
 
 	void drawBackground(SDL_Renderer* screen) override;
 	void drawOverlay(SDL_Renderer* screen) override {

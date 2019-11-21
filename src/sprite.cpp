@@ -10,7 +10,13 @@
 #include "sprite.hpp"
 using namespace std;
 
-Sprite::Sprite(const std::string filename, const int width, const int height, const Uint16 duration): 
+/**
+ * Constructor
+ * \param filename path to the image file
+ * \param width width of one frame of the sprite (not the full image!)
+ * \param height height of one frame of the sprite (not the full image!)
+ */
+Sprite::Sprite(const std::string &filename, const int width, const int height, const Uint16 duration): 
 	stepDuration(duration) {
 
 	surface = IMG_Load(filename.c_str());
