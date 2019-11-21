@@ -56,7 +56,12 @@ void SoundManager::playSound(string &sndName, const int loops) {
  * \brief Switch the music theme when changing application context
  * \param newMode destination context
  */
-void SoundManager::changeMode(ContextName &newMode) {
+void SoundManager::changeMode(ContextName &currentMode, ContextName &newMode) {
+	if (newMode == ContextName::ITEM_SHOP || currentMode == ContextName::ITEM_SHOP) {
+		// ITEM_SHOP is the only mode where we do not change the music
+		return;
+	}
+
 	if (Mix_PlayingMusic() == 1) {
 		Mix_HaltMusic();
 		Mix_FreeMusic(music);

@@ -21,7 +21,7 @@ public:
 	static SoundManager* getInstance();
 
 	void playSound(std::string &sndName, const int loops = 1);
-	void changeMode(ContextName &newMode);
+	void changeMode(ContextName &currentMode, ContextName &newMode);
 	void close();
 
 	static int countGoldRepeat(const Sint16 value);
