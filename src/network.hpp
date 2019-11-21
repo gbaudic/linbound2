@@ -21,6 +21,8 @@ public:
     void send(Uint8 code, const std::string & message);
     void setServerInfo(Uint32 ip);
     std::vector<UDPpacket*> & receive();
+
+	void logout();
     
     static Uint8 getCode(UDPpacket *p);
     static std::string getMessage(UDPpacket *p);

@@ -61,6 +61,8 @@ protected:
 	const int getHeight() const;
 	const int getWidth() const;
 
+	static NetworkManager network;
+
 private:
 	static gcn::Container *parent;
 	ContextName name;
@@ -68,9 +70,7 @@ private:
 	gcn::Container top;
 
 	static Context* currentContext;
-	static Context* lastContext;
-    
-    static NetworkManager network;
+	static Context* lastContext;  
 };
 
 #endif // !_H_CONTEXT_

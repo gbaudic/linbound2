@@ -60,7 +60,7 @@ ServerView::~ServerView() {
 
 void ServerView::action(const gcn::ActionEvent& actionEvent) {
 	if (actionEvent.getId() == "logout") {
-		// TODO: send logout message
+		network.logout();
 		setNextContext(origin);
 	}
 }

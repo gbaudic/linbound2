@@ -70,6 +70,13 @@ vector<UDPpacket*> & NetworkManager::receive() {
 }
 
 /**
+ * Inform the server we are leaving
+ */
+void NetworkManager::logout() {
+	send(LOGOUT_MSG, "goodbye");
+}
+
+/**
  * Save server info for future use once chosen by the user
  * \param ip server IPv4, in machine byte order
  */
