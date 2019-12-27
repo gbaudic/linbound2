@@ -22,6 +22,8 @@ const Uint16 RoomView::MAX_POWER;
 
 /**
  * Constructor
+ * @param mode game mode to play among the four implemented
+ * @param map an already partly loaded object representing the game map
  */
 RoomView::RoomView(const GameMode mode, GameMap *map) : Context(ContextName::ROOM),
 btn_1("1"), btn_2("2"), btn_supershot("SS"),
@@ -80,13 +82,23 @@ void RoomView::drawBackground(SDL_Renderer *screen) {
 		xdelta = SCROLL_DELTA;
 	}
 	moveViewport(xdelta, ydelta);
+	
+	SDL_Rect fullScreen;
+	fullScreen.x = 0;
+	fullScreen.y = 0;
+	fullScreen.w = getWidth();
+	fullScreen.h = getHeight();
 
+	SDL_RenderSetClipRect(screen, &fullScreen);
+	// Draw top indicators if applicable
+	
 	// Draw map background
-
+	SDL_RenderCopy(screen, currentMap->getBackground(), &bg_rect, &fullScreen);
 	// Draw map foreground
-
+	SDL_RenderCopy(screen, currentMap->getForeground(), &fg_rect, &fullScreen);
 	// Draw mobiles
 
+	SDL_RenderSetClipRect(screen, NULL);
 }
 
 void RoomView::drawOverlay(SDL_Renderer *screen) {
@@ -157,6 +169,7 @@ void RoomView::setTurn() {
 	currentMode = InteractionMode::TURN;
 	currentPower = 0;
 	motionLeft = MOTION_LIMIT;
+	// TODO play a sound once to wake up player
 }
 
 /**
@@ -176,15 +189,19 @@ void RoomView::moveViewport(const int xDelta, const int yDelta) {
  * @param y new y coordinate
  */
 void RoomView::moveViewportTo(const int x, const int y) {
-	int fgW, fgH;
+	// Get some data about the map file
+	int fgW;
+	int fgH;
 	SDL_QueryTexture(currentMap->getForeground(), NULL, NULL, &fgW, &fgH);
-	int bgW, bgH;
+	int bgW;
+	int bgH;
 	SDL_QueryTexture(currentMap->getBackground(), NULL, NULL, &bgW, &bgH);
 
 	fg_rect.x = max(0, min(x, fgW - getWidth() - 1));
-	fg_rect.y = max(0, min(x, fgH - getHeight() - 1));
+	fg_rect.y = max(0, min(y, fgH - getHeight() - 1));
 
 	// Now propagate the movement to the background rect
+	// Note that the parallax effect is achieved here only if the background is smaller than the foreground
 	bg_rect.x = fg_rect.x * (bgW - getWidth()) / (fgW - getWidth());
 	bg_rect.y = fg_rect.y * (bgH - getHeight()) / (fgH - getHeight());
 }
