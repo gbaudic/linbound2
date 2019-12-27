@@ -68,8 +68,6 @@ void Settings::setWidth( Uint16 newWidth) {
 
 Settings::Settings() {
 	init();
-	isServerSet = false;
-	isServer = false;
 }
 
 Settings::~Settings() {
@@ -128,6 +126,9 @@ void Settings::init(){
 	input.close();
 }
 
+/**
+ * \brief Check that all parsed configuration values are in the correct range
+ */
 void Settings::checkConsistency() {
 	if (values.count("Width") == 0 || values["Width"] < 300) {
 		values["Width"] = 800;

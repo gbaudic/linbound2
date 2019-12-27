@@ -28,7 +28,7 @@ public:
     void setValue(Sint16 value);
 
 private:
-    Sint16 value;
+    Sint16 value = 0;
 
 };
 

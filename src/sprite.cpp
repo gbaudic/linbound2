@@ -1,8 +1,15 @@
+/**
+ *  \file sprite.cpp
+ *  \brief Definition of a sprite, a 2D element used in game
+ *  \author G. B.
+ *  \date 04/02/2019
+ *  \version 0.1a
+ */
 /* This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0.
  * If a copy of the MPL was not distributed with this file,
  * You can obtain one at http://mozilla.org/MPL/2.0/.
  *
- * This Source Code Form is “Incompatible With Secondary Licenses”,
+ * This Source Code Form is ï¿½Incompatible With Secondary Licensesï¿½,
  * as defined by the Mozilla Public License, v. 2.0.
  */
 
@@ -17,14 +24,13 @@ using namespace std;
  * \param height height of one frame of the sprite (not the full image!)
  */
 Sprite::Sprite(const std::string &filename, const int width, const int height, const Uint16 duration): 
-	stepDuration(duration) {
+	currentState(0), stepDuration(duration) {
 
 	surface = IMG_Load(filename.c_str());
 	SDL_SetColorKey(surface, SDL_RLEACCEL, SDL_MapRGB(surface->format, 0xff, 0, 0xff));
 
 	nbStates = surface->h / height;
 	nbSteps = surface->w / width;
-	currentState = 0;
 
 	currentRect.x = 0;
 	currentRect.y = 0;

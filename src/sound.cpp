@@ -2,7 +2,7 @@
  * If a copy of the MPL was not distributed with this file,
  * You can obtain one at http://mozilla.org/MPL/2.0/.
  *
- * This Source Code Form is “Incompatible With Secondary Licenses”,
+ * This Source Code Form is ï¿½Incompatible With Secondary Licensesï¿½,
  * as defined by the Mozilla Public License, v. 2.0.
  */
 
@@ -15,8 +15,7 @@ using namespace std;
 
 SoundManager* SoundManager::instance = nullptr;
 
-SoundManager::SoundManager() {
-	music = nullptr;
+SoundManager::SoundManager() : music(nullptr) {
 	string effectNames[] = { "wind1", "turn", "victory", "lose", "money",
 							"cow", "duck", "electron", "goat", "ice", "pig", "sheep", "tea", "unicorn" };
 
@@ -42,7 +41,7 @@ SoundManager * SoundManager::getInstance() {
  * @param sndName the name of the effect to play
  * @param loops the number of iterations of the sound
  */
-void SoundManager::playSound(string &sndName, const int loops) {
+void SoundManager::playSound(const string &sndName, const int loops) {
 	try {
 		Mix_PlayChannel(-1, effects.at(sndName), loops);
 	}
@@ -56,7 +55,7 @@ void SoundManager::playSound(string &sndName, const int loops) {
  * \brief Switch the music theme when changing application context
  * \param newMode destination context
  */
-void SoundManager::changeMode(ContextName &currentMode, ContextName &newMode) {
+void SoundManager::changeMode(const ContextName &currentMode, const ContextName &newMode) {
 	if (newMode == ContextName::ITEM_SHOP || currentMode == ContextName::ITEM_SHOP) {
 		// ITEM_SHOP is the only mode where we do not change the music
 		return;
@@ -107,7 +106,7 @@ void SoundManager::close() {
 	}
 	Mix_HaltChannel(-1);
 
-	for (auto &item : effects) {
+	for (const auto &item : effects) {
 		Mix_FreeChunk(item.second);
 	}
 }

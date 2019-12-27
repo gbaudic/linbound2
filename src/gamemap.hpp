@@ -41,8 +41,8 @@ private:
     std::string pathToFrontB;
     std::string musicFile;
     
-    bool hasBSide;
-    bool bSide;
+    bool hasBSide = false;
+    bool bSide = false;
     
     void storePath(const std::string &key, const std::string &value);
 };

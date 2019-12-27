@@ -24,8 +24,8 @@ public:
 
 	void logout();
     
-    static Uint8 getCode(UDPpacket *p);
-    static std::string getMessage(UDPpacket *p);
+    static Uint8 getCode(const UDPpacket *p);
+    static std::string getMessage(const UDPpacket *p);
     
 private:
     const Uint16 SERVER_PORT = 6545;

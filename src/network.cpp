@@ -89,7 +89,7 @@ void NetworkManager::setServerInfo(Uint32 ip) {
  * Extract message code from a packet
  * \param p packet to handle
  */
-Uint8 NetworkManager::getCode(UDPpacket *p) {
+Uint8 NetworkManager::getCode(const UDPpacket *p) {
     return p->data[0];
 }
 
@@ -97,7 +97,7 @@ Uint8 NetworkManager::getCode(UDPpacket *p) {
  * Extract payload from a packet
  * \param p packet to handle
  */
-string NetworkManager::getMessage(UDPpacket *p) {
+string NetworkManager::getMessage(const UDPpacket *p) {
     string message(reinterpret_cast<char*>(p->data+1));
     return message;
 }

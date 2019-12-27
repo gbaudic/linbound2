@@ -159,11 +159,11 @@ int main(int argc, char* argv[]) {
 	try {
 		loop(input);
 	}
-	catch (gcn::Exception &e) {
+	catch (const gcn::Exception &e) {
 		cerr << e.getMessage() << endl;
 		return 1;
 	}
-	catch (std::exception &e) {
+	catch (const std::exception &e) {
 		cerr << "Std exception: " << e.what() << endl;
 		return 1;
 	}

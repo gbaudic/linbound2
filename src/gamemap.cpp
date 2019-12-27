@@ -19,7 +19,7 @@ using namespace tinyxml2;
  * Only actually loads the preview, to save space
  * \param mapName name of the map, corresponds to its folder name
  */
-GameMap::GameMap(const string &mapName): hasBSide(false), bSide(false) {
+GameMap::GameMap(const string &mapName) {
     // Open XML and read it
     XMLDocument doc;
     string fullPath = RESOURCE_PREFIX + "/maps/" + mapName + "/map.xml";
@@ -35,11 +35,11 @@ GameMap::GameMap(const string &mapName): hasBSide(false), bSide(false) {
     hasBSide = nbSides == 2;
     
     // Map name (mandatory)
-    XMLElement *nameEl = root->FirstChildElement("name");
+    const XMLElement *nameEl = root->FirstChildElement("name");
     name.assign(nameEl->GetText());
     
     // Music recommendation (optional)
-    XMLElement *music = root->FirstChildElement("music_playlist");
+    const XMLElement *music = root->FirstChildElement("music_playlist");
     if(music) {
         musicFile.assign(music->GetText());
     }

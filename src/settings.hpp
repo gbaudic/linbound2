@@ -41,8 +41,8 @@ public:
 
 private:
 	std::map<std::string,Uint16> values;
-	bool isServer;
-	bool isServerSet; //ensure boolean above is only touched once
+	bool isServer = false;
+	bool isServerSet = false; //ensure boolean above is only touched once
 	static Settings* instance;
 	Settings();
 	~Settings();

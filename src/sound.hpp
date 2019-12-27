@@ -2,7 +2,7 @@
  * If a copy of the MPL was not distributed with this file,
  * You can obtain one at http://mozilla.org/MPL/2.0/.
  *
- * This Source Code Form is “Incompatible With Secondary Licenses”,
+ * This Source Code Form is ï¿½Incompatible With Secondary Licensesï¿½,
  * as defined by the Mozilla Public License, v. 2.0.
  */
 
@@ -20,8 +20,8 @@ class SoundManager final {
 public:
 	static SoundManager* getInstance();
 
-	void playSound(std::string &sndName, const int loops = 1);
-	void changeMode(ContextName &currentMode, ContextName &newMode);
+	void playSound(const std::string &sndName, const int loops = 1);
+	void changeMode(const ContextName &currentMode, const ContextName &newMode);
 	void close();
 
 	static int countGoldRepeat(const Sint16 value);

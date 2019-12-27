@@ -19,7 +19,7 @@
 /**
  * \brief Constructor
  */
-Lifebar::Lifebar() : value(0) {
+Lifebar::Lifebar() {
 
 }
 
@@ -65,8 +65,8 @@ void Lifebar::draw(SDL_Renderer* renderer, Sint16 x, Sint16 y) {
  * \brief Set the value to display
  * \param value new value
  */
-void Lifebar::setValue(Sint16 value) {
-    this->value = value;
+void Lifebar::setValue(Sint16 newValue) {
+    value = newValue;
 }
 
 
