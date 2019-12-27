@@ -48,9 +48,10 @@ private:
 	SDL_Rect fg_rect;
 	SDL_Rect bg_rect;
 
-	Uint32 cursorLeft;
-	Uint32 cursorRight;
-	Uint32 cursorTop;
+	Uint32 cursorLeft = 0;
+	Uint32 cursorRight = 0;
+	Uint32 cursorTop = 0;
+	Uint32 cursorBottom = 0;
 
 	// Widgets
 	gcn::TextField tf_chat;
@@ -61,21 +62,25 @@ private:
 	gcn::Label lbl_currentAngle;
 	gcn::Label lbl_wind;
 
-	Uint16 turnCount;
+	Uint16 turnCount = 0;
 	InteractionMode currentMode;
 	GameMode gameMode;
 	GameMap *currentMap;
 
-	Uint16 currentPower;
-	Uint16 motionLeft;
+	Uint16 currentPower = 0;
+	Uint16 motionLeft = 0;
 
 	static const Uint32 AUTOSCROLL_DELAY = 2000; // in ms
 	static const Uint16 SCROLL_DELTA = 4; // in pixels, for the foreground
+	static const Uint16 MAX_POWER = 1000;
 	static const Uint16 POWER_INCREMENT = 5; // for power bar, per frame
 	static const Uint16 MOTION_LIMIT = 50;
 	static const Uint16 MAGIC_EDGE_WIDTH = 20; // in pixels
 
 	void addWidgets();
+	void updateMagicEdge(const int coordinate, Uint32 &target);
+	void moveViewport(const int xDelta, const int yDelta);
+	void moveViewportTo(const int x, const int y);
 };
 
 #endif /* _H_ROOMVIEW_ */

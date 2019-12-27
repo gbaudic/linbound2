@@ -145,6 +145,9 @@ void Menu::drawBackground(SDL_Renderer * screen) {
 	SDL_RenderCopy(screen, backTexture, NULL, NULL);
 }
 
+/**
+ * \brief Add the widgets to the container
+ */
 void Menu::addWidgets() {
 	addWidget(&btn_newGame, 70, 225);
 	addWidget(&btn_settings, 50 + 2 * 20 + 150, 225);
