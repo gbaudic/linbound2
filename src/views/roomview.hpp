@@ -61,6 +61,8 @@ private:
 	gcn::Label lbl_lastAngle;
 	gcn::Label lbl_currentAngle;
 	gcn::Label lbl_wind;
+	gcn::ProgressBar pb_power;
+	gcn::ProgressBar pb_motion;
 
 	Uint16 turnCount = 0;
 	InteractionMode currentMode;
@@ -70,6 +72,9 @@ private:
 	Uint16 currentPower = 0;
 	Uint16 motionLeft = 0;
 
+	Uint8 windPower = 0;
+	Uint16 windAngle = 0;
+
 	static const Uint32 AUTOSCROLL_DELAY = 2000; // in ms
 	static const Uint16 SCROLL_DELTA = 4; // in pixels, for the foreground
 	static const Uint16 MAX_POWER = 1000;
@@ -78,6 +83,7 @@ private:
 	static const Uint16 MAGIC_EDGE_WIDTH = 20; // in pixels
 
 	void addWidgets();
+	void setWind(Uint8 newPower, Uint16 newAngle);
 	void updateMagicEdge(const int coordinate, Uint32 &target);
 	void moveViewport(const int xDelta, const int yDelta);
 	void moveViewportTo(const int x, const int y);

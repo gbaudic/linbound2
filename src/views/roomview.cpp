@@ -27,6 +27,7 @@ const Uint16 RoomView::MAX_POWER;
  */
 RoomView::RoomView(const GameMode mode, GameMap *map) : Context(ContextName::ROOM),
 btn_1("1"), btn_2("2"), btn_supershot("SS"),
+pb_power(0, MAX_POWER, 0), pb_motion(0, MOTION_LIMIT, MOTION_LIMIT),
 currentMode(InteractionMode::IDLE), gameMode(mode),
 currentMap(map) {
 
@@ -50,6 +51,14 @@ currentMap(map) {
 	tf_chat.setTabOutEnabled(false);
 	tf_chat.setActionEventId("text");
 	tf_chat.addActionListener(this);
+
+	pb_motion.setHeight(15);
+	pb_motion.setForegroundColor(gcn::Color(0x0, 0x77, 0x73));
+	pb_motion.setVisible(false); // only shows up when moving
+	pb_motion.setWidth(getWidth() / 2);
+	pb_power.setHeight(20);
+	pb_power.setForegroundColor(gcn::Color(0xff, 0, 0));
+	pb_power.setWidth(getWidth() - 100 - 10);
 
 	currentMap->load();
 
@@ -94,9 +103,13 @@ void RoomView::drawBackground(SDL_Renderer *screen) {
 	
 	// Draw map background
 	SDL_RenderCopy(screen, currentMap->getBackground(), &bg_rect, &fullScreen);
+	// Draw weather effects if any
+	
 	// Draw map foreground
 	SDL_RenderCopy(screen, currentMap->getForeground(), &fg_rect, &fullScreen);
 	// Draw mobiles
+
+	// Draw flying weapons if any
 
 	SDL_RenderSetClipRect(screen, NULL);
 }
@@ -111,6 +124,7 @@ void RoomView::processEvent(SDL_Event &event) {
 		if (event.key.keysym.sym == SDLK_SPACE && !tf_chat.isFocused() && currentMode == InteractionMode::TURN) {
 			currentPower += POWER_INCREMENT;
 			currentPower = min(currentPower, MAX_POWER);
+			pb_power.setValue(currentPower);
 		}
 	} else if (event.type == SDL_KEYUP) {
 		if (event.key.keysym.sym == SDLK_SPACE && !tf_chat.isFocused() && currentMode == InteractionMode::TURN) {
@@ -160,6 +174,22 @@ void RoomView::addWidgets() {
 	addWidget(&btn_supershot, 40, getHeight() - 5 - btn_supershot.getHeight());
 	addWidget(&btn_2, 40, btn_supershot.getY() - 5 - btn_2.getHeight());
 	addWidget(&btn_1, 40, btn_2.getY() - 5 - btn_1.getHeight());
+	addWidget(&lbl_wind, 20, getHeight() - 20);
+
+	addWidget(&pb_power, 70, getHeight() - pb_power.getHeight() - 10);
+	addWidget(&pb_motion, 70, pb_power.getY() - 20);
+}
+
+/**
+ * \brief React on wind update
+ * \param newPower new power value (0-25)
+ * \param newAngle new angle value (0-360), in degrees
+ */
+void RoomView::setWind(Uint8 newPower, Uint16 newAngle) {
+	windPower = newPower;
+	windAngle = newAngle;
+	lbl_wind.setCaption(to_string(windPower));
+	// TODO play a sound
 }
 
 /**
@@ -169,6 +199,8 @@ void RoomView::setTurn() {
 	currentMode = InteractionMode::TURN;
 	currentPower = 0;
 	motionLeft = MOTION_LIMIT;
+	pb_power.setValue(currentPower);
+	pb_motion.setValue(motionLeft);
 	// TODO play a sound once to wake up player
 }
 
