@@ -66,7 +66,7 @@ protected:
 private:
 	static gcn::Container *parent;
 	ContextName name;
-	ContextName next;
+	ContextName next = ContextName::NONE;
 	gcn::Container top;
 
 	static Context* currentContext;

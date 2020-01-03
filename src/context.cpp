@@ -2,7 +2,7 @@
  * If a copy of the MPL was not distributed with this file,
  * You can obtain one at http://mozilla.org/MPL/2.0/.
  *
- * This Source Code Form is �Incompatible With Secondary Licenses�,
+ * This Source Code Form is "Incompatible With Secondary Licenses",
  * as defined by the Mozilla Public License, v. 2.0.
  */
 
@@ -21,7 +21,7 @@ gcn::Container* Context::parent = nullptr;
 NetworkManager Context::network;
 
 Context::Context(ContextName type) : 
-    name(type), next(ContextName::NONE) {
+    name(type) {
 	top.setWidth(parent->getWidth());
 	top.setHeight(parent->getHeight());
 	top.setOpaque(false);
@@ -82,7 +82,7 @@ void Context::receive() {
     vector<UDPpacket *> data = network.receive();
     
     // Unpack and feed context, one by one
-    for(UDPpacket *p : data) {
+    for(const UDPpacket *p : data) {
         processMessage(NetworkManager::getCode(p), NetworkManager::getMessage(p));
     }
 }

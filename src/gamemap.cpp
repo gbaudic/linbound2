@@ -27,7 +27,7 @@ GameMap::GameMap(const string &mapName) {
     
     XMLElement *root = doc.RootElement();
     // Number of sides (1 or 2) (optional)
-    XMLElement *sides = root->FirstChildElement("sides");
+    const XMLElement *sides = root->FirstChildElement("sides");
     int nbSides = 0;
     if(sides) {
         sides->QueryIntText(&nbSides);

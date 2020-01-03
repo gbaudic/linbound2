@@ -15,8 +15,8 @@ std::string ChatWindow::sender; // init
   Constructor
   \param friendName username of the friend
 */
-ChatWindow::ChatWindow(const string &friendName) : tf_msg(), sa_scroll(),
-tb_chat(), btn_close("x"), btn_send("Send"), recipient(friendName) {
+ChatWindow::ChatWindow(const string &friendName) : 
+	btn_close("x"), btn_send("Send"), recipient(friendName) {
 	setCaption(friendName);
 	setWidth(200);
 	setHeight(300);
