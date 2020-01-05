@@ -122,8 +122,8 @@ void RoomView::processEvent(SDL_Event &event) {
 	if (event.type == SDL_KEYDOWN) {
 		// Shooting
 		if (event.key.keysym.sym == SDLK_SPACE && !tf_chat.isFocused() && currentMode == InteractionMode::TURN) {
-			currentPower += POWER_INCREMENT;
-			currentPower = min(currentPower, MAX_POWER);
+			int currentPower = pb_power.getValue() + POWER_INCREMENT;
+			currentPower = min(currentPower, static_cast<int>(MAX_POWER));
 			pb_power.setValue(currentPower);
 		}
 	} else if (event.type == SDL_KEYUP) {
@@ -197,10 +197,8 @@ void RoomView::setWind(Uint8 newPower, Uint16 newAngle) {
  */
 void RoomView::setTurn() {
 	currentMode = InteractionMode::TURN;
-	currentPower = 0;
-	motionLeft = MOTION_LIMIT;
-	pb_power.setValue(currentPower);
-	pb_motion.setValue(motionLeft);
+	pb_power.setValue(0);
+	pb_motion.setValue(MOTION_LIMIT);
 	// TODO play a sound once to wake up player
 }
 

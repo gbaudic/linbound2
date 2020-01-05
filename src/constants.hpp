@@ -22,11 +22,14 @@ const Sint16 MAX_LIFE = 1000; //! Max player life in general case
 const Sint16 DUO_INITIAL_LIFE = 450;  //! Initial life for second mobile in Duo mode
 const Sint16 CRITICAL_LIFE = 200;  //! Threshold to trigger UI changes
 
+/**
+ * Define the mode in which game will be played
+ */
 enum class GameMode {
-	SOLO,
-	DUO,
-	MULTI,
-	POINTS
+	SOLO,  //! basic: 1 mobile, 1 life
+	DUO, //! two mobiles
+	MULTI, //! respawning possible
+	POINTS //! shoot on targets instead of other players
 };
 
 #endif // !_H_CONSTANTS_

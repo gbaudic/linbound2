@@ -69,9 +69,6 @@ private:
 	GameMode gameMode;
 	GameMap *currentMap;
 
-	Uint16 currentPower = 0;
-	Uint16 motionLeft = 0;
-
 	Uint8 windPower = 0;
 	Uint16 windAngle = 0;
 
