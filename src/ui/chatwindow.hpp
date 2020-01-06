@@ -1,5 +1,9 @@
 /**
- * A subwindow to conduct a chat with one of your in-game friends
+ * \file chatwindow.hpp
+ * \brief A subwindow to conduct a chat with one of your in-game friends
+ * \author G. B.
+ * \version 0.1a
+ * \date 07/01/2019
  */
 /* This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0.
  * If a copy of the MPL was not distributed with this file,

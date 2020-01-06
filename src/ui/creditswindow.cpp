@@ -1,3 +1,10 @@
+/**
+ * \file creditswindow.cpp
+ * \brief A subwindow so you know who to send pizza to if you like the software
+ * \author G. B.
+ * \version 0.1a
+ * \date 07/01/2019
+ */
 /* This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0.
  * If a copy of the MPL was not distributed with this file,
  * You can obtain one at http://mozilla.org/MPL/2.0/.
@@ -13,6 +20,9 @@
 #include "../settings.hpp"
 using namespace std;
 
+/**
+ * Constructor
+ */
 CreditsWindow::CreditsWindow() : tb_text(), sa_scroll(), btn_close("Close") {
 
 	setCaption("Credits");
@@ -27,6 +37,7 @@ CreditsWindow::CreditsWindow() : tb_text(), sa_scroll(), btn_close("Close") {
 	sa_scroll.setHeight(getHeight() - 6*mPadding - 2*getBorderSize() - (int)getTitleBarHeight() - btn_close.getHeight());
 
 	//Add text to tb_text	
+	// Data is fetched from the AUTHORS file, if found
 	ifstream input("AUTHORS", ios::in);
 	string line;
 	bool hasText = false;

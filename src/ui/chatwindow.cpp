@@ -1,3 +1,10 @@
+/**
+ * \file chatwindow.cpp
+ * \brief A subwindow to conduct a chat with one of your in-game friends
+ * \author G. B.
+ * \version 0.1a
+ * \date 07/01/2019
+ */
 /* This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0.
  * If a copy of the MPL was not distributed with this file,
  * You can obtain one at http://mozilla.org/MPL/2.0/.
@@ -59,10 +66,10 @@ ChatWindow::ChatWindow(const string &friendName, const string &message) : ChatWi
 	addMessage(friendName, message);
 }
 
-///
-/// Actually add the widgets to the container
-/// Put outside the constructor to please Sonar
-///
+/**
+ * Actually add the widgets to the container
+ * Put outside the constructor to please Sonar
+ */
 void ChatWindow::addWidgets() {
 	add(&sa_scroll, getPadding(), getPadding());
 	add(&btn_close, getWidth() - getPadding() - btn_close.getWidth(), getPadding());

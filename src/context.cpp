@@ -1,3 +1,10 @@
+/**
+ * \file context.cpp
+ * \brief Parent class for the views/states of the software
+ * \author G. B.
+ * \version 0.1a
+ * \date 18/01/2019
+ */
 /* This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0.
  * If a copy of the MPL was not distributed with this file,
  * You can obtain one at http://mozilla.org/MPL/2.0/.
@@ -20,6 +27,10 @@ Context* Context::lastContext = nullptr;
 gcn::Container* Context::parent = nullptr;
 NetworkManager Context::network;
 
+/**
+ * Constructor
+ * \param type name of the context being created
+ */
 Context::Context(ContextName type) : 
     name(type) {
 	top.setWidth(parent->getWidth());
@@ -178,6 +189,10 @@ void Context::addCenteredWidget(gcn::Widget * widget) {
 	addWidget(widget, x, y);
 }
 
+/**
+ * \brief Set next context to use, to mark that a transition is requested
+ * \param newContext new context to use
+ */
 void Context::setNextContext(const ContextName newContext) {
 	next = newContext;
 }

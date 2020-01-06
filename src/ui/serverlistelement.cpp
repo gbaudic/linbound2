@@ -1,3 +1,10 @@
+/**
+ * \file serverlistelement.cpp
+ * \brief UI widget to display info about a server
+ * \author G. B.
+ * \version 0.1a
+ * \date 16/02/2019
+ */
 /* This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0.
  * If a copy of the MPL was not distributed with this file,
  * You can obtain one at http://mozilla.org/MPL/2.0/.
@@ -10,6 +17,10 @@
 #include "serverlistelement.hpp"
 using namespace std;
 
+/**
+ * Constructor
+ * \param info struct containing the data to display
+ */
 ServerListElement::ServerListElement(ServerInfo &info) : 
 _info(info), btn_connect("Connect") {
 	setWidth(500);

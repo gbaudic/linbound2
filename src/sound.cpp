@@ -1,8 +1,15 @@
+/**
+ * \file sound.cpp
+ * \brief Sound-related functions
+ * \author G. B.
+ * \version 0.1a
+ * \date 13/01/2019
+ */
 /* This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0.
  * If a copy of the MPL was not distributed with this file,
  * You can obtain one at http://mozilla.org/MPL/2.0/.
  *
- * This Source Code Form is �Incompatible With Secondary Licenses�,
+ * This Source Code Form is "Incompatible With Secondary Licenses",
  * as defined by the Mozilla Public License, v. 2.0.
  */
 
@@ -15,7 +22,7 @@ using namespace std;
 
 SoundManager* SoundManager::instance = nullptr;
 
-SoundManager::SoundManager() : music(nullptr) {
+SoundManager::SoundManager() {
 	string effectNames[] = { "wind1", "turn", "victory", "lose", "money",
 							"cow", "duck", "electron", "goat", "ice", "pig", "sheep", "tea", "unicorn" };
 

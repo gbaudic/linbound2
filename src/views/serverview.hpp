@@ -2,6 +2,8 @@
  * \file serverview.hpp
  * \date 17/11/2019
  * \brief UI class for server view, where user can chat and select a game room
+ * \author G. B.
+ * \version 0.1a
  */
 /* This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0.
  * If a copy of the MPL was not distributed with this file,
@@ -17,6 +19,7 @@
 #include <map>
 #include <guisan.hpp>
 #include "../context.hpp"
+#include "../ui/roombutton.hpp"
 
 /*
  * UI class for server view

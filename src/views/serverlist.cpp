@@ -1,3 +1,10 @@
+/**
+ * \file serverlist.cpp
+ * \brief UI view to pick the server to play on
+ * \author G. B.
+ * \version 0.1a
+ * \date 08/02/2019
+ */
 /* This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0.
  * If a copy of the MPL was not distributed with this file,
  * You can obtain one at http://mozilla.org/MPL/2.0/.
@@ -150,7 +157,7 @@ void ServerList::sendRequest(Uint32 ip) {
 	setServerIP(ip);
 
 	// Send it
-	send(HELLO_MSG, "HELLO");
+	send(HELLO_MSG, "hello");
 
 	if (ip == INADDR_BROADCAST) {
 		state = State::RECEIVING_BC;
@@ -174,6 +181,10 @@ void ServerList::login(Uint32 ip, const string & login, const string & password)
     lastChangeTime = SDL_GetTicks();
 }
 
+/**
+ * \brief Recreate info for a server from packet data
+ * \param message packet data as a string
+ */
 ServerInfo ServerList::makeInfo(const std::string & message) {
 	ServerInfo result;
 	vector<string> pieces = linbound::split(message, '\3');
