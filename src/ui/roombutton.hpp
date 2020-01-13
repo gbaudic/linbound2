@@ -19,6 +19,7 @@
 #include <string>
 #include <guisan.hpp>
 #include "../constants.hpp"
+#include "../common/commonroom.hpp"
 
 /**
  * @brief An improved button to represent a room
