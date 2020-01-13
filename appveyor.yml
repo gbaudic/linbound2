@@ -3,7 +3,7 @@ platform: x64
 
 install:
   - set MSYSTEM=MINGW64
-  - set PATH=C:\msys64\%MSYSTEM%\bin;C:\msys64\usr\bin;%PATH%
+  - set PATH=C:\msys64\%MSYSTEM%\bin;C:\msys64\usr\bin;%PATH%;"C:\Program Files (x86)\Inno Setup 5"
   - bash -lc "pacman -Syu --noconfirm"  
   - bash -lc "pacman -S --needed --noconfirm make cmake scons"
   - bash -lc "pacman --noconfirm -Sy mingw-w64-x86_64-toolchain mingw-w64-x86_64-readline mingw-w64-x86_64-python3 mingw-w64-x86_64-libc++ mingw-w64-x86_64-SDL2 mingw-w64-x86_64-SDL2_gfx mingw-w64-x86_64-SDL2_image mingw-w64-x86_64-SDL2_mixer mingw-w64-x86_64-SDL2_net mingw-w64-x86_64-SDL2_ttf mingw-w64-x86_64-sqlite3 mingw-w64-x86_64-tinyxml2 mingw-w64-x86_64-box2d mingw-w64-x86_64-gtest"
@@ -39,7 +39,7 @@ after_build:
   - copy /b /y C:\msys64\%MSYSTEM%\bin\sqlite3.dll dll\
   - copy /b /y C:\msys64\%MSYSTEM%\bin\tinyxml2.dll dll\
   - copy /b /y C:\msys64\%MSYSTEM%\bin\zlib1.dll dll\
-  - "C:\Program Files (x86)\Inno Setup 5\compil32" /cc linbound.iss
+  - iscc linbound.iss
   
 artifacts:
   - path: Output\LinboundSetup.exe
