@@ -28,7 +28,7 @@ after_build:
   - copy /b /y C:\msys64\%MSYSTEM%\bin\libmpg123*.dll dll\
   - copy /b /y C:\msys64\%MSYSTEM%\bin\libogg*.dll dll\
   - copy /b /y C:\msys64\%MSYSTEM%\bin\libpng16*.dll dll\
-  - copy /b /y C:\msys64\%MSYSTEM%\bin\libstdc++*.dll dll\
+  - copy /b /y C:\msys64\%MSYSTEM%\bin\libstdc*.dll dll\
   - copy /b /y C:\msys64\%MSYSTEM%\bin\libtiff*.dll dll\
   - copy /b /y C:\msys64\%MSYSTEM%\bin\SDL2*.dll dll\
   - copy /b /y C:\msys64\%MSYSTEM%\bin\libSDL2*.dll dll\
