@@ -16,45 +16,45 @@ build_script:
 matrix:
   fast_finish: true
 
-# after_build:
-  # - copy /b build\bin\linbound.exe linbound.exe
-  # # Copy msys 64-bit DLLs into a dll subdir
-  # - copy /b /y C:\msys64\%MSYSTEM%\bin\libBox2D.dll dll\
-  # - copy /b /y C:\msys64\%MSYSTEM%\bin\libfreetype*.dll dll\
-  # - copy /b /y C:\msys64\%MSYSTEM%\bin\libgcc_s_seh*.dll dll\
-  # - copy /b /y C:\msys64\%MSYSTEM%\bin\libjpeg*.dll dll\
-  # - copy /b /y C:\msys64\%MSYSTEM%\bin\liblzma*.dll dll\
-  # - copy /b /y C:\msys64\%MSYSTEM%\bin\libmpg123*.dll dll\
-  # - copy /b /y C:\msys64\%MSYSTEM%\bin\libogg*.dll dll\
-  # - copy /b /y C:\msys64\%MSYSTEM%\bin\libpng16*.dll dll\
-  # - copy /b /y C:\msys64\%MSYSTEM%\bin\libstdc++*.dll dll\
-  # - copy /b /y C:\msys64\%MSYSTEM%\bin\libtiff*.dll dll\
-  # - copy /b /y C:\msys64\%MSYSTEM%\bin\SDL2*.dll dll\
-  # - copy /b /y C:\msys64\%MSYSTEM%\bin\libSDL2*.dll dll\
-  # - copy /b /y C:\msys64\%MSYSTEM%\bin\libvorbis*.dll dll\
-  # - copy /b /y C:\msys64\%MSYSTEM%\bin\libwebp*.dll dll\
-  # - copy /b /y C:\msys64\%MSYSTEM%\bin\libwinpthread*.dll dll\
-  # - copy /b /y C:\msys64\%MSYSTEM%\bin\libzstd.dll dll\
-  # - copy /b /y C:\msys64\%MSYSTEM%\bin\smpeg2.dll dll\
-  # - copy /b /y C:\msys64\%MSYSTEM%\bin\sqlite3.dll dll\
-  # - copy /b /y C:\msys64\%MSYSTEM%\bin\tinyxml2.dll dll\
-  # - copy /b /y C:\msys64\%MSYSTEM%\bin\zlib1.dll dll\
-  # - "C:\Program Files (x86)\Inno Setup 5\compil32" /cc linbound.iss
+after_build:
+  - copy /b build\bin\linbound.exe linbound.exe
+  # Copy msys 64-bit DLLs into a dll subdir
+  - copy /b /y C:\msys64\%MSYSTEM%\bin\libBox2D.dll dll\
+  - copy /b /y C:\msys64\%MSYSTEM%\bin\libfreetype*.dll dll\
+  - copy /b /y C:\msys64\%MSYSTEM%\bin\libgcc_s_seh*.dll dll\
+  - copy /b /y C:\msys64\%MSYSTEM%\bin\libjpeg*.dll dll\
+  - copy /b /y C:\msys64\%MSYSTEM%\bin\liblzma*.dll dll\
+  - copy /b /y C:\msys64\%MSYSTEM%\bin\libmpg123*.dll dll\
+  - copy /b /y C:\msys64\%MSYSTEM%\bin\libogg*.dll dll\
+  - copy /b /y C:\msys64\%MSYSTEM%\bin\libpng16*.dll dll\
+  - copy /b /y C:\msys64\%MSYSTEM%\bin\libstdc++*.dll dll\
+  - copy /b /y C:\msys64\%MSYSTEM%\bin\libtiff*.dll dll\
+  - copy /b /y C:\msys64\%MSYSTEM%\bin\SDL2*.dll dll\
+  - copy /b /y C:\msys64\%MSYSTEM%\bin\libSDL2*.dll dll\
+  - copy /b /y C:\msys64\%MSYSTEM%\bin\libvorbis*.dll dll\
+  - copy /b /y C:\msys64\%MSYSTEM%\bin\libwebp*.dll dll\
+  - copy /b /y C:\msys64\%MSYSTEM%\bin\libwinpthread*.dll dll\
+  - copy /b /y C:\msys64\%MSYSTEM%\bin\libzstd.dll dll\
+  - copy /b /y C:\msys64\%MSYSTEM%\bin\smpeg2.dll dll\
+  - copy /b /y C:\msys64\%MSYSTEM%\bin\sqlite3.dll dll\
+  - copy /b /y C:\msys64\%MSYSTEM%\bin\tinyxml2.dll dll\
+  - copy /b /y C:\msys64\%MSYSTEM%\bin\zlib1.dll dll\
+  - "C:\Program Files (x86)\Inno Setup 5\compil32" /cc linbound.iss
   
-# artifacts:
-  # - path: Output\LinboundSetup.exe
-    # name: Setup
+artifacts:
+  - path: Output\LinboundSetup.exe
+    name: Setup
   
-# deploy:
-  # release: linbound-v$(appveyor_build_version)
-  # description: 'Linbound v$(APPVEYOR_BUILD_VERSION)'
-  # provider: GitHub
-  # auth_token:
-    # secure: oAzX3AMKStWmtHsjWEtqKv5kEXk/iDY102HMW15kXfVsxGfbBMGEiZLj/JwFxA4H
-  # artifact: Output\LinboundSetup.exe     
-  # draft: true
-  # force_update: true
-  # prerelease: false
-  # on:
-    # branch: master
-    # APPVEYOR_REPO_TAG: true
+deploy:
+  release: linbound-v$(appveyor_build_version)
+  description: 'Linbound v$(APPVEYOR_BUILD_VERSION)'
+  provider: GitHub
+  auth_token:
+    secure: oAzX3AMKStWmtHsjWEtqKv5kEXk/iDY102HMW15kXfVsxGfbBMGEiZLj/JwFxA4H
+  artifact: Output\LinboundSetup.exe     
+  draft: true
+  force_update: true
+  prerelease: false
+  on:
+    branch: master
+    APPVEYOR_REPO_TAG: true
