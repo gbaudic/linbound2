@@ -19,6 +19,7 @@ matrix:
 after_build:
   - copy /b build\bin\linbound.exe linbound.exe
   # Copy msys 64-bit DLLs into a dll subdir
+  - mkdir dll
   - copy /b /y C:\msys64\%MSYSTEM%\bin\libBox2D.dll dll\
   - copy /b /y C:\msys64\%MSYSTEM%\bin\libfreetype*.dll dll\
   - copy /b /y C:\msys64\%MSYSTEM%\bin\libgcc_s_seh*.dll dll\
