@@ -36,9 +36,8 @@ after_build:
   - copy /b /y C:\msys64\%MSYSTEM%\bin\libwebp*.dll dll\
   - copy /b /y C:\msys64\%MSYSTEM%\bin\libwinpthread*.dll dll\
   - copy /b /y C:\msys64\%MSYSTEM%\bin\libzstd.dll dll\
-  # - copy /b /y C:\msys64\%MSYSTEM%\bin\smpeg2.dll dll\
-  - copy /b /y C:\msys64\%MSYSTEM%\bin\sqlite3.dll dll\
-  - copy /b /y C:\msys64\%MSYSTEM%\bin\tinyxml2.dll dll\
+  - copy /b /y C:\msys64\%MSYSTEM%\bin\libsqlite3*.dll dll\
+  - copy /b /y C:\msys64\%MSYSTEM%\bin\libtinyxml2.dll dll\
   - copy /b /y C:\msys64\%MSYSTEM%\bin\zlib1.dll dll\
   - iscc linbound.iss
   
