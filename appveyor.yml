@@ -11,7 +11,7 @@ install:
   - bash -lc "export PKG_CONFIG_PATH=$PKG_CONFIG_PATH:/mingw64/lib/pkgconfig; git clone https://github.com/gbaudic/guisan.git && pushd guisan && scons prefix=/mingw64 && scons install prefix=/mingw64 && popd"  
   
 build_script:
-  - bash -lc "cd $APPVEYOR_BUILD_FOLDER; mkdir build; cd build; export PKG_CONFIG_PATH=$PKG_CONFIG_PATH:/mingw64/lib/pkgconfig; export CC=gcc; export CXX=g++; cmake .. -DUNIX=True && cmake --build . && ctest" 
+  - bash -lc "cd $APPVEYOR_BUILD_FOLDER; mkdir build; cd build; export PKG_CONFIG_PATH=$PKG_CONFIG_PATH:/mingw64/lib/pkgconfig; export CC=gcc; export CXX=g++; cmake .. -DUNIX=True -DRESOURCE_PREFIX=./res && cmake --build . && ctest" 
   
 matrix:
   fast_finish: true
@@ -39,6 +39,22 @@ after_build:
   - copy /b /y C:\msys64\%MSYSTEM%\bin\libsqlite3*.dll dll\
   - copy /b /y C:\msys64\%MSYSTEM%\bin\libtinyxml2.dll dll\
   - copy /b /y C:\msys64\%MSYSTEM%\bin\zlib1.dll dll\
+  - copy /b /y C:\msys64\%MSYSTEM%\bin\libbz2*.dll dll\
+  - copy /b /y C:\msys64\%MSYSTEM%\bin\libharfbuzz-0.dll dll\
+  - copy /b /y C:\msys64\%MSYSTEM%\bin\libintl*.dll dll\
+  - copy /b /y C:\msys64\%MSYSTEM%\bin\libpcre-1.dll dll\
+  - copy /b /y C:\msys64\%MSYSTEM%\bin\libsndfile*.dll dll\
+  - copy /b /y C:\msys64\%MSYSTEM%\bin\libtermcap*.dll dll\
+  - copy /b /y C:\msys64\%MSYSTEM%\bin\libFLAC*.dll dll\
+  - copy /b /y C:\msys64\%MSYSTEM%\bin\libfluidsynth*.dll dll\
+  - copy /b /y C:\msys64\%MSYSTEM%\bin\libglib*.dll dll\
+  - copy /b /y C:\msys64\%MSYSTEM%\bin\libgraphite2.dll dll\
+  - copy /b /y C:\msys64\%MSYSTEM%\bin\libgmodule*.dll dll\
+  - copy /b /y C:\msys64\%MSYSTEM%\bin\libopusfile*.dll dll\
+  - copy /b /y C:\msys64\%MSYSTEM%\bin\libopus-0.dll dll\
+  - copy /b /y C:\msys64\%MSYSTEM%\bin\libspeex-1.dll dll\
+  - copy /b /y C:\msys64\%MSYSTEM%\bin\libportaudio*.dll dll\
+  - copy /b /y C:\msys64\%MSYSTEM%\bin\libreadline*.dll dll\
   - iscc linbound.iss
   
 artifacts:
