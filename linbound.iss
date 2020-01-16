@@ -20,12 +20,14 @@ AppPublisher={#MyAppPublisher}
 AppPublisherURL={#MyAppURL}
 AppSupportURL={#MyAppURL}
 AppUpdatesURL={#MyAppURL}
-DefaultDirName={pf}\{#MyAppName}
+DefaultDirName={autopf}\{#MyAppName}
+DefaultGroupName={#MyAppName}
 DisableProgramGroupPage=yes
 LicenseFile=LICENSE
 OutputBaseFilename=LinboundSetup
 Compression=lzma
 SolidCompression=yes
+ShowComponentSizes=yes
 MinVersion=6.1
 
 [Languages]
@@ -42,7 +44,7 @@ Source: "linbound.exe"; DestDir: "{app}"; Flags: ignoreversion
 Source: "AUTHORS"; DestDir: "{app}"
 Source: "LICENSE"; DestDir: "{app}"; Flags: ignoreversion
 Source: "dll\*.dll"; DestDir: "{app}"
-Source: "res\*"; DestDir: "{app}\res"; Flags: ignoreversion
+Source: "res\*"; DestDir: "{app}\res"; Flags: ignoreversion recursesubdirs
 Source: "vc_redist.x86.exe"; DestDir: "{tmp}"; Flags: deleteafterinstall skipifsourcedoesntexist
 Source: "vc_redist.x64.exe"; DestDir: "{tmp}"; Flags: deleteafterinstall skipifsourcedoesntexist
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
@@ -52,6 +54,6 @@ Filename: "{tmp}\vc_redist.x86.exe"; StatusMsg: "Installing VS 2019 Redistributa
 Filename: "{tmp}\vc_redist.x64.exe"; StatusMsg: "Installing VS 2019 Redistributable (64 bit)..."; Parameters: "/install /passive /norestart"; Flags: 64bit skipifdoesntexist; Check: IsWin64 
 
 [Icons]
-Name: "{commonprograms}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; WorkingDir: "{app}"
+Name: "{group}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; WorkingDir: "{app}"
 Name: "{commondesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; WorkingDir: "{app}"; Tasks: desktopicon
 
