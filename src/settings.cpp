@@ -108,7 +108,7 @@ void Settings::init(){
                     try {
                         values[key] = stoi(value);
                     } catch (invalid_argument) {
-                        cout << "Error loading settings key: " << key << endl;
+                        SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Error loading settings key: %s", key.c_str());
 						values[key] = 0;
 					}
 					catch (out_of_range) {
@@ -118,7 +118,7 @@ void Settings::init(){
             }
         }
     } else {
-        cout << "Error opening settings file -- using defaults value" << endl;
+        SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Error opening settings file -- using defaults value");
     }
 
 	checkConsistency();	
@@ -162,7 +162,7 @@ void Settings::save() {
         output << "MusicVolume=" << values["MusicVolume"] << endl
                << "EffectsVolume=" << values["EffectsVolume"] << endl;
     } else {
-        cout << "Error opening settings file for writing" << endl;
+        SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Error opening settings file for writing");
     }
 	output.close();
 }

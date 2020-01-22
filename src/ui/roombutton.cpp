@@ -33,20 +33,18 @@ void LB_RoomButton::draw(gcn::Graphics* graphics) {
 	//TODO
 
 	gcn::Color faceColor = getBaseColor();
-	gcn::Color highlightColor, shadowColor;
+	gcn::Color highlightColor;
+	gcn::Color shadowColor;
 	int alpha = getBaseColor().a;
 
-	if (isPressed())
-	{
+	if (isPressed()) {
 		faceColor = faceColor - 0x303030;
 		faceColor.a = alpha;
 		highlightColor = faceColor - 0x303030;
 		highlightColor.a = alpha;
 		shadowColor = faceColor + 0x303030;
 		shadowColor.a = alpha;
-	}
-	else
-	{
+	} else {
 		highlightColor = faceColor + 0x303030;
 		highlightColor.a = alpha;
 		shadowColor = faceColor - 0x303030;

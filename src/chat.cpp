@@ -17,10 +17,17 @@
 #include "chat.hpp"
 using namespace std;
 
+/**
+ * Constructor
+ * \param topContainer UI element where windows should be attached
+ */
 ChatManager::ChatManager(gcn::Container * topContainer) : top(topContainer) {
 
 }
 
+/**
+ * Destructor
+ */
 ChatManager::~ChatManager() {
 	for (const auto &w : windows) {
 		top->remove(w.second);
@@ -28,6 +35,11 @@ ChatManager::~ChatManager() {
 	}
 }
 
+/**
+ * Process a new message, creating a new window if necessary
+ * \param sender name of the sender (must be a player)
+ * \param message message sent
+ */
 void ChatManager::addMessage(const string &sender, const string &message) {
 	try {
 		ChatWindow* w = windows.at(sender);
@@ -42,6 +54,10 @@ void ChatManager::addMessage(const string &sender, const string &message) {
 	}
 }
 
+/**
+ * Initiate a conversation from our side, by creating an empty window
+ * \param other name of the player receiving the messages
+ */
 void ChatManager::startConversation(const std::string &other) {
 	try {
 		// Bring back the window if it exists
@@ -65,6 +81,6 @@ void ChatManager::action(const gcn::ActionEvent & action) {
 		// Send the message to the network system
 	}
 	catch (out_of_range) {
-		cerr << "Received an action from an unknown widget" << endl;
+		SDL_LogWarn(SDL_LOG_CATEGORY_APPLICATION, "Received an action from an unknown widget");
 	}
 }
