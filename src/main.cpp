@@ -55,13 +55,13 @@ int main(int argc, char* argv[]) {
 
 	//Initializing SDL
 	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) != 0) {
-		cout << "FATAL : Cannot init SDL : " << SDL_GetError() << endl;
+		SDL_LogError(SDL_LOG_CATEGORY_ERROR, "FATAL: Cannot init SDL: %s", SDL_GetError());
 		return -1;
 	}
 
 	//Initializing SDL_ttf, needed for text display
 	if (TTF_Init() != 0) {
-		cout << "FATAL : Cannot init SDL_ttf " << SDL_GetError() << endl;
+		SDL_LogError(SDL_LOG_CATEGORY_ERROR, "FATAL: Cannot init SDL_ttf: %s", SDL_GetError());
 		return -1;
 	}
 
@@ -69,7 +69,7 @@ int main(int argc, char* argv[]) {
 	//TTF is initialized correctly, so let's load the font
 	TTF_Font* font = TTF_OpenFont(fontPath.c_str(), 12);
 	if (font == NULL) {
-		cout << "Font opening failed! " << TTF_GetError() << endl;
+		SDL_LogError(SDL_LOG_CATEGORY_ERROR, "Font opening failed! %s", TTF_GetError());
 		return -1;
 	}
 
@@ -77,11 +77,11 @@ int main(int argc, char* argv[]) {
 		settings->getWidth(), settings->getHeight(), SDL_WINDOW_SHOWN);
 	renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_TARGETTEXTURE);
 	if (!window) {
-		cout << "FATAL : Cannot create window: " << SDL_GetError() << endl;
+		SDL_LogError(SDL_LOG_CATEGORY_ERROR, "FATAL: Cannot create window: %s", SDL_GetError());
 		return 1;
 	}
 	if (!renderer) {
-		cout << "FATAL : Cannot create renderer: " << SDL_GetError() << endl;
+		SDL_LogError(SDL_LOG_CATEGORY_ERROR, "FATAL: Cannot create renderer: %s", SDL_GetError());
 		return 1;
 	}
 	SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
@@ -95,13 +95,13 @@ int main(int argc, char* argv[]) {
 	SDL_Surface *cursor = IMG_Load(cursorPath.c_str());
 
 	if (SDL_SetColorKey(cursor, SDL_TRUE, SDL_MapRGB(cursor->format, 0xff, 0, 0xff)) != 0) {
-		cout << SDL_GetError() << endl;
+		SDL_LogError(SDL_LOG_CATEGORY_ERROR, SDL_GetError());
 	}
 	SDL_SetSurfaceRLE(cursor, 1);
 
 	SDL_Cursor* mousePointer = SDL_CreateColorCursor(cursor, 0, 0);
 	if (!mousePointer) {
-		cout << "FATAL : Cannot create cursor: " << SDL_GetError() << endl;
+		SDL_LogError(SDL_LOG_CATEGORY_ERROR, "FATAL: Cannot create cursor: %s", SDL_GetError());
 		return 1;
 	}
 	SDL_SetCursor(mousePointer);
@@ -118,19 +118,19 @@ int main(int argc, char* argv[]) {
 	if (!settings->isAServer()) {
 		// Init sound
 		if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 4096) == -1) {
-			cout << "Mix_OpenAudio: " << Mix_GetError() << endl;
+			SDL_LogError(SDL_LOG_CATEGORY_ERROR, "Mix_OpenAudio: %s", Mix_GetError());
 			return -1;
 		}
 
 		int flags = MIX_INIT_OGG | MIX_INIT_MP3; //MP3 is unlikely to work everywhere...
 
 		if (Mix_Init(flags) != flags) {
-			cout << "Error loading audio decoding libraries: " << Mix_GetError() << endl;
+			SDL_LogError(SDL_LOG_CATEGORY_ERROR, "Error loading audio decoding libraries: %s", Mix_GetError());
 		}
 
 		int channels = 4;
 		if (Mix_AllocateChannels(channels) != channels) {
-			cout << "All channels haven't been allocated, exiting" << endl;
+			SDL_LogError(SDL_LOG_CATEGORY_ERROR, "All channels haven't been allocated, exiting");
 			return -1;
 		}
 
@@ -167,15 +167,15 @@ int main(int argc, char* argv[]) {
 		loop(input);
 	}
 	catch (const gcn::Exception &e) {
-		cerr << e.getMessage() << endl;
+		SDL_LogError(SDL_LOG_CATEGORY_ERROR, e.getMessage().c_str());
 		return 1;
 	}
 	catch (const std::exception &e) {
-		cerr << "Std exception: " << e.what() << endl;
+		SDL_LogError(SDL_LOG_CATEGORY_ERROR, "Std exception: %s", e.what());
 		return 1;
 	}
 	catch (...) {
-		cerr << "Unknown exception" << endl;
+		SDL_LogError(SDL_LOG_CATEGORY_ERROR, "Unknown exception");
 		return 1;
 	}
 
@@ -203,12 +203,18 @@ int main(int argc, char* argv[]) {
 	return 0;
 }
 
+/**
+ * Basic usage string
+ */
 void usage() {
     cout << "Linbound v" << linbound::getVersionString() << endl
          << "(C) 2007-2020 G. Baudic" << endl;
     return;
 }
 
+/**
+ * Main loop of the game
+ */
 void loop(gcn::SDLInput &input) {
 	SDL_Event event;
 
@@ -241,7 +247,7 @@ void loop(gcn::SDLInput &input) {
 		//** GUI
 		gui->draw();
 
-		//** Overlay
+		//** Overlay (if any)
 		currentContext->drawOverlay(renderer);
 
 		SDL_RenderPresent(renderer);

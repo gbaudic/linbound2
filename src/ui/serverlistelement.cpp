@@ -21,7 +21,7 @@ using namespace std;
  * Constructor
  * \param info struct containing the data to display
  */
-ServerListElement::ServerListElement(ServerInfo &info) : 
+ServerListElement::ServerListElement(const ServerInfo &info) : 
 _info(info), btn_connect("Connect") {
 	setWidth(500);
 	setHeight(60);
