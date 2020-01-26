@@ -28,6 +28,12 @@ enum class RoomStatus {
 	PLAYING  //! game being played
 };
 
+enum class SuddenDeathType {
+    BIGBOMB,
+    DOUBLE,
+    SS
+};
+
 struct RoomBasicInfo {
 	Uint16 number;
 	std::string name;
