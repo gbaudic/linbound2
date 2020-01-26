@@ -33,3 +33,5 @@
 
 /dll/
 /Output/
+/.vs/
+/CMakeFiles/

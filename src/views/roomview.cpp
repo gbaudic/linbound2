@@ -9,7 +9,7 @@
  * If a copy of the MPL was not distributed with this file,
  * You can obtain one at http://mozilla.org/MPL/2.0/.
  *
- * This Source Code Form is “Incompatible With Secondary Licenses”,
+ * This Source Code Form is "Incompatible With Secondary Licenses",
  * as defined by the Mozilla Public License, v. 2.0.
  */
 
@@ -78,16 +78,16 @@ void RoomView::drawBackground(SDL_Renderer *screen) {
 	const Uint32 currentTime = SDL_GetTicks();
 	Sint16 xdelta = 0;
 	Sint16 ydelta = 0;
-	if (cursorTop > 0 && currentTime - cursorTop >= AUTOSCROLL_DELAY) {
+	if (cursors[0] > 0 && currentTime - cursors[0] >= AUTOSCROLL_DELAY) {
 		ydelta = -SCROLL_DELTA;
 	}
-	if (cursorBottom > 0 && currentTime - cursorBottom >= AUTOSCROLL_DELAY) {
+	if (cursors[2] > 0 && currentTime - cursors[2] >= AUTOSCROLL_DELAY) {
 		ydelta = SCROLL_DELTA;
 	}
-	if (cursorLeft > 0 && currentTime - cursorLeft >= AUTOSCROLL_DELAY) {
+	if (cursors[3] > 0 && currentTime - cursors[3] >= AUTOSCROLL_DELAY) {
 		xdelta = -SCROLL_DELTA;
 	}
-	if (cursorRight > 0 && currentTime - cursorRight >= AUTOSCROLL_DELAY) {
+	if (cursors[1] > 0 && currentTime - cursors[1] >= AUTOSCROLL_DELAY) {
 		xdelta = SCROLL_DELTA;
 	}
 	moveViewport(xdelta, ydelta);
@@ -131,22 +131,23 @@ void RoomView::processEvent(SDL_Event &event) {
 			// Player has finished shooting
 			currentMode = InteractionMode::IDLE;
 		}
+		// Support here arrow up/down (angle), left/right (motion), F7 (mobile), F8 (pass turn), F1-6 (item use)...
 	} else if (event.type == SDL_MOUSEMOTION) {
 		SDL_MouseMotionEvent mouseEvent = event.motion;
 
 		if (mouseEvent.x >= 0 && mouseEvent.x <= getWidth() && mouseEvent.y >= 0 && mouseEvent.y <= getHeight() - 100) {
 			// We are in the window, check if we are in an edge
 			// Left edge
-			updateMagicEdge(mouseEvent.x, cursorLeft);
+			updateMagicEdge(mouseEvent.x, cursors[3]);
 
 			// Right edge
-			updateMagicEdge(getWidth() - mouseEvent.x, cursorRight);
+			updateMagicEdge(getWidth() - mouseEvent.x, cursors[1]);
 
 			// Top edge
-			updateMagicEdge(mouseEvent.y, cursorTop);
+			updateMagicEdge(mouseEvent.y, cursors[0]);
 
 			// Bottom edge
-			updateMagicEdge(getHeight() - 100 - mouseEvent.y, cursorBottom);
+			updateMagicEdge(getHeight() - 100 - mouseEvent.y, cursors[2]);
 		}
 	}
 }

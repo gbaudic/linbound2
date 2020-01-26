@@ -19,6 +19,7 @@
 #include "../context.hpp"
 #include "../constants.hpp"
 #include "../gamemap.hpp"
+#include "../common/commonplayer.hpp" // temporary, use clientplayer
 
 class RoomView: public Context, public gcn::ActionListener {
 public:
@@ -48,10 +49,7 @@ private:
 	SDL_Rect fg_rect;
 	SDL_Rect bg_rect;
 
-	Uint32 cursorLeft = 0;
-	Uint32 cursorRight = 0;
-	Uint32 cursorTop = 0;
-	Uint32 cursorBottom = 0;
+	Uint32 cursors[4] = { 0, 0, 0, 0 }; // top, right, bottom, left
 
 	// Widgets
 	gcn::TextField tf_chat;
