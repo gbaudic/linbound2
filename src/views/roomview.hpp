@@ -19,6 +19,7 @@
 #include "../context.hpp"
 #include "../constants.hpp"
 #include "../gamemap.hpp"
+#include "../ui/messagelog.hpp"
 #include "../common/commonplayer.hpp" // temporary, use clientplayer
 
 class RoomView: public Context, public gcn::ActionListener {

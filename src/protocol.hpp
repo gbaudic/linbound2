@@ -1,17 +1,15 @@
 /**
  *  \file protocol.hpp
- *
+ *  \author G. B.
  *  \brief Protocol defines for the LinBound game
  *  \version 0.1a
  *  \date 30/04/2012
- *
  */
-
 /* This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0.
  * If a copy of the MPL was not distributed with this file,
  * You can obtain one at http://mozilla.org/MPL/2.0/.
  *
- * This Source Code Form is “Incompatible With Secondary Licenses”,
+ * This Source Code Form is "Incompatible With Secondary Licenses",
  * as defined by the Mozilla Public License, v. 2.0.
  */
 
@@ -72,6 +70,7 @@ const Uint8 EVENT_MSG = 115; //! Game start, double death, sudden death type...
 const Uint8 TURN_MSG = 114; //! Your turn to play
 const Uint8 REWARD_MSG = 116;
 const Uint8 PENALTY_MSG = 117;
+const Uint8 SERVER_MSG = 118;
 const Uint8 SHOT_MSG = 120; //! Shot coordinates: angle, strength, weapon and item used
 const Uint8 DMG_MSG = 125; //! Result of a shot: impact on players, on the map...
 const Uint8 ITEMS_MSG = 135; //! Item choice when playing (for server consistency checks)
