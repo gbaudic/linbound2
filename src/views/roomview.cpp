@@ -27,10 +27,7 @@ const Uint16 RoomView::MAX_POWER;
  * @param map an already partly loaded object representing the game map
  */
 RoomView::RoomView(const GameMode mode, GameMap *map) : Context(ContextName::ROOM),
-btn_1("1"), btn_2("2"), btn_supershot("SS"),
-pb_power(0, MAX_POWER, 0), pb_motion(0, MOTION_LIMIT, MOTION_LIMIT),
-currentMode(InteractionMode::IDLE), gameMode(mode),
-currentMap(map) {
+gameMode(mode), currentMap(map) {
 
 	fg_rect.w = getWidth();
 	fg_rect.h = getHeight();
@@ -180,6 +177,8 @@ void RoomView::addWidgets() {
 
 	addWidget(&pb_power, 70, getHeight() - pb_power.getHeight() - 10);
 	addWidget(&pb_motion, 70, pb_power.getY() - 20);
+
+	addWidget(&msgLog, 2, 2);
 }
 
 /**

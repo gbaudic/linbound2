@@ -15,20 +15,15 @@
 
 #include <SDL2/SDL.h>
 #include "../protocol.hpp"
-#include "../config.hpp"
 #include "messagelog.hpp"
 using namespace gcn;
 
 /**
  * Constructor
  */
-MessageLog::MessageLog() : Widget(), 
-imgServer(Image::load(RESOURCE_PREFIX + "/server_message.png")),
-imgPenalty(Image::load(RESOURCE_PREFIX + "/penalty_message.png")),
-imgReward(Image::load(RESOURCE_PREFIX + "/gold_message.png"))
-{
-    setHeight(15 * MESSAGE_LIMIT);
-    setWidth(500);
+MessageLog::MessageLog() : Widget() {
+    setHeight(16 * MESSAGE_LIMIT);
+    setWidth(500); // arbitrary, but hopefully enough
 }
 
 /**

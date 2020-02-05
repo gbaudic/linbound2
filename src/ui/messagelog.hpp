@@ -21,6 +21,7 @@
 #include <memory>
 #include <SDL2/SDL.h>
 #include <guisan.hpp>
+#include "../config.hpp"
 
 /**
  * Helper class to store messages before drawing them
@@ -49,9 +50,9 @@ private:
     gcn::Color reward{ 0, 0xff, 0xff };
     gcn::Color penalty{ 0xff, 0, 0 };
 
-    std::unique_ptr<gcn::Image> imgServer;
-    std::unique_ptr<gcn::Image> imgPenalty;
-    std::unique_ptr<gcn::Image> imgReward;
+    std::unique_ptr<gcn::Image> imgServer{ gcn::Image::load(RESOURCE_PREFIX + "/server_message.png") };
+    std::unique_ptr<gcn::Image> imgPenalty{ gcn::Image::load(RESOURCE_PREFIX + "/penalty_message.png") };
+    std::unique_ptr<gcn::Image> imgReward{ gcn::Image::load(RESOURCE_PREFIX + "/gold_message.png") };
 };
 
 

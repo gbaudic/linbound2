@@ -54,17 +54,18 @@ private:
 
 	// Widgets
 	gcn::TextField tf_chat;
-	gcn::Button btn_1;
-	gcn::Button btn_2;
-	gcn::Button btn_supershot;
+	gcn::Button btn_1{ "1" };
+	gcn::Button btn_2{ "2" };
+	gcn::Button btn_supershot{ "SS" };
 	gcn::Label lbl_lastAngle;
 	gcn::Label lbl_currentAngle;
 	gcn::Label lbl_wind;
-	gcn::ProgressBar pb_power;
-	gcn::ProgressBar pb_motion;
+	gcn::ProgressBar pb_power{ 0, MAX_POWER, 0 };
+	gcn::ProgressBar pb_motion{ 0, MOTION_LIMIT, MOTION_LIMIT };
+	MessageLog msgLog;
 
 	Uint16 turnCount = 0;
-	InteractionMode currentMode;
+	InteractionMode currentMode = InteractionMode::IDLE;
 	GameMode gameMode;
 	GameMap *currentMap;
 
