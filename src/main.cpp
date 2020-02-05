@@ -161,13 +161,14 @@ int main(int argc, char* argv[]) {
 
 	Context::setParent(&top);
 	currentContext = Context::getNextContext(ContextName::MAIN_MENU);
+	SoundManager::getInstance()->changeMode(ContextName::NONE, ContextName::MAIN_MENU);
 
 	// insert call to loop here
 	try {
 		loop(input);
 	}
 	catch (const gcn::Exception &e) {
-		SDL_LogError(SDL_LOG_CATEGORY_ERROR, e.getMessage().c_str());
+		SDL_LogError(SDL_LOG_CATEGORY_ERROR, "%s", e.getMessage().c_str());
 		return 1;
 	}
 	catch (const std::exception &e) {
@@ -175,7 +176,7 @@ int main(int argc, char* argv[]) {
 		return 1;
 	}
 	catch (...) {
-		SDL_LogError(SDL_LOG_CATEGORY_ERROR, "Unknown exception");
+		SDL_LogError(SDL_LOG_CATEGORY_ERROR, "%s", "Unknown exception");
 		return 1;
 	}
 

@@ -15,6 +15,7 @@
 
 #include <algorithm>
 #include "../utils.hpp"
+#include "../sound.hpp"
 #include "roomview.hpp"
 using namespace std;
 
@@ -190,7 +191,7 @@ void RoomView::setWind(Uint8 newPower, Uint16 newAngle) {
 	windPower = newPower;
 	windAngle = newAngle;
 	lbl_wind.setCaption(to_string(windPower));
-	// TODO play a sound
+	SoundManager::getInstance()->playSound("wind1");
 }
 
 /**
