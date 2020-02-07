@@ -130,7 +130,7 @@ int main(int argc, char* argv[]) {
 
 		int channels = 4;
 		if (Mix_AllocateChannels(channels) != channels) {
-			SDL_LogError(SDL_LOG_CATEGORY_ERROR, "All channels haven't been allocated, exiting");
+			SDL_LogError(SDL_LOG_CATEGORY_ERROR, "%s", "All channels haven't been allocated, exiting");
 			return -1;
 		}
 

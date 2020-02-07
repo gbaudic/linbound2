@@ -33,9 +33,15 @@ configure_file (
   "${PROJECT_SOURCE_DIR}/src/config.hpp"
 )
 
-file(GLOB_RECURSE source_files src/*)
+file(GLOB source_files LIST_DIRECTORIES false src/*.cpp src/common/* src/ui/* src/views/*)
+file(GLOB server_source_files LIST_DIRECTORIES false src/gamemap.cpp src/utils.cpp src/network.cpp src/settings.cpp src/sprite.cpp
+    src/server/* src/common/*)
+set(SERVER_NAME ${PROJECT_NAME}_server)
 
 add_executable(${PROJECT_NAME} ${source_files})
+if(ENABLE_SERVER)
+	add_executable(${SERVER_NAME} ${server_source_files})
+endif()
 
 if(NOT MSVC)
 	INCLUDE(FindPkgConfig)
@@ -106,6 +112,20 @@ TARGET_LINK_LIBRARIES(${PROJECT_NAME} ${SDL2_LIBRARIES}
 	${TINYXML2_LIBRARIES}
 	${SQLITE3_LIBRARIES}
 	${BOX2D_LIBRARIES})
+	
+if(ENABLE_SERVER)
+	TARGET_LINK_LIBRARIES(${SERVER_NAME} ${SDL2_LIBRARIES} 
+		${SDL2MAIN}   # only used in Windows
+		${SDL2_IMAGE_LIBRARIES} 
+		${SDL2_TTF_LIBRARIES}
+		${SDL2_GFX_LIBRARIES}
+		${SDL2_MIXER_LIBRARIES}
+		${SDL2_NET_LIBRARIES}
+		${GUISAN_LIBRARIES}
+		${TINYXML2_LIBRARIES}
+		${SQLITE3_LIBRARIES}
+		${BOX2D_LIBRARIES})
+endif()
 
 
 if(ENABLE_TESTS)
@@ -151,12 +171,19 @@ endif()
 if(WIN32)
 	install(TARGETS ${PROJECT_NAME} CONFIGURATIONS Release 
 		RUNTIME DESTINATION .)
+	if(ENABLE_SERVER)	
+		install(TARGETS ${SERVER_NAME} CONFIGURATIONS Release 
+			RUNTIME DESTINATION .)
+	endif()
 	install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/res DESTINATION .)
 	# The next line assumes you have all the necessary DLLs in the dll/ subdirectory
 	# install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/dll/ CONFIGURATIONS Release
 	# 	DESTINATION . FILES_MATCHING PATTERN "*.dll")
 else()
 	install(TARGETS ${PROJECT_NAME} RUNTIME DESTINATION bin)
+	if(ENABLE_SERVER)
+		install(TARGETS ${SERVER_NAME} RUNTIME DESTINATION bin)
+	endif()
 	install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/res/ DESTINATION share/${PROJECT_NAME})
 endif()
 
