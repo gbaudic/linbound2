@@ -24,7 +24,7 @@ using namespace std;
  * \param height height of one frame of the sprite (not the full image!)
  */
 Sprite::Sprite(const std::string &filename, const int width, const int height, const Uint16 duration): 
-	currentState(0), stepDuration(duration) {
+	stepDuration(duration) {
 
 	surface = IMG_Load(filename.c_str());
 	SDL_SetColorKey(surface, SDL_RLEACCEL, SDL_MapRGB(surface->format, 0xff, 0, 0xff));
@@ -47,6 +47,7 @@ Sprite::~Sprite() {
 /**
  * Get the rectangle corresponding to the current animation step for this sprite
  * Used in conjunction with getSurface() to actually draw it to the screen
+ * @return the correct SDL_Rect
  */
 SDL_Rect & Sprite::getRect() {
 	currentRect.y = currentState * currentRect.h;
@@ -59,6 +60,7 @@ SDL_Rect & Sprite::getRect() {
 
 /**
  * Get the underlying SDL_Surface
+ * @return a pointer to the surface
  */
 SDL_Surface * Sprite::getSurface() {
 	return surface;
@@ -66,12 +68,12 @@ SDL_Surface * Sprite::getSurface() {
 
 /**
  * Change the state of this Sprite
+ * @param newState index of the new state
  */
 void Sprite::setState(const int newState) {
 	if (newState >= 0 && newState < nbStates) {
 		currentState = newState;
-	}
-	else {
+	} else {
 		currentState = 0;
 	}
 }

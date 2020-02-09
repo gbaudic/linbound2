@@ -27,11 +27,22 @@ MessageLog::MessageLog() : Widget() {
 }
 
 /**
+ * \brief Add a message to the list (convenience overload)
+ * \param user username concerned by the message
+ * \param message text to display
+ * \param type message type as defined in protocol.hpp
+ */
+void MessageLog::addMessage(const std::string& user, const std::string message, const Uint8 type) {
+    addMessage(user + "] " + message, type);
+}
+
+/**
  * \brief Add a message to the list
  * \param message full text to display
  * \param type message type as defined in protocol.hpp
  */
 void MessageLog::addMessage(const std::string& message, const Uint8 type) {
+    // Enforce the length limit
     if (messages.size() >= MESSAGE_LIMIT) {
         messages.pop_front();
     }
@@ -50,11 +61,11 @@ void MessageLog::addMessage(const std::string& message, const Uint8 type) {
 void MessageLog::draw(gcn::Graphics* graphics) {
     // Draw messages if applicable
     int toRemove = 0;
-    int y = 0;
+    int y = 2;
     Uint32 currentTime = SDL_GetTicks();
 
     for (std::list<Message>::iterator it = messages.begin(); it != messages.end(); ++it) {
-        if ((*it).arrival + DISPLAY_DELAY < currentTime) {
+        if ( currentTime > (*it).arrival + DISPLAY_DELAY) {
             toRemove++;
         } else {
             int x = 0;
@@ -83,7 +94,7 @@ void MessageLog::draw(gcn::Graphics* graphics) {
             
             // Draw text
             graphics->drawText((*it).message, x, y, Graphics::LEFT);
-            y += 15;
+            y += 16;
         }
     }
 

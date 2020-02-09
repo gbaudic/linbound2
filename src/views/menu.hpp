@@ -18,6 +18,7 @@
 
 #include <guisan.hpp>
 #include "../context.hpp"
+#include "../config.hpp"
 #include "../ui/creditswindow.hpp"
 #include "../ui/settingswindow.hpp"
 
@@ -38,14 +39,14 @@ public:
 	};
 
 private:
-	gcn::ImageButton btn_newGame;
-	gcn::ImageButton btn_credits;
-	gcn::ImageButton btn_settings;
-	gcn::ImageButton btn_quit;
-	gcn::ImageButton btn_back;
-	gcn::ImageButton btn_lanGame;
-	gcn::ImageButton btn_localGame;
-	gcn::ImageButton btn_webGame;
+	gcn::ImageButton btn_newGame{ RESOURCE_PREFIX + "/menu/newgame.png" };
+	gcn::ImageButton btn_credits{ RESOURCE_PREFIX + "/menu/credits.png" };
+	gcn::ImageButton btn_settings{ RESOURCE_PREFIX + "/menu/settings.png" };
+	gcn::ImageButton btn_quit{ RESOURCE_PREFIX + "/menu/quit.png" };
+	gcn::ImageButton btn_back{ RESOURCE_PREFIX + "/menu/back.png" };
+	gcn::ImageButton btn_lanGame{ RESOURCE_PREFIX + "/menu/langame.png" };
+	gcn::ImageButton btn_localGame{ RESOURCE_PREFIX + "/menu/localgame.png" };
+	gcn::ImageButton btn_webGame{ RESOURCE_PREFIX + "/menu/webgame.png" };
 
 	gcn::Label lbl_version;
 

@@ -21,6 +21,10 @@ using namespace std;
 
 SoundManager* SoundManager::instance = nullptr;
 
+/**
+ * Constructor
+ * Note that the sound system must have been initialized before
+ */
 SoundManager::SoundManager() {
 	string effectNames[] = { "wind1", "turn", "victory", "lose", "money",
 							"cow", "duck", "electron", "goat", "ice", "pig", "sheep", "tea", "unicorn" };
@@ -35,6 +39,9 @@ SoundManager::SoundManager() {
 
 }
 
+/**
+ * \brief Getter for singleton pattern
+ */
 SoundManager * SoundManager::getInstance() {
 	if (instance == nullptr) {
 		instance = new SoundManager();
@@ -104,6 +111,9 @@ void SoundManager::changeMode(const ContextName &currentMode, const ContextName 
 	}
 }
 
+/**
+ * \brief Free the memory used and clean up nicely
+ */
 void SoundManager::close() {
 	Mix_HaltMusic();
 	if (music) {

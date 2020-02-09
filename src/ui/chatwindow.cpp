@@ -22,8 +22,7 @@ std::string ChatWindow::sender; // init
   Constructor
   \param friendName username of the friend
 */
-ChatWindow::ChatWindow(const string &friendName) : 
-	btn_close("x"), btn_send("Send"), recipient(friendName) {
+ChatWindow::ChatWindow(const string &friendName) : recipient(friendName) {
 	setCaption(friendName);
 	setWidth(200);
 	setHeight(300);
@@ -111,6 +110,10 @@ string const ChatWindow::getRecipientName() {
 	return recipient;
 }
 
+/**
+ * Get the last message sent from this window
+ * \param the message sent
+ */
 string const ChatWindow::getMessage() {
 	return messageSent;
 }

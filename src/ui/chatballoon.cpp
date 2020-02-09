@@ -27,14 +27,10 @@ TTF_Font *ChatBalloon::font = nullptr;
  * \param y y coord of the tip (bottom) of the balloon
  */
 ChatBalloon::ChatBalloon(const string &text, const int x, const int y) : message(text), 
-_x(x), _y(y), nbCharsDisplayed(1), creationTime(SDL_GetTicks()) {
+_x(x), _y(y) {
     if(message.size() == 0) {
         message = " ";
     }
-}
-
-ChatBalloon::~ChatBalloon() {
-    
 }
 
 /**

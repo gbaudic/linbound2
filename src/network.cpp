@@ -1,6 +1,6 @@
 /**
  * \file network.cpp
- * \brief Network-related functions
+ * \brief Network-related functions and initializations
  * \author G. B.
  * \version 0.1a
  * \date 19/02/2019
@@ -9,7 +9,7 @@
  * If a copy of the MPL was not distributed with this file,
  * You can obtain one at http://mozilla.org/MPL/2.0/.
  *
- * This Source Code Form is “Incompatible With Secondary Licenses”,
+ * This Source Code Form is "Incompatible With Secondary Licenses",
  * as defined by the Mozilla Public License, v. 2.0.
  */
 
@@ -32,6 +32,9 @@ NetworkManager::NetworkManager() {
 	serverInfo.port = 0;
 }
 
+/**
+ * Destructor
+ */
 NetworkManager::~NetworkManager() {
     for(UDPpacket *p : packets) {
         SDLNet_FreePacket(p);

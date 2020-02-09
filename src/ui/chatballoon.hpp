@@ -26,7 +26,6 @@ public:
     const Uint32 FULL_DELAY = 5000; //! time to leave the full balloon visible
     
     ChatBalloon(const std::string &text, const int x, const int y);
-    ~ChatBalloon();
     
     void draw(SDL_Renderer *renderer, const int xOffset = 0, const int yOffset = 0);
     bool isVisible() const;
@@ -37,8 +36,8 @@ private:
     std::string message;
     int _x;
     int _y;
-    int nbCharsDisplayed;
-    Uint32 creationTime;
+    int nbCharsDisplayed = 1;
+    Uint32 creationTime{ SDL_GetTicks() };
     
     const int PADDING = 5; //! in pixels
 

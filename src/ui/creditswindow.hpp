@@ -27,7 +27,7 @@ public:
 private:
 	gcn::TextBox tb_text;
 	gcn::ScrollArea sa_scroll;
-	gcn::Button btn_close;
+    gcn::Button btn_close{ "Close" };
 
 	void addWidgets();
 };

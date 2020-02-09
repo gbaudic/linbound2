@@ -95,7 +95,7 @@ int main(int argc, char* argv[]) {
 	SDL_Surface *cursor = IMG_Load(cursorPath.c_str());
 
 	if (SDL_SetColorKey(cursor, SDL_TRUE, SDL_MapRGB(cursor->format, 0xff, 0, 0xff)) != 0) {
-		SDL_LogError(SDL_LOG_CATEGORY_ERROR, SDL_GetError());
+		SDL_LogError(SDL_LOG_CATEGORY_ERROR, "%s", SDL_GetError());
 	}
 	SDL_SetSurfaceRLE(cursor, 1);
 

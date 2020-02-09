@@ -23,8 +23,7 @@ using namespace std;
 /**
  * Constructor
  */
-CreditsWindow::CreditsWindow() : tb_text(), sa_scroll(), btn_close("Close") {
-
+CreditsWindow::CreditsWindow() { 
 	setCaption("Credits");
 	setWidth(Settings::getInstance()->getWidth() / 2);
 	setHeight(Settings::getInstance()->getHeight() / 2);
@@ -69,6 +68,9 @@ void CreditsWindow::action(const gcn::ActionEvent& actionEvent) {
 	}
 }
 
+/**
+ * Add the widgets to the window
+ */
 void CreditsWindow::addWidgets() {
 	add(&sa_scroll, mPadding, mPadding);
 	add(&btn_close, getWidth() - 2 * getBorderSize() - 2 * mPadding - btn_close.getWidth(), 

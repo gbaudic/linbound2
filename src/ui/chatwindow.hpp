@@ -35,8 +35,8 @@ private:
 	gcn::TextField tf_msg;
 	gcn::ScrollArea sa_scroll;
 	gcn::TextBox tb_chat;
-	gcn::Button btn_close;
-	gcn::Button btn_send;
+	gcn::Button btn_close{ "x" };
+	gcn::Button btn_send{ "Send" };
 	std::string recipient; //! necessary if caption displays other infos
 	static std::string sender; //! name of the player
 	std::string messageSent;

@@ -33,7 +33,7 @@ private:
 	SDL_Surface *surface = nullptr;
 	int nbSteps;
 	int nbStates;
-	int currentState;
+	int currentState = 0;
 	Uint16 stepDuration;
 	Uint32 creationTS;  //! timestamp of creation
 };

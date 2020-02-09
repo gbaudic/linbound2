@@ -16,23 +16,13 @@
 #include <SDL2/SDL_image.h>
 #include "menu.hpp"
 #include "../utils.hpp"
-#include "../config.hpp"
 using namespace std;
 
 /**
  * Constructor
  * @param p main Container for the GUI
  */
-Menu::Menu() : Context(ContextName::MAIN_MENU),
-btn_newGame(RESOURCE_PREFIX + "/menu/newgame.png"),
-btn_credits(RESOURCE_PREFIX + "/menu/credits.png"), 
-btn_settings(RESOURCE_PREFIX + "/menu/settings.png"),
-btn_quit(RESOURCE_PREFIX + "/menu/quit.png"),
-btn_back(RESOURCE_PREFIX + "/menu/back.png"),
-btn_lanGame(RESOURCE_PREFIX + "/menu/langame.png"),
-btn_localGame(RESOURCE_PREFIX + "/menu/localgame.png"),
-btn_webGame(RESOURCE_PREFIX + "/menu/webgame.png")
-{
+Menu::Menu() : Context(ContextName::MAIN_MENU) {
 	lbl_version.setCaption("Version " + linbound::getVersionString());
 	lbl_version.adjustSize();
 
@@ -88,8 +78,7 @@ Menu::~Menu() {
 	}
 }
 
-void Menu::action(const gcn::ActionEvent & actionEvent)
-{
+void Menu::action(const gcn::ActionEvent & actionEvent) {
 	if (actionEvent.getId() == "credits") {
 		credits.setVisible(true);
 	}
@@ -125,8 +114,7 @@ void Menu::action(const gcn::ActionEvent & actionEvent)
   \brief Toggle visibility of buttons between the two modes
   \param move true to show game choice buttons, false to show main menu
 */
-void Menu::moveToGame(bool move)
-{
+void Menu::moveToGame(bool move) {
 	btn_quit.setVisible(!move);
 	btn_credits.setVisible(!move);
 	btn_settings.setVisible(!move);
@@ -138,6 +126,10 @@ void Menu::moveToGame(bool move)
 	btn_webGame.setVisible(move);
 }
 
+/**
+ * \brief Draw the background image
+ * \param screen renderer to use
+ */
 void Menu::drawBackground(SDL_Renderer * screen) {
 	if (!backTexture) {
 		backTexture = SDL_CreateTextureFromSurface(screen, background);
