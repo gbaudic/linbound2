@@ -22,7 +22,7 @@ using namespace std;
  * \param info struct containing the data to display
  */
 ServerListElement::ServerListElement(const ServerInfo &info) : 
-_info(info), btn_connect("Connect") {
+_info(info) {
 	setWidth(500);
 	setHeight(60);
 	setOpaque(false);

@@ -40,13 +40,13 @@ public:
 	void action(const gcn::ActionEvent& actionEvent) override;
 
 private:
-	gcn::Button btn_back;
-	gcn::Button btn_newRoom;
-	gcn::Button btn_goToShop;
-	gcn::Button btn_addFriend;
+	gcn::Button btn_back{ "Logout" };
+	gcn::Button btn_newRoom{ "Create room" };
+	gcn::Button btn_goToShop{ "Item shop" };
+	gcn::Button btn_addFriend{ "Add friend" };
 
-	gcn::Button btn_prevPage;
-	gcn::Button btn_nextPage;
+	gcn::Button btn_prevPage{ "<" };
+	gcn::Button btn_nextPage{ ">" };
 
 	gcn::Label lbl_playerName;
 	gcn::Label lbl_playerTeam;
@@ -59,7 +59,7 @@ private:
 	gcn::ScrollArea sa_chat;
 	gcn::TextField tf_message;
 
-	gcn::InputBox in_addFriend;
+	gcn::InputBox in_addFriend{ "Add friend", "Enter player id" };
 
 	ContextName origin;
 

@@ -32,7 +32,7 @@ MessageLog::MessageLog() : Widget() {
  * \param message text to display
  * \param type message type as defined in protocol.hpp
  */
-void MessageLog::addMessage(const std::string& user, const std::string message, const Uint8 type) {
+void MessageLog::addMessage(const std::string& user, const std::string& message, const Uint8 type) {
     addMessage(user + "] " + message, type);
 }
 

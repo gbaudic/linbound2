@@ -1,14 +1,16 @@
+/**
+ * \file loginwindow.cpp
+ * \date 12/2018
+ * \brief Window overload to get connection details
+ * \author G. B.
+ * \version 0.1a
+ */
 /* This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0.
  * If a copy of the MPL was not distributed with this file,
  * You can obtain one at http://mozilla.org/MPL/2.0/.
  *
- * This Source Code Form is “Incompatible With Secondary Licenses”,
+ * This Source Code Form is "Incompatible With Secondary Licenses",
  * as defined by the Mozilla Public License, v. 2.0.
- */
-/**
- * \file loginwindow.cpp
- * \date 12/2018
- * \author G. Baudic
  */
 
 #include "loginwindow.hpp"
@@ -17,9 +19,7 @@ using namespace std;
 /**
  * Constructor
  */
-LoginWindow::LoginWindow() : gcn::Window("Login"),
-btn_ok("Login"), btn_cancel("Cancel"), lbl_status(" "),
-lbl_login("Login"), lbl_password("Password")
+LoginWindow::LoginWindow() : gcn::Window("Login")
 {
 	setWidth(250);
 	setHeight(120);
@@ -117,6 +117,10 @@ void LoginWindow::onLogin(const int success) {
         case 5:
             // Connection timed out
             lbl_status.setCaption("Connection timed out.");
+            break;
+        case 6:
+            // Already connected
+            lbl_status.setCaption("Already connected!");
             break;
         default:
             break;

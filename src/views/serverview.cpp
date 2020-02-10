@@ -17,9 +17,7 @@
  * Constructor
  */
 ServerView::ServerView(ContextName previous) : Context(ContextName::ROOM_LIST),
-btn_back("Logout"), btn_newRoom("Create room"), btn_goToShop("Item shop"),
-btn_addFriend("Add friend"), btn_prevPage("<"), btn_nextPage(">"),
-in_addFriend("Add friend", "Enter player id"), origin(previous) {
+ origin(previous) {
 
 	btn_back.setActionEventId("logout");
 	btn_back.addActionListener(this);
@@ -100,5 +98,5 @@ void ServerView::roomChanged() {
 }
 
 void ServerView::drawBackground(SDL_Renderer* screen) {
-
+	// TBD
 }

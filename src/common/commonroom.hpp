@@ -18,6 +18,7 @@
 
 #include <string>
 #include <SDL2/SDL.h>
+#include "../constants.hpp"
 
 /**
  * Status of a room
@@ -39,6 +40,7 @@ struct RoomBasicInfo {
 	std::string name;
 	bool hasPassword;
 	RoomStatus status;
+    GameMode mode;
 	std::string mapName;
 };
  

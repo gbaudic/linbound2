@@ -35,7 +35,7 @@ struct Message {
 class MessageLog : public gcn::Widget {
 public:
     explicit MessageLog();
-    void addMessage(const std::string& user, const std::string message, const Uint8 type);
+    void addMessage(const std::string& user, const std::string &message, const Uint8 type);
     void addMessage(const std::string& message, const Uint8 type);
 
     virtual void draw(gcn::Graphics* graphics) override;

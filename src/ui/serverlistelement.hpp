@@ -38,7 +38,7 @@ public:
 
 private:
 	ServerInfo _info;
-	gcn::Button btn_connect;
+	gcn::Button btn_connect{ "Connect" };
 	gcn::Label lbl_ip;
 	gcn::Label lbl_name;
 	gcn::Label lbl_lvlMin;

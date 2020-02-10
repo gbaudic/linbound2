@@ -58,6 +58,8 @@ gameMode(mode), currentMap(map) {
 	pb_power.setForegroundColor(gcn::Color(0xff, 0, 0));
 	pb_power.setWidth(getWidth() - 100 - 10);
 
+	msgLog.setWidth(getWidth());
+
 	currentMap->load();
 
 }

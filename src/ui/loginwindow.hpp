@@ -1,14 +1,16 @@
+/**
+ * \file loginwindow.hpp
+ * \date 12/2018
+ * \brief Window overload to get connection details
+ * \author G. B.
+ * \version 0.1a
+ */
 /* This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0.
  * If a copy of the MPL was not distributed with this file,
  * You can obtain one at http://mozilla.org/MPL/2.0/.
  *
- * This Source Code Form is “Incompatible With Secondary Licenses”,
+ * This Source Code Form is "Incompatible With Secondary Licenses",
  * as defined by the Mozilla Public License, v. 2.0.
- */
-/**
- * \file loginwindow.hpp
- * \date 12/2018
- * \author G. Baudic
  */
 
 #ifndef _H_LOGINWINDOW_
@@ -31,13 +33,13 @@ public:
 	void onLogin(const int success);
 
 private:
-	gcn::Button btn_ok;
-	gcn::Button btn_cancel;
-	gcn::Label lbl_status;  //! Communicate info to the user
+	gcn::Button btn_ok{"Login"};
+	gcn::Button btn_cancel{"Cancel"};
+	gcn::Label lbl_status{" "};  //! Communicate info to the user
 	gcn::TextField tf_login;
 	gcn::PasswordField tf_password;
-	gcn::Label lbl_login;
-	gcn::Label lbl_password;
+	gcn::Label lbl_login{"Login"};
+	gcn::Label lbl_password{"Password"};
 
 	void addWidgets();
 };
