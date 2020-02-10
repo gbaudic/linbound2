@@ -36,4 +36,23 @@ struct PlayerBasicInfo {
     Uint32 cash;
 };
 
+struct PlayerStats {
+    std::string name;
+    unsigned int worldRanking;
+    unsigned int countryRanking;
+    unsigned int guildRanking;
+    unsigned int winningRate;
+};
+
+/**
+ * Used client-side for match result and server-side for computations
+ */
+struct PlayerResult {
+    std::string name;
+    Sint8 gpEarned;
+    int goldEarned;
+    unsigned int damageInflicted;
+    bool wins;
+};
+
 #endif //! _H_COMMONPLAYER_ 
