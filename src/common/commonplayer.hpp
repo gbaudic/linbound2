@@ -40,8 +40,8 @@ struct PlayerStats {
     std::string name;
     unsigned int worldRanking;
     unsigned int countryRanking;
-    unsigned int guildRanking;
-    unsigned int winningRate;
+    unsigned int guildRanking; // 0 means no guild
+    unsigned int winningRate; // [0-100]%
 };
 
 /**

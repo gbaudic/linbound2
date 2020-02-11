@@ -30,7 +30,7 @@
  */
 class ServerList : public Context, public gcn::ActionListener {
 public:
-	enum State { NONE,
+	enum class State { NONE,
 		LOGIN, // Login sent, waiting for answer
 		RECEIVING_BC, // Receiving server data from LAN
 		RECEIVING_IP  // Receiving server data from manual IP
@@ -53,13 +53,13 @@ public:
 	Uint32 getIP() const;
 
 private:
-	State state;
-	Uint32 currentIP;
+	State state = State::NONE;
+	Uint32 currentIP = 0x0;
 
-	gcn::Button btn_back;
-	gcn::Button btn_manualIP;
-	gcn::Button btn_rescan;
-	gcn::InputBox input_ip;
+	gcn::Button btn_back{ "< Back" };
+	gcn::Button btn_manualIP{ "Enter IP" };
+	gcn::Button btn_rescan{ "Rescan local network" };
+	gcn::InputBox input_ip{ "IP", "Enter server address" };
 	LoginWindow w_login;
 
 	SDL_Texture *backTexture = nullptr;

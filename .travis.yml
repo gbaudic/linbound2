@@ -38,3 +38,7 @@ script:
     - sonar-scanner
     - make -j2
     - ctest
+
+cache:
+    directories:
+        - sonar-cache
