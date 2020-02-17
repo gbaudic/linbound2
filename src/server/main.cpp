@@ -19,6 +19,7 @@
 #include <SDL2/SDL_net.h>
 #include "../config.hpp"
 #include "../network.hpp"
+#include "database.hpp"
 using namespace std;
 
 
