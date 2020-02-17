@@ -33,7 +33,7 @@ struct PlayerBasicInfo {
     PlayerLevel level;
     Uint32 points;
     Uint32 gold;
-    Uint32 cash;
+    Uint32 cash; //! only here for compatibility, but unsupported
 };
 
 struct PlayerStats {

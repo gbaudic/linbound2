@@ -153,6 +153,21 @@ void RoomView::processEvent(SDL_Event &event) {
 }
 
 /**
+ * \brief Add a chat message in the different channels
+ * \param sender
+ * \param message
+ * \param type see protocol.hpp
+ * \see protocol.hpp, messagelog.hpp
+ */
+void RoomView::addMessage(const std::string& sender, const std::string& message, const Uint8 type) {
+	msgLog.addMessage(sender, message, type);
+	if (!sender.empty()) {
+		// TODO show in chatballoon
+	}
+	// TODO add to the chat channel of the room lobby
+}
+
+/**
  * Set timings for auto scrolling feature
  * @param coordinate coordinate to test
  * @param target time variable to update

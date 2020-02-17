@@ -20,6 +20,7 @@
 #include "../constants.hpp"
 #include "../gamemap.hpp"
 #include "../ui/messagelog.hpp"
+#include "../ui/chatballoon.hpp"
 #include "../common/commonplayer.hpp" // temporary, use clientplayer
 
 class RoomView: public Context, public gcn::ActionListener {
@@ -30,7 +31,8 @@ public:
 	enum class InteractionMode {
 		IDLE, //! player is alive, waiting for its turn
 		TURN, //! player has to play: can move and/or shoot
-		DEAD  //! player is dead or waiting to respawn
+		DEAD,  //! player is dead or waiting to respawn
+		RESULTS //! match is over
 	};
 
 	explicit RoomView(const GameMode mode, GameMap* map);
@@ -42,6 +44,8 @@ public:
 	void drawOverlay(SDL_Renderer *screen) override;
 
 	void processEvent(SDL_Event &event) override;
+
+	void addMessage(const std::string& sender, const std::string& message, const Uint8 type);
 
 	void setTurn();
 
