@@ -60,6 +60,11 @@ gameMode(mode), currentMap(map) {
 
 	msgLog.setWidth(getWidth());
 
+	results.setWidth(getWidth() - 50);
+	results.setHeight(getHeight() - 100);
+	results.setActionEventId("results");
+	results.addActionListener(this);
+
 	currentMap->load();
 
 }
@@ -70,6 +75,9 @@ RoomView::~RoomView() {
 void RoomView::action(const gcn::ActionEvent &actionEvent) {
 	if(actionEvent.getId() == "text") {
 		// TODO send the message to the correct scope
+	}
+	else if (actionEvent.getId() == "results") {
+		setNextContext(ContextName::ROOM_LOBBY); // FIXME to support local too
 	}
 }
 
@@ -196,6 +204,8 @@ void RoomView::addWidgets() {
 	addWidget(&pb_motion, 70, pb_power.getY() - 20);
 
 	addWidget(&msgLog, 2, 2);
+
+	addCenteredWidget(&results);
 }
 
 /**
