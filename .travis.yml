@@ -30,8 +30,7 @@ install:
     - git clone https://github.com/gbaudic/guisan.git
     - pushd guisan && scons && sudo scons install && popd
     - git clone https://github.com/google/googletest.git
-    - export CXX_FLAGS="$CXX_FLAGS -std=c++11"
-    - pushd googletest && cmake . && sudo make install && popd
+    - pushd googletest && cmake . -DCMAKE_CXX_STANDARD=11 && sudo make install && popd
 
 script:
     - cmake .
