@@ -19,9 +19,9 @@ endif()
 if(NOT RESOURCE_PREFIX)
     if(WIN32)
         set(RESOURCE_PREFIX "./res")
-    else()
+    else(WIN32)
         set(RESOURCE_PREFIX ${CMAKE_INSTALL_PREFIX}/share/${PROJECT_NAME})
-    endif()
+    endif(WIN32)
 endif()
 
 set(EXECUTABLE_OUTPUT_PATH bin/${CMAKE_BUILD_TYPE})
@@ -136,7 +136,7 @@ if(ENABLE_TESTS)
 	file(GLOB_RECURSE test_files RELATIVE ${PROJECT_SOURCE_DIR} test/*.cpp)
 	add_executable(${PROJECT_TEST_NAME} ${test_files})
 	add_dependencies(${PROJECT_TEST_NAME} ${PROJECT_NAME})
-    if(MSVC)
+    if(WIN32)
 		target_link_libraries(${PROJECT_TEST_NAME} ${GTEST_MAIN} ${SDL2_LIBRARIES}
 		${SDL2_IMAGE_LIBRARIES} 
 		${SDL2_TTF_LIBRARIES}
@@ -147,7 +147,7 @@ if(ENABLE_TESTS)
 		${TINYXML2_LIBRARIES}
 		${SQLITE3_LIBRARIES}
 		${BOX2D_LIBRARIES} ${GTEST})
-	else()	
+	else(WIN32)	
 		target_link_libraries(${PROJECT_TEST_NAME} ${SDL2_LIBRARIES} 
 		${SDL2_IMAGE_LIBRARIES} 
 		${SDL2_TTF_LIBRARIES}
@@ -158,7 +158,7 @@ if(ENABLE_TESTS)
 		${TINYXML2_LIBRARIES}
 		${SQLITE3_LIBRARIES}
 		${BOX2D_LIBRARIES} ${GTEST_LDFLAGS})
-	endif()
+	endif(WIN32)
 	target_compile_options(${PROJECT_TEST_NAME} PUBLIC ${GTEST_CFLAGS})
 	if(CMAKE_VERSION VERSION_LESS 3.10)
 		gtest_add_tests(${PROJECT_TEST_NAME} "" AUTO)
