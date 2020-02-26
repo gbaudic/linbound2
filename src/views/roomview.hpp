@@ -22,6 +22,7 @@
 #include "../ui/messagelog.hpp"
 #include "../ui/chatballoon.hpp"
 #include "../ui/resultsdialog.hpp"
+#include "../ui/scoreboard.hpp"
 #include "../common/commonplayer.hpp" // temporary, use clientplayer
 
 class RoomView: public Context, public gcn::ActionListener {
@@ -69,6 +70,7 @@ private:
 	gcn::ProgressBar pb_motion{ 0, MOTION_LIMIT, MOTION_LIMIT };
 	MessageLog msgLog;
 	ResultsDialog results;
+	ScoreBoard scoreBoard;
 
 	Uint16 turnCount = 0;
 	InteractionMode currentMode = InteractionMode::IDLE;

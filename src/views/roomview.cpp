@@ -65,6 +65,8 @@ gameMode(mode), currentMap(map) {
 	results.setActionEventId("results");
 	results.addActionListener(this);
 
+	scoreBoard.setHeight(15);
+
 	currentMap->load();
 
 }
@@ -204,6 +206,7 @@ void RoomView::addWidgets() {
 	addWidget(&pb_motion, 70, pb_power.getY() - 20);
 
 	addWidget(&msgLog, 2, 2);
+	addWidget(&scoreBoard, getWidth() - scoreBoard.getWidth(), getHeight() - scoreBoard.getHeight());
 
 	addCenteredWidget(&results);
 }
