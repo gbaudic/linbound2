@@ -64,14 +64,15 @@ void MessageLog::draw(gcn::Graphics* graphics) {
     int y = 2;
     Uint32 currentTime = SDL_GetTicks();
 
-    for (std::list<Message>::iterator it = messages.begin(); it != messages.end(); ++it) {
-        if ( currentTime > (*it).arrival + DISPLAY_DELAY) {
+    for (const Message m : messages) {
+        if (currentTime > m.arrival + DISPLAY_DELAY) {
+            // Expired message
             toRemove++;
         } else {
             int x = 0;
             // Set color
             // Draw image if necessary
-            switch ((*it).type) {
+            switch (m.type) {
             case REWARD_MSG:
                 graphics->setColor(reward);
                 x = imgReward->getWidth() + 3;
@@ -93,7 +94,7 @@ void MessageLog::draw(gcn::Graphics* graphics) {
             }
             
             // Draw text
-            graphics->drawText((*it).message, x, y, Graphics::LEFT);
+            graphics->drawText(m.message, x, y, Graphics::LEFT);
             y += 16;
         }
     }

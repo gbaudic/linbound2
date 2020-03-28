@@ -28,10 +28,10 @@ void ScoreBoard::draw(Graphics* graphics) {
     unsigned int step = getWidth() / (scores.size() * 2);
     int i = 0;
 
-    for (map<char, int>::iterator it = scores.begin(); it != scores.end(); it++) {
+    for (const auto it : scores) {
         graphics->setColor(Color(0xffffff));
-        graphics->drawText(string(1, it->first), step * 2 * i, 0, Graphics::LEFT);
-        graphics->drawText(to_string(it->second), step * 2 * i + 1, 0, Graphics::LEFT);
+        graphics->drawText(string(1, it.first), step * 2 * i, 0, Graphics::LEFT);
+        graphics->drawText(to_string(it.second), step * 2 * i + 1, 0, Graphics::LEFT);
         i++;
     }
 }
