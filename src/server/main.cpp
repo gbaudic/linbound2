@@ -19,9 +19,11 @@
 #include <SDL2/SDL_net.h>
 #include "../config.hpp"
 #include "../network.hpp"
+#include "../utils.hpp"
 #include "database.hpp"
 using namespace std;
 
+void loop();
 
 int main(int argc, char *argv[]) {
 	
@@ -30,10 +32,34 @@ int main(int argc, char *argv[]) {
 		SDL_LogError(SDL_LOG_CATEGORY_ERROR, "FATAL: Cannot init SDL: %s", SDL_GetError());
 		return -1;
 	}
+
+	// Basic argument parsing
+	if (argc >= 2) {
+		if (SDL_strncmp("--debug\0", argv[1], 7) == 0) {
+			SDL_LogSetAllPriority(SDL_LOG_PRIORITY_DEBUG);
+		}
+	}
 	
-	cout << "Hello world" << endl;
+	SDL_LogInfo(SDL_LOG_CATEGORY_APPLICATION, "Starting LinBound server v%s", linbound::getVersionString().c_str());
+
+	loop();
 	
+	SDL_LogInfo(SDL_LOG_CATEGORY_APPLICATION, "Exiting");
 	SDL_Quit();
 	
 	return 0;
+}
+
+void loop() {
+	SDL_Event event;
+
+	for (;;) {
+		while (SDL_PollEvent(&event) == 1) {
+			// Make sure the server can be stopped using e.g. Ctrl+C (Unix)
+			if (event.type == SDL_QUIT)
+				return;
+		}
+
+		// TBD: process network events (packets)
+	}
 }
