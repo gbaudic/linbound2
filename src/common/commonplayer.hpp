@@ -49,6 +49,8 @@ struct PlayerStats {
  */
 struct PlayerResult {
     std::string name;
+    PlayerLevel level;
+    char team;
     Sint8 gpEarned;
     int goldEarned;
     unsigned int damageInflicted;

@@ -23,13 +23,24 @@
 class ResultsDialog : public gcn::Window, public gcn::ActionListener {
 public:
     ResultsDialog();
-    void setStats(const std::vector<PlayerStats>& matchStats);
+    void setStats(const std::vector<PlayerResult>& matchStats, const int nbTeams);
     virtual void draw(gcn::Graphics* graphics) override;
     void action(const gcn::ActionEvent& actionEvent) override;
 
 private:
-    std::vector<PlayerStats> stats;
+    std::vector<PlayerResult> stats;
+    int nbTeams = 2;
     gcn::Button btn_ok{ "OK" };
+
+    // Predefined colors for convenience
+    gcn::Color text{ 0xff, 0xff, 0xff };
+    gcn::Color xp{ 0xff, 0xff, 0 };
+    gcn::Color negative_xp{ 0xff, 0, 0 };
+
+    gcn::Color a_color{ 0xb5, 0x3d, 0x3d }; // red
+    gcn::Color b_color{ 0x3d, 0x75, 0xb5 }; // blue
+    gcn::Color c_color{ 0x3d, 0xb5, 0x41 }; // green
+    gcn::Color d_color{ 0xb5, 0xb3, 0x3d }; // yellow
 
     void addWidgets();
 };
