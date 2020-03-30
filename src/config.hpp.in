@@ -24,6 +24,7 @@ const int PATCH_VERSION = @Linbound_VERSION_RELEASE@;
 const bool ENABLE_SERVER = @Linbound_ENABLE_SERVER@;
 
 const std::string RESOURCE_PREFIX = "@RESOURCE_PREFIX@";
+const std::string DB_PREFIX = "";
 
 
 #endif // _H_CONFIG_
