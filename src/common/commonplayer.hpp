@@ -28,6 +28,12 @@ enum class PlayerLevel {
     ADMIN
 };
 
+enum class PlayerLocationType {
+    DISCONNECTED,
+    SERVER,
+    ROOM
+};
+
 struct PlayerBasicInfo {
     std::string name;
     PlayerLevel level;

@@ -28,6 +28,7 @@ public:
     int connectUser(const std::string &name, const std::string &password);
     int updateUser(const std::string &name, const std::string &field, const int value);
     int buyItem(const std::string& name, const int itemCode, ItemValidity validity);
+    int deleteItem(const std::string& name, const int itemCode);
 
 private:
     void init();
