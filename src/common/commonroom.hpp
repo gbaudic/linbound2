@@ -29,19 +29,33 @@ enum class RoomStatus {
 	PLAYING  //! game being played
 };
 
+/**
+ * Type of change when entering sudden death if match lasts too long
+ */
 enum class SuddenDeathType {
-    BIGBOMB,
-    DOUBLE,
-    SS
+    BIGBOMB, //!< bigger holes with all weapons
+    DOUBLE, //!< unlimited use of double ammo
+    SS //!< unlimited use of Super Shot 
+};
+
+struct RoomCreationInfo {
+    std::string name;
+    std::string password; //!< leave blank for none
+    Uint8 nbTeams;
+    Uint8 playersPerTeam;
+    SuddenDeathType sdtype;
+    Uint8 sdTurns;
 };
 
 struct RoomBasicInfo {
-	Uint16 number;
-	std::string name;
-	bool hasPassword;
-	RoomStatus status;
+    Uint16 number;
+    std::string name;
+    bool hasPassword;
+    RoomStatus status;
     GameMode mode;
-	std::string mapName;
+    std::string mapName;
+    Uint8 nbTeams;
+    Uint8 playersPerTeam;
 };
  
 #endif //! _H_COMMONROOM_ 
