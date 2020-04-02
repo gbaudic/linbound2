@@ -14,12 +14,12 @@
  */
 
 #include "newroomdialog.hpp"
+using namespace gcn;
 
 /**
  * Constructor
  */
-NewRoomDialog::NewRoomDialog() : Window("Create room")
-{
+NewRoomDialog::NewRoomDialog() : Window("Create room") {
     lbl_name.adjustSize();
     lbl_password.adjustSize();
     lbl_teams.adjustSize();
@@ -50,12 +50,19 @@ void NewRoomDialog::action(const ActionEvent& event) {
     }
 }
 
+/**
+ * \brief Get the data placed in the dialog
+ * \return a RoomCreationInfo with all the data
+ */
 RoomCreationInfo NewRoomDialog::getInfo() const {
     RoomCreationInfo rci;
     rci.name = tf_name.getText();
     rci.password = tf_password.getText();
     rci.sdTurns = 48;
     rci.sdtype = SuddenDeathType::BIGBOMB;
+    int index = lb_teams.getSelected();
+    rci.nbTeams = listModel.getNbTeams(index);
+    rci.playersPerTeam = listModel.getPlayersPerTeam(index);
     
     if (rd_60.isSelected()) {
         rci.sdTurns = 60;
@@ -78,7 +85,19 @@ void NewRoomDialog::addWidgets() {
     add(&tf_name, margin, lbl_name.getY() + lbl_name.getHeight() + margin);
     add(&lbl_password, margin, tf_name.getY() + tf_name.getHeight() + margin);
     add(&tf_password, margin, lbl_password.getY() + lbl_password.getHeight() + margin);
-    // TODO add missing widgets
+    add(&lbl_teams, margin, tf_password.getY() + tf_password.getHeight() + margin);
+    add(&lb_teams, margin, lbl_teams.getY() + lbl_teams.getHeight() + margin);
+    
+    add(&lbl_turns, margin, lb_teams.getY() + lb_teams.getHeight() + margin);
+    add(&rd_48, margin, lbl_turns.getY() + lbl_turns.getHeight() + margin);
+    add(&rd_60, (getWidth() - rd_60.getWidth()) / 2, rd_48.getY());
+    add(&rd_72, getWidth() - rd_72.getWidth() - margin, rd_48.getY());
+    
+    add(&lbl_type, margin, rd_48.getY() + rd_48.getHeight() + margin);
+    add(&rd_bigbomb, margin, lbl_type.getY() + lbl_type.getHeight() + margin);
+    add(&rd_double, (getWidth() - rd_double.getWidth()) / 2, rd_bigbomb.getY());
+    add(&rd_ss, getWidth() - rd_ss.getWidth() - margin, rd_bigbomb.getY());
+    
     add(&btn_ok, margin, getHeight() - margin - btn_ok.getHeight());
     add(&btn_cancel, getWidth() - margin - btn_cancel.getWidth(), getHeight() - margin - btn_cancel.getHeight());
 }
@@ -98,21 +117,42 @@ int TeamListModel::getNumberOfElements() {
     return data.size();
 }
 
-std::string TeamListModel::getElementAt(int i){
+/**
+ * \brief Get the string for element i
+ * \param i requested index. No range check is done here.
+ * \return the string element to be displayed for this index
+ */
+std::string TeamListModel::getElementAt(int i) {
     return getElement(i).first;
 }
 
+/**
+ * \brief Get the number of teams corresponding to the current element.
+ * It may not be equal to two.
+ * \param i requested index
+ * \return number of teams (>= 2) for this index
+ */
 Uint8 TeamListModel::getNbTeams(const int i) const {
     return getElement(i).second.first;
 }
 
+/**
+ * \brief Get the number of players per teams corresponding to the current element.
+ * \param i requested index
+ * \return number of players per team for this index
+ */
 Uint8 TeamListModel::getPlayersPerTeam(const int i) const {
     return getElement(i).second.second;
 }
 
+/**
+ * \brief Get the i-th element of the map
+ * \param i requested index
+ * \return full element (key + value) as present in the map
+ */
 std::pair<std::string, std::pair<Uint8, Uint8>> TeamListModel::getElement(const int i) const {
     int index = 0;
-    for (std::map<std::string, std::pair<Uint8, Uint8>>::const_iterator it = data.begin(); index <= i; it++, index++) {
+    for (std::map<std::string, std::pair<Uint8, Uint8>>::const_iterator it = data.begin(); it != data.end() && index <= i; it++, index++) {
         if (index == i) {
             return *it;
         }
