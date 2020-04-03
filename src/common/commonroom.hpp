@@ -24,9 +24,9 @@
  * Status of a room
  */
 enum class RoomStatus {
-	WAITING, //! still accepting players
-	FULL,    //! all seats full, entrance not permitted
-	PLAYING  //! game being played
+    WAITING, //! still accepting players
+    FULL,    //! all seats full, entrance not permitted
+    PLAYING  //! game being played
 };
 
 /**

@@ -34,6 +34,7 @@ NewRoomDialog::NewRoomDialog() : Window("Create room") {
 
     setWidth(200);
     setHeight(300);
+    setMovable(false);
     addWidgets();
     setVisible(false); // hidden at startup
 }
