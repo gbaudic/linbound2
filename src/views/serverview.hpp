@@ -75,7 +75,7 @@ private:
     void receiveChatMessage(const std::string& user, const std::string& message);
     void playerStateChanged();
     void roomChanged();
-    void setPlayerData(const PlayerBasicInfo info);
+    void setPlayerData(const PlayerBasicInfo& info);
 };
 
 #endif // !_H_SERVERVIEW_

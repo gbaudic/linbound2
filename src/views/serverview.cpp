@@ -119,7 +119,7 @@ void ServerView::roomChanged() {
  * \brief Update data for the current player
  * \param info basic data as received from the server
  */
-void ServerView::setPlayerData(const PlayerBasicInfo info) {
+void ServerView::setPlayerData(const PlayerBasicInfo& info) {
     lbl_playerName.setCaption(info.name);
     lbl_playerName.adjustSize();
     lbl_playerMoney.setCaption(std::to_string(info.gold) + " G");
