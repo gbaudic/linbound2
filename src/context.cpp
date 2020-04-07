@@ -19,6 +19,7 @@
 #include "views/serverlist.hpp"
 #include "views/serverview.hpp"
 #include "views/roomview.hpp"
+#include "views/lobbyview.hpp"
 using namespace std;
 
 // Init of static class members
