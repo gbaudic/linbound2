@@ -23,11 +23,12 @@ const Uint16 RoomView::MAX_POWER;
 
 /**
  * Constructor
- * @param mode game mode to play among the four implemented
- * @param map an already partly loaded object representing the game map
+ * @param view the LobbyView, which already has players and all parameters set
  */
-RoomView::RoomView(const GameMode mode, GameMap *map) : Context(ContextName::ROOM),
-gameMode(mode), currentMap(map) {
+RoomView::RoomView(LobbyView *view) : Context(ContextName::ROOM),
+gameMode(view->getMode()) {
+
+    currentMap = new GameMap(view->getMap());
 
     fg_rect.w = getWidth();
     fg_rect.h = getHeight();
@@ -173,8 +174,11 @@ void RoomView::addMessage(const std::string& sender, const std::string& message,
     msgLog.addMessage(sender, message, type);
     if (!sender.empty()) {
         // TODO show in chatballoon
+
+        // and add to the chat channel of the room lobby
+        origin->addMessage(sender, message, false);
     }
-    // TODO add to the chat channel of the room lobby
+    
 }
 
 /**
@@ -232,6 +236,15 @@ void RoomView::setTurn() {
     pb_power.setValue(0);
     pb_motion.setValue(MOTION_LIMIT);
     // TODO play a sound once to wake up player
+}
+
+/**
+ * \brief Getter for original lobby
+ * Will be used to restore the view instead of recreating it from scratch
+ * \return the saved LobbyView
+ */
+LobbyView* RoomView::getLobby() {
+    return origin;
 }
 
 /**

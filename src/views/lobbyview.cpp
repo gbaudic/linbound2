@@ -17,7 +17,7 @@
 #include "lobbyview.hpp"
 using namespace gcn;
 
-LobbyView::LobbyView(): Context(ContextName::ROOM_LOBBY) {
+LobbyView::LobbyView(ContextName name): Context(name) {
 
     btn_back.setActionEventId("back");
     btn_back.addActionListener(this);
@@ -32,6 +32,13 @@ LobbyView::LobbyView(): Context(ContextName::ROOM_LOBBY) {
     tf_message.setActionEventId("message");
     tf_message.addActionListener(this);
 
+    Color darkblue{ 0, 0, 0xff };
+    Color white{ 0xff, 0xff, 0xff };
+    tf_message.setForegroundColor(white);
+    tf_message.setBackgroundColor(darkblue);
+    tb_messages.setForegroundColor(white);
+    tb_messages.setBackgroundColor(darkblue);
+
     pg_loading.setVisible(false);
 }
 
@@ -42,6 +49,7 @@ void LobbyView::action(const gcn::ActionEvent& actionEvent) {
         // TODO open specific edition box
     } else if (actionEvent.getId() == "message") {
         std::string msg = tf_message.getText();
+        tf_message.clear();
         // Handle special processing of commands
         std::regex pattern{ "^(/kick|/mute)\\s+" };
         if (std::regex_match(msg, pattern)) {
@@ -52,8 +60,9 @@ void LobbyView::action(const gcn::ActionEvent& actionEvent) {
     }
 }
 
-void LobbyView::updateRoomInfo() {
-    // TBD
+void LobbyView::updateRoomInfo(const RoomBasicInfo &info) {
+    // TBD: refresh the view accordingly
+    roomBasicInfo = info;
 }
 
 void LobbyView::updatePlayerInfo() {
@@ -64,11 +73,19 @@ void LobbyView::updateItemInfo() {
     // TBD
 }
 
-void LobbyView::addMessage(std::string user, std::string message, bool showBalloon) {
+void LobbyView::addMessage(const std::string &user, const std::string &message, bool showBalloon) {
     tb_messages.addRow(user + "] " + message);
     if (showBalloon) {
         // Reset the balloon for this user
     }
+}
+
+GameMode LobbyView::getMode() const {
+    return roomBasicInfo.mode;
+}
+
+std::string LobbyView::getMap() const {
+    return roomBasicInfo.mapName;
 }
 
 void LobbyView::addWidgets() {

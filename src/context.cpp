@@ -33,7 +33,7 @@ NetworkManager Context::network;
  * \param type name of the context being created
  */
 Context::Context(ContextName type) : 
-    name(type) {
+	name(type) {
 	top.setWidth(parent->getWidth());
 	top.setHeight(parent->getHeight());
 	top.setOpaque(false);
@@ -48,7 +48,7 @@ Context::~Context() {
  * \return name of the current context
  */
 ContextName const Context::getName() {
-    return name;
+	return name;
 }
 
 /**
@@ -90,17 +90,17 @@ void Context::leave() {
  * It is up to the Context to do the processing
  */
 void Context::receive() {
-    // Get messages from network manager
-    vector<UDPpacket *> data = network.receive();
-    
-    // Unpack and feed context, one by one
-    for(const UDPpacket *p : data) {
-        processMessage(NetworkManager::getCode(p), NetworkManager::getMessage(p));
-    }
+	// Get messages from network manager
+	vector<UDPpacket *> data = network.receive();
+	
+	// Unpack and feed context, one by one
+	for(const UDPpacket *p : data) {
+		processMessage(NetworkManager::getCode(p), NetworkManager::getMessage(p));
+	}
 }
 
 void Context::send(const Uint8 code, const std::string & message) {
-    network.send(code, message);
+	network.send(code, message);
 }
 
 void Context::setServerIP(const Uint32 ip) {
@@ -159,6 +159,39 @@ Context * Context::getNextContext(ContextName nextName) {
 		}
 		currentContext = new ServerView(currentName);
 		currentContext->enter();
+		break;
+	case ContextName::ROOM_LOBBY: // fallthrough
+	case ContextName::ROOM_LOBBY_LOCAL:
+		if (currentContext) {
+			currentName = currentContext->getName();
+			currentContext->leave();
+			if (currentName == ContextName::ROOM) {
+				// Restore the previous lobby
+				Context* previousContext = currentContext;
+				currentContext = dynamic_cast<RoomView*>(currentContext)->getLobby();
+				delete previousContext;
+			} else {
+				// Create a new one from scratch
+				delete currentContext;
+				currentContext = new LobbyView(nextName);
+			}
+			currentContext->enter();
+		} else {
+			SDL_LogCritical(SDL_LOG_CATEGORY_ERROR, "Trying to enter room lobby from nowhere");
+		}
+		break;
+	case ContextName::ROOM:
+		if (currentContext) {
+			currentContext->leave();
+			LobbyView* lobby = dynamic_cast<LobbyView*>(currentContext);
+			if (lobby) {
+				// Normally this should be the only path from which we can create a RoomView...
+				currentContext = new RoomView(lobby);
+			} 
+			currentContext->enter();
+		} else {
+			SDL_LogCritical(SDL_LOG_CATEGORY_ERROR, "Trying to enter room from nowhere");
+		}
 		break;
 	default:
 		break;

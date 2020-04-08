@@ -24,6 +24,7 @@
 #include "../ui/resultsdialog.hpp"
 #include "../ui/scoreboard.hpp"
 #include "../common/commonplayer.hpp" // temporary, use clientplayer
+#include "lobbyview.hpp"
 
 /**
  * \brief An extended version of a Label for current gains
@@ -54,7 +55,7 @@ public:
         RESULTS //! match is over
     };
 
-    explicit RoomView(const GameMode mode, GameMap* map);
+    explicit RoomView(LobbyView *view);
     virtual ~RoomView();
 
     void action(const gcn::ActionEvent &actionEvent) override;
@@ -67,6 +68,8 @@ public:
     void addMessage(const std::string& sender, const std::string& message, const Uint8 type);
 
     void setTurn();
+
+    LobbyView* getLobby();
 
 private:
     // Viewport definitions
@@ -94,6 +97,8 @@ private:
     InteractionMode currentMode = InteractionMode::IDLE;
     GameMode gameMode;
     GameMap *currentMap;
+
+    LobbyView* origin = nullptr;
 
     Uint8 windPower = 0;
     Uint16 windAngle = 0;

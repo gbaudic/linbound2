@@ -18,19 +18,24 @@
 
 #include <string>
 #include <guisan.hpp>
+#include "../constants.hpp"
+#include "../gamemap.hpp"
 #include "../context.hpp"
 #include "../common/commonroom.hpp"
 #include "../common/messages.hpp"
 
 class LobbyView : public Context, public gcn::ActionListener {
 public:
-    LobbyView();
+    explicit LobbyView(ContextName name);
     void action(const gcn::ActionEvent& actionEvent) override;
 
-    void updateRoomInfo();
+    void updateRoomInfo(const RoomBasicInfo &info);
     void updatePlayerInfo();
     void updateItemInfo();
-    void addMessage(std::string user, std::string message, bool showBalloon = true);
+    void addMessage(const std::string &user, const std::string &message, bool showBalloon = true);
+
+    GameMode getMode() const;
+    std::string getMap() const;
 
     virtual void drawBackground(SDL_Renderer* screen) override;
     virtual void processMessage(const Uint8 code, const std::string& message) override;
@@ -54,6 +59,7 @@ private:
     gcn::TextBox tb_messages;
 
     bool isCurrentPlayerAdmin = false;
+    RoomBasicInfo roomBasicInfo;
 
     void addWidgets();
 };
