@@ -23,7 +23,7 @@ using namespace std;
  */
 Database::Database() {
     string db_path = DB_PREFIX + "linbound.db";
-    int result = sqlite3_open(db_path.c_str(), &db);
+    int result = sqlite3_open_v2(db_path.c_str(), &db, SQLITE_OPEN_CREATE | SQLITE_OPEN_READWRITE, NULL);
 
     if (result) {
         SDL_LogError(SDL_LOG_CATEGORY_ERROR, "Cannot open db file: %s", sqlite3_errmsg(db));
@@ -46,30 +46,103 @@ Database::~Database(){
  * \return 0 if success, -1 if name already taken, -2 for other errors
  */
 int Database::createUser(const std::string& name, const std::string& password) {
-    // TBD
-    return 0;
+    sqlite3_stmt* stmt = nullptr;
+    int code = -2;
+
+    int result = sqlite3_prepare_v2(db, "insert into users (name, password) values (:name, :password)", -1, &stmt, NULL);
+    if (result != SQLITE_OK) {
+        SDL_LogError(SDL_LOG_CATEGORY_ERROR, "%s", sqlite3_errmsg(db));
+        return -2;
+    }
+
+    // Bind values
+    sqlite3_bind_text(stmt, sqlite3_bind_parameter_index(stmt, ":name"), name.c_str(), -1, SQLITE_STATIC);
+    sqlite3_bind_text(stmt, sqlite3_bind_parameter_index(stmt, ":password"), password.c_str(), -1, SQLITE_STATIC);
+
+    // Run query
+    result = sqlite3_step(stmt);
+    if (result != SQLITE_DONE) {
+        if (result == SQLITE_CONSTRAINT) {
+            // Must be the uniqueness of name which failed
+            code = -1;
+        } else {
+            SDL_LogError(SDL_LOG_CATEGORY_ERROR, "%s", sqlite3_errmsg(db));
+            code = -2;
+        }
+    } else {
+        // Success
+        code = 0;
+    }
+    
+    sqlite3_finalize(stmt);
+    return code;
 }
 
 /**
  * \brief Try to connect an existing user
  * \param name name for the user
- * \param password provided password for the user
+ * \param password provided password for the user, cleartext for the moment
  * \return 0 if success, 1 wrong password, 2 unknown login. Other errors are not computed here. 
  */
 int Database::connectUser(const std::string& name, const std::string& password) {
-    // TBD
-    return 0;
+    sqlite3_stmt* stmt = nullptr;
+    bool found = false;
+    int code = -1;
+
+    int result = sqlite3_prepare_v2(db, "select name, password from USERS where name = :name", -1, &stmt, NULL);
+    if (result != SQLITE_OK) {
+        SDL_LogError(SDL_LOG_CATEGORY_ERROR, "%s", sqlite3_errmsg(db));
+        return code;
+    }
+
+    while (sqlite3_step(stmt) == SQLITE_ROW) {
+        found = true;
+        const char* pass = (const char*)sqlite3_column_text(stmt, 1);
+        // Czech password
+        code = password == string(pass) ? 0 : 1;
+    }
+
+    if (!found) {
+        // Login not found
+        code = 2;
+    }
+    
+    sqlite3_finalize(stmt);
+    return code;
 }
 
 /**
  * \brief Update user data
  * \param name name for the user
- * \param field name of the field
- * \param value new value to use
+ * \param goldDelta gold to add/remove from balance
+ * \param gpDelta gp to add/remove. Defaults to 0. 
  * \return 0 if success, -1 on error
  */
-int Database::updateUser(const std::string& name, const std::string& field, const int value) {
-    // TBD
+int Database::updateUser(const std::string& name, const int goldDelta, const int gpDelta) {
+    sqlite3_stmt* stmt = nullptr;
+    // Prepare statement
+    int result = sqlite3_prepare_v2(db, "update USERS set gold = gold + :gold, gp = gp + :gp where name = :name",
+        -1, &stmt, NULL);
+    if (result != SQLITE_OK) {
+        SDL_LogError(SDL_LOG_CATEGORY_ERROR, "%s", sqlite3_errmsg(db));
+        return -1;
+    }
+
+    // Bind values
+    sqlite3_bind_int(stmt, sqlite3_bind_parameter_index(stmt, ":gold"), goldDelta);
+    sqlite3_bind_int(stmt, sqlite3_bind_parameter_index(stmt, ":gp"), gpDelta);
+    sqlite3_bind_text(stmt, sqlite3_bind_parameter_index(stmt, ":name"), name.c_str(), -1, SQLITE_STATIC);
+    
+    // Run query
+    result = sqlite3_step(stmt);
+    if (result != SQLITE_DONE) {
+        SDL_LogError(SDL_LOG_CATEGORY_ERROR, "%s", sqlite3_errmsg(db));
+        sqlite3_finalize(stmt);
+        return -1;
+    }
+
+    // Cleanup time
+    sqlite3_finalize(stmt);
     return 0;
 }
 
@@ -86,12 +159,24 @@ int Database::buyItem(const std::string& name, const int itemCode, ItemValidity 
 }
 
 /**
+ * \brief Toggle status of an item
+ * \param name name for the user
+ * \param itemCode index for this item
+ * \param wear true to use, false to remove
+ */
+int Database::wearItem(const std::string& name, const int itemCode, bool wear) {
+    // TBD
+    return 0;
+}
+
+/**
  * \brief Remove an item
  * \param name name for the user
  * \param itemCode index for this item
  * \return 0 if success, -1 if user does not exist, -2 if item not found for this user
  */
 int Database::deleteItem(const std::string& name, const int itemCode) {
+    // TBD
     return 0;
 }
 
@@ -104,12 +189,13 @@ void Database::init() {
     // Users
     std::string sql = "CREATE TABLE IF NOT EXISTS USERS(" \
         "id integer primary key autoincrement, " \
-        "name text not null, " \
+        "name text unique not null, " \
         "password text, " \
-        "gold int, " \
-        "cash int, " \
-        "gp int, " \
-        "level int);";
+        "gold int default 0, " \
+        "cash int default 0, " \
+        "gp int default 1000, " \
+        "level int, " \
+        "country text);";
 
     /* Execute SQL statement */
     int rc = sqlite3_exec(db, sql.c_str(), NULL, 0, &zErrMsg);
