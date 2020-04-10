@@ -4,30 +4,35 @@
 	<ach>
 	<type>PENALTY</type>
 	<name>Suicide penalty</name>
+	<!-- you die during your turn from your own shoot -->
 	<gold>-50</gold>
 	<xp>-2</xp>
 	</ach>
 	<ach>
 	<type>PENALTY</type>
 	<name>Teammate kill penalty</name>
+	<!-- you kill someone from your team (but not yourself) during your turn from your own shoot -->
 	<gold>-50</gold>
 	<xp>-2</xp>
 	</ach>
 	<ach>
 	<type>PENALTY</type>
 	<name>Teammate shoot penalty</name>
+	<!--you hurt (> 50 dmg) someone in your team, you included, without killing -->
 	<gold>-25</gold>
 	<xp>0</xp>
 	</ach>
 	<ach>
 	<type>PENALTY</type>
 	<name>Desertion penalty</name>
+	<!-- you decide to leave the room while playing. this is for each one in your team -->
 	<gold>-100</gold>
 	<xp>0</xp>
 	</ach>
 	<ach>
 	<type>REWARD</type>
 	<name>1000 damage points inflicted</name>
+	<!--total points during a match. damage on own team are not counted, neither in positive nor negative. can therefore only happen once -->
 	<gold>100</gold>
 	<xp>1</xp>
 	</ach>
@@ -76,33 +81,42 @@
 	<ach>
 	<type>REWARD</type>
 	<name>Climate resilience bonus</name>
+	<!-- aka hurricane bonus: shot goes through hurricane and does >50 dmg -->
 	<gold>30</gold>
 	<xp>0</xp>
 	</ach>
 	<ach>
 	<type>REWARD</type>
 	<name>High angle shot</name>
+	<!--shot fired with angle > 60 deg and does >50 dmg -->
+	<gold>15</gold>
+	<xp>0</xp>
+	</ach>
+	<ach>
+	<type>REWARD</type>
+	<name>Extremely high angle shot</name>
+	<!--shot fired with angle > 80 deg and does >50 dmg -->
 	<gold>15</gold>
 	<xp>0</xp>
 	</ach>
 	<ach>
 	<type>REWARD</type>
 	<name>High precision bonus</name>
-	<!--Miss 3 turns in a row-->
+	<!--Miss 3 turns in a row (0 damage) -->
 	<gold>5</gold>
 	<xp>0</xp>
 	</ach>
 	<ach>
 	<type>REWARD</type>
 	<name>Undecided trajectory bonus</name>
-	<!--aka boomer shot bonus-->
+	<!--aka boomer shot bonus: shot goes backwards but stays in front of player and does >50 dmg-->
 	<gold>20</gold>
 	<xp>0</xp>
 	</ach>
 	<ach>
 	<type>REWARD</type>
 	<name>Alien DNA bonus</name>
-	<!--aka back shot bonus-->
+	<!--aka back shot bonus : the shot ends up on your back and does > 50 dmg-->
 	<gold>30</gold>
 	<xp>0</xp>
 	</ach>
