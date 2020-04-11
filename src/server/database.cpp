@@ -49,7 +49,7 @@ int Database::createUser(const std::string& name, const std::string& password) {
     sqlite3_stmt* stmt = nullptr;
     int code = -2;
 
-    int result = sqlite3_prepare_v2(db, "insert into users (name, password) values (:name, :password)", -1, &stmt, NULL);
+    int result = sqlite3_prepare_v2(db, "insert into USERS (name, password) values (:name, :password)", -1, &stmt, NULL);
     if (result != SQLITE_OK) {
         SDL_LogError(SDL_LOG_CATEGORY_ERROR, "%s", sqlite3_errmsg(db));
         return -2;
@@ -121,7 +121,7 @@ int Database::connectUser(const std::string& name, const std::string& password) 
 int Database::updateUser(const std::string& name, const int goldDelta, const int gpDelta) {
     sqlite3_stmt* stmt = nullptr;
     // Prepare statement
-    int result = sqlite3_prepare_v2(db, "update USERS set gold = gold + :gold, gp = gp + :gp where name = :name",
+    int result = sqlite3_prepare_v2(db, "update USERS set gold = max(0, gold + :gold), gp = max(0, gp + :gp) where name = :name",
         -1, &stmt, NULL);
     if (result != SQLITE_OK) {
         SDL_LogError(SDL_LOG_CATEGORY_ERROR, "%s", sqlite3_errmsg(db));
@@ -153,9 +153,55 @@ int Database::updateUser(const std::string& name, const int goldDelta, const int
  * \param validity length of purchase
  * \return 0 if success, -1 if unsufficient funds, -2 if item already owned
  */
-int Database::buyItem(const std::string& name, const int itemCode, ItemValidity validity) {
-    // TBD
-    return 0;
+int Database::buyItem(const std::string& name, const int itemCode, ItemType type, ItemValidity validity) {
+    sqlite3_stmt* stmt = nullptr;
+    int code = -2;
+
+    int result = sqlite3_prepare_v2(db, "insert into PURCHASES (user, item, type, end_date) values (:name, :item, :type, date('now',:delta))", -1, &stmt, NULL);
+    if (result != SQLITE_OK) {
+        SDL_LogError(SDL_LOG_CATEGORY_ERROR, "%s", sqlite3_errmsg(db));
+        return -2;
+    }
+
+    // Bind values
+    sqlite3_bind_text(stmt, sqlite3_bind_parameter_index(stmt, ":name"), name.c_str(), -1, SQLITE_STATIC);
+    sqlite3_bind_int(stmt, sqlite3_bind_parameter_index(stmt, ":item"), itemCode);
+    sqlite3_bind_int(stmt, sqlite3_bind_parameter_index(stmt, ":type"), static_cast<int>(type));
+
+    std::string duration = "+1";
+    switch (validity) {
+    case ItemValidity::ONE_DAY:
+        duration += " day";
+        break;
+    case ItemValidity::ONE_MONTH:
+        duration += " month";
+        break;
+    case ItemValidity::ONE_WEEK:
+        duration = "+7 days";
+        break;
+    case ItemValidity::ONE_YEAR:
+        duration += " year";
+        break;
+    case ItemValidity::LIMITLESS:
+        duration += "00 years";
+        break;
+    default:
+        break;
+    }
+    sqlite3_bind_text(stmt, sqlite3_bind_parameter_index(stmt, ":delta"), duration.c_str(), -1, SQLITE_STATIC);
+
+    // Run query
+    result = sqlite3_step(stmt);
+    if (result != SQLITE_DONE) {
+        SDL_LogError(SDL_LOG_CATEGORY_ERROR, "%s", sqlite3_errmsg(db));
+        code = -2;
+    } else {
+        // Success
+        code = 0;
+    }
+
+    sqlite3_finalize(stmt);
+    return code;
 }
 
 /**
@@ -164,9 +210,36 @@ int Database::buyItem(const std::string& name, const int itemCode, ItemValidity 
  * \param itemCode index for this item
  * \param wear true to use, false to remove
  */
-int Database::wearItem(const std::string& name, const int itemCode, bool wear) {
-    // TBD
-    return 0;
+int Database::wearItem(const std::string& name, const int itemCode, ItemType type, bool wear) {
+    sqlite3_stmt* stmt = nullptr;
+    int code = -2;
+
+    // Create statement: first reinit all items from this type, then set chosen item
+    int result = sqlite3_prepare_v2(db, "update PURCHASES set is_worn = 0 where user = :name and type = :type; " \
+        "update PURCHASES set is_worn = :worn where user = :name and item = :item;", -1, &stmt, NULL);
+    if (result != SQLITE_OK) {
+        SDL_LogError(SDL_LOG_CATEGORY_ERROR, "%s", sqlite3_errmsg(db));
+        return -2;
+    }
+
+    // Bind values
+    sqlite3_bind_text(stmt, sqlite3_bind_parameter_index(stmt, ":name"), name.c_str(), -1, SQLITE_STATIC);
+    sqlite3_bind_int(stmt, sqlite3_bind_parameter_index(stmt, ":item"), itemCode);
+    sqlite3_bind_int(stmt, sqlite3_bind_parameter_index(stmt, ":type"), static_cast<int>(type));
+    sqlite3_bind_int(stmt, sqlite3_bind_parameter_index(stmt, ":worn"), wear ? 1 : 0);
+
+    // Run query
+    result = sqlite3_step(stmt);
+    if (result != SQLITE_DONE) {
+        SDL_LogError(SDL_LOG_CATEGORY_ERROR, "%s", sqlite3_errmsg(db));
+        code = -2;
+    } else {
+        // Success
+        code = 0;
+    }
+
+    sqlite3_finalize(stmt);
+    return code;
 }
 
 /**
@@ -176,8 +249,32 @@ int Database::wearItem(const std::string& name, const int itemCode, bool wear) {
  * \return 0 if success, -1 if user does not exist, -2 if item not found for this user
  */
 int Database::deleteItem(const std::string& name, const int itemCode) {
-    // TBD
-    return 0;
+    sqlite3_stmt* stmt = nullptr;
+    int code = -2;
+
+    // Create statement: first reinit all items from this type, then set chosen item
+    int result = sqlite3_prepare_v2(db, "delete PURCHASES where user = :name and item = :item", -1, &stmt, NULL);
+    if (result != SQLITE_OK) {
+        SDL_LogError(SDL_LOG_CATEGORY_ERROR, "%s", sqlite3_errmsg(db));
+        return -2;
+    }
+
+    // Bind values
+    sqlite3_bind_text(stmt, sqlite3_bind_parameter_index(stmt, ":name"), name.c_str(), -1, SQLITE_STATIC);
+    sqlite3_bind_int(stmt, sqlite3_bind_parameter_index(stmt, ":item"), itemCode);
+
+    // Run query
+    result = sqlite3_step(stmt);
+    if (result != SQLITE_DONE) {
+        SDL_LogError(SDL_LOG_CATEGORY_ERROR, "%s", sqlite3_errmsg(db));
+        code = -2;
+    } else {
+        // Success
+        code = 0;
+    }
+
+    sqlite3_finalize(stmt);
+    return code;;
 }
 
 /**
@@ -209,9 +306,10 @@ void Database::init() {
     sql = "CREATE TABLE IF NOT EXISTS PURCHASES(" \
         "id integer primary key autoincrement, " \
         "user text not null, " \
-        "item int not null," \
-        "end_date text not null," \
-        "is_worn boolean);";
+        "item int not null, " \
+        "type int not null, " \
+        "end_date text not null, " \
+        "is_worn int default 0);";
 
     rc = sqlite3_exec(db, sql.c_str(), NULL, 0, &zErrMsg);
 

@@ -27,8 +27,8 @@ public:
     int createUser(const std::string &name, const std::string &password);
     int connectUser(const std::string &name, const std::string &password);
     int updateUser(const std::string &name, const int goldDelta, const int gpDelta = 0);
-    int buyItem(const std::string& name, const int itemCode, ItemValidity validity);
-    int wearItem(const std::string& name, const int itemCode, bool wear);
+    int buyItem(const std::string& name, const int itemCode, ItemType type, ItemValidity validity);
+    int wearItem(const std::string& name, const int itemCode, ItemType type, bool wear);
     int deleteItem(const std::string& name, const int itemCode);
 
 private:
