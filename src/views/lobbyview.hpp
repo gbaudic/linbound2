@@ -26,6 +26,12 @@
 
 class LobbyView : public Context, public gcn::ActionListener {
 public:
+    enum class InteractionMode {
+        WAITING,
+        LOADING, //! room full, coordinates and map are loading
+        EXITING //! loading complete, about to move to RoomView
+    };
+
     explicit LobbyView(ContextName name);
     void action(const gcn::ActionEvent& actionEvent) override;
 

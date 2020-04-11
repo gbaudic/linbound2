@@ -99,10 +99,20 @@ void Context::receive() {
 	}
 }
 
+/**
+ * \brief Send a message to the server
+ * We assume that the correct IP has been set beforehand
+ * \param code message type
+ * \param message message, formatted as a string
+ */
 void Context::send(const Uint8 code, const std::string & message) {
 	network.send(code, message);
 }
 
+/**
+ * \brief Store the server IP for further use
+ * \param ip address to use
+ */
 void Context::setServerIP(const Uint32 ip) {
 	network.setServerInfo(ip);
 }
@@ -167,7 +177,7 @@ Context * Context::getNextContext(ContextName nextName) {
 			currentContext->leave();
 			if (currentName == ContextName::ROOM) {
 				// Restore the previous lobby
-				Context* previousContext = currentContext;
+				const Context* previousContext = currentContext;
 				currentContext = dynamic_cast<RoomView*>(currentContext)->getLobby();
 				delete previousContext;
 			} else {

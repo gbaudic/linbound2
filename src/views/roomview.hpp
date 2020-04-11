@@ -55,7 +55,7 @@ public:
         RESULTS //! match is over
     };
 
-    explicit RoomView(LobbyView *view);
+    explicit RoomView(const LobbyView *view);
     virtual ~RoomView();
 
     void action(const gcn::ActionEvent &actionEvent) override;

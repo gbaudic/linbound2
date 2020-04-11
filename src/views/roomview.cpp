@@ -25,10 +25,9 @@ const Uint16 RoomView::MAX_POWER;
  * Constructor
  * @param view the LobbyView, which already has players and all parameters set
  */
-RoomView::RoomView(LobbyView *view) : Context(ContextName::ROOM),
-gameMode(view->getMode()) {
+RoomView::RoomView(const LobbyView *view) : Context(ContextName::ROOM),
+gameMode(view->getMode()), currentMap(new GameMap(view->getMap())) {
 
-    currentMap = new GameMap(view->getMap());
 
     fg_rect.w = getWidth();
     fg_rect.h = getHeight();
@@ -73,6 +72,7 @@ gameMode(view->getMode()) {
 }
 
 RoomView::~RoomView() {
+    delete currentMap; // because of new in constructor -- improve this
 }
 
 void RoomView::action(const gcn::ActionEvent &actionEvent) {
