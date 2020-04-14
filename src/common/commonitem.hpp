@@ -13,6 +13,9 @@
  * as defined by the Mozilla Public License, v. 2.0.
  */
 
+#ifndef _H_COMMONITEM_
+#define _H_COMMONITEM_
+
 #include <string>
 
 /**
@@ -24,7 +27,7 @@ enum class ItemValidity {
     ONE_WEEK, //!< 7 days
     ONE_MONTH, //!< 30 days
     ONE_YEAR, //!< 365 days
-    LIMITLESS //!< maximum date we can put in db
+    LIMITLESS //!< 100 years
 };
 
 /**
@@ -42,8 +45,13 @@ enum class ItemType {
 class CommonItem {
 
 private:
+    Uint32 code;
     std::string name;
     std::string description;
     ItemType type;
-    int properties[8];
+    int properties[8]{0, 0, 0, 0, 0, 0, 0, 0};
+    unsigned int goldPrices[5]{ 0, 0, 0, 0, 0 };
+    unsigned int cashPrices[5]{ 0, 0, 0, 0, 0 };
 };
+
+#endif //! _H_COMMONITEM_
