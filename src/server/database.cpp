@@ -95,6 +95,9 @@ int Database::connectUser(const std::string& name, const std::string& password) 
         return code;
     }
 
+    // Bind values
+    sqlite3_bind_text(stmt, sqlite3_bind_parameter_index(stmt, ":name"), name.c_str(), -1, SQLITE_STATIC);
+
     while (sqlite3_step(stmt) == SQLITE_ROW) {
         found = true;
         const char* pass = (const char*)sqlite3_column_text(stmt, 1);
@@ -274,7 +277,39 @@ int Database::deleteItem(const std::string& name, const int itemCode) {
     }
 
     sqlite3_finalize(stmt);
-    return code;;
+    return code;
+}
+
+/**
+ * \brief Get the basic info for a given user
+ * \param name of the requested user
+ * \return the associated info. Guild info is not set by this method. 
+ */
+PlayerBasicInfo Database::getUserInfo(const std::string& name) {
+    PlayerBasicInfo info;
+    sqlite3_stmt* stmt = nullptr;
+
+    // Prepare query
+    int result = sqlite3_prepare_v2(db, "select name, gold, cash, gp, level from USERS where name = :name", -1, &stmt, NULL);
+    if (result != SQLITE_OK) {
+        SDL_LogError(SDL_LOG_CATEGORY_ERROR, "%s", sqlite3_errmsg(db));
+    }
+
+    // Bind values
+    sqlite3_bind_text(stmt, sqlite3_bind_parameter_index(stmt, ":name"), name.c_str(), -1, SQLITE_STATIC);
+
+    // Run query
+    while (sqlite3_step(stmt) == SQLITE_ROW) {
+        info.name = name;
+        info.gold = sqlite3_column_int(stmt, 1);
+        info.cash = sqlite3_column_int(stmt, 2);
+        info.points = sqlite3_column_int(stmt, 3);
+        info.level = static_cast<PlayerLevel>(sqlite3_column_int(stmt, 4));
+    }
+
+    sqlite3_finalize(stmt);
+
+    return info;
 }
 
 /**

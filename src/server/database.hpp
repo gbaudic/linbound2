@@ -19,6 +19,7 @@
 #include <string>
 #include <sqlite3.h>
 #include "../common/commonitem.hpp"
+#include "../common/commonplayer.hpp"
 
 class Database {
 public:
@@ -30,11 +31,12 @@ public:
     int buyItem(const std::string& name, const int itemCode, ItemType type, ItemValidity validity);
     int wearItem(const std::string& name, const int itemCode, ItemType type, bool wear);
     int deleteItem(const std::string& name, const int itemCode);
+    PlayerBasicInfo getUserInfo(const std::string& name);
 
 private:
     void init();
 
-    sqlite3* db = nullptr;
+    sqlite3* db = nullptr;  // database object
 };
 
 #endif //! _H_DATABASE
