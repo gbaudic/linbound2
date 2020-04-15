@@ -14,8 +14,10 @@
  */
 
 #include <algorithm>
+#include <sstream>
 #include "../utils.hpp"
 #include "../sound.hpp"
+#include "../protocol.hpp"
 #include "roomview.hpp"
 using namespace std;
 
@@ -141,6 +143,15 @@ void RoomView::processEvent(SDL_Event &event) {
         if (event.key.keysym.sym == SDLK_SPACE && !tf_chat.isFocused() && currentMode == InteractionMode::TURN) {
             // Player has finished shooting
             currentMode = InteractionMode::IDLE;
+
+            stringstream msg;
+            // user name should go here
+            msg << ";" << static_cast<int>(getSelectedType());
+            msg << ";" << pb_power.getValue();
+            msg << ";" << lbl_currentAngle.getCaption();
+            
+            network.send(SHOT_MSG, msg.str());
+            lbl_lastAngle.setCaption(lbl_currentAngle.getCaption());
         }
         // Support here arrow up/down (angle), left/right (motion), F7 (mobile), F8 (pass turn), F1-6 (item use)...
     } else if (event.type == SDL_MOUSEMOTION) {
@@ -279,6 +290,23 @@ void RoomView::moveViewportTo(const int x, const int y) {
     // Note that the parallax effect is achieved here only if the background is smaller than the foreground
     bg_rect.x = fg_rect.x * (bgW - getWidth()) / (fgW - getWidth());
     bg_rect.y = fg_rect.y * (bgH - getHeight()) / (fgH - getHeight());
+}
+
+/**
+ * \brief Get the weapon the player currently wants to fire
+ * \return the weapon type
+ */
+WeaponType RoomView::getSelectedType() {
+    if (btn_1.isFocused()) {
+        return WeaponType::ONE;
+    } else if (btn_2.isFocused()) {
+        return WeaponType::TWO;
+    } else if (btn_supershot.isFocused()) {
+        return WeaponType::SUPERSHOT;
+    }
+
+    // Degraded case, should never happen
+    return WeaponType::ONE;
 }
 
 /**

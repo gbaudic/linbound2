@@ -24,6 +24,7 @@
 #include "../ui/resultsdialog.hpp"
 #include "../ui/scoreboard.hpp"
 #include "../common/commonplayer.hpp" // temporary, use clientplayer
+#include "../common/messages.hpp" // for WeaponType
 #include "lobbyview.hpp"
 
 /**
@@ -115,6 +116,7 @@ private:
     void updateMagicEdge(const int coordinate, Uint32 &target);
     void moveViewport(const int xDelta, const int yDelta);
     void moveViewportTo(const int x, const int y);
+    WeaponType getSelectedType();
 };
 
 #endif /* _H_ROOMVIEW_ */

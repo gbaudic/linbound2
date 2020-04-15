@@ -20,10 +20,10 @@
 #include <map>
 #include <SDL2/SDL.h>
 
-enum class WeaponType {
-    ONE,
-    TWO,
-    SUPERSHOT
+enum class WeaponType : unsigned int {
+    ONE = 1,
+    TWO = 2,
+    SUPERSHOT = 55
 };
 
 /**

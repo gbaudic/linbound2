@@ -29,7 +29,7 @@ namespace linbound {
     * \param angle the angle to normalize, in degrees
     * \return a value between 0 and 359 degrees
     */
-    Sint16 normalizeAngle(Sint16 angle){
+    Sint16 normalizeAngle(Sint16 angle) {
         while(angle < 0)
             angle += 360;
             
@@ -70,7 +70,7 @@ namespace linbound {
     * Determine if mirroring is needed
     * \param angle the angle in degree
     */
-    bool flip(Sint16 angle){
+    bool flip(Sint16 angle) {
         angle = normalizeAngle(angle) - 180;
         return abs(angle) > 90;
     }
@@ -78,7 +78,7 @@ namespace linbound {
     /**
     *  User-friendly version display
     */
-    string getVersionString(){
+    string getVersionString() {
         string result = to_string(MAJOR_VERSION);
         result += "." + to_string(MINOR_VERSION);
         result += "." + to_string(PATCH_VERSION);
@@ -88,7 +88,7 @@ namespace linbound {
     /**
     *  Version number to compare compatibilities
     */
-    int getVersion(){
+    int getVersion() {
         return PATCH_VERSION + MINOR_VERSION*10 + MAJOR_VERSION*1000;
     }
 
@@ -97,7 +97,7 @@ namespace linbound {
     *  \param address the Uint32 containing the address, using system endianness
     *  \return an IPv4 in the usual form x.y.z.a
     */
-    string prettifyIP(Uint32 address){
+    string prettifyIP(Uint32 address) {
         int ip32 = (address >> 24) & 0xff;
         int ip24 = (address >> 16) & 0xff;
         int ip16 = (address >> 8) & 0xff;
@@ -106,20 +106,19 @@ namespace linbound {
         return to_string(ip32)+"."+to_string(ip24)+"."+to_string(ip16)+"."+to_string(ip8);
     }
 
-	/**
-	 * Opposite operation of prettifyIP
-	 * \param input user-specified input
-	 * \return the IPv4 as an Uint32, using system endianness; 0 indicates an error
-	 */
-	Uint32 stringToIP(const std::string &input)
-	{
-		Uint32 result = 0x0;
-		int part = 3;
-		size_t pos = input.find('.');
-		size_t startPos = 0;
+    /**
+     * Opposite operation of prettifyIP
+     * \param input user-specified input
+     * \return the IPv4 as an Uint32, using system endianness; 0 indicates an error
+     */
+    Uint32 stringToIP(const std::string &input) {
+        Uint32 result = 0x0;
+        int part = 3;
+        size_t pos = input.find('.');
+        size_t startPos = 0;
         int converted = 0;
-		while (part >= 0) {
-			string val = input.substr(startPos);
+        while (part >= 0) {
+            string val = input.substr(startPos);
             
             if(pos != string::npos) {
                 // Case for the first three parts
@@ -138,37 +137,60 @@ namespace linbound {
                         startPos = pos + 1;
                         pos = input.find('.', startPos);
                     }
-					part -= 1;
+                    part -= 1;
                 }
                 
             } catch (invalid_argument) {
                 result = 0;
                 break;
             }
-		}
+        }
 
-		if (pos != string::npos) {
-			// There should be nothing left at this point...
-			result = 0;
-		}
+        if (pos != string::npos) {
+            // There should be nothing left at this point...
+            result = 0;
+        }
 
-		return result;
-	}
+        return result;
+    }
 
-	vector<string> split(const string & str, const char delim) {
-		vector<string> result;
-		size_t currentIndex = 0;
-		size_t end = str.find(delim);
+    /**
+     * \brief Split a string according to a delimiter
+     * \param str string to split
+     * \param delim character on which the split should be made
+     * \return a list of tokens
+     */
+    vector<string> split(const string & str, const char delim) {
+        vector<string> result;
+        size_t currentIndex = 0;
+        size_t end = str.find(delim);
 
-		while (end != string::npos) {
-			result.push_back(str.substr(currentIndex, end - currentIndex));
+        while (end != string::npos) {
+            result.push_back(str.substr(currentIndex, end - currentIndex));
 
-			currentIndex = end + 1;
-			end = str.find(delim, currentIndex);
-		}
-		result.push_back(str.substr(currentIndex));
-		
-		return result;
-	}
+            currentIndex = end + 1;
+            end = str.find(delim, currentIndex);
+        }
+        result.push_back(str.substr(currentIndex));
+        
+        return result;
+    }
+
+    /**
+     * \brief Make sure a value stays in an assigned range
+     * This is absolutely not like the minmax method in <algorithm>
+     * \param value value to check
+     * \param min lower bound of the range
+     * \param max upper bound of the range
+     * \return a value within the range [min, max]
+     */
+    int minMax(const int value, const int min, const int max) {
+        if (value < min) {
+            return min;
+        } else if (value > max) {
+            return max;
+        }
+        return value;
+    }
 
 }
