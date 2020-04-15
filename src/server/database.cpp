@@ -246,6 +246,32 @@ int Database::wearItem(const std::string& name, const int itemCode, ItemType typ
 }
 
 /**
+ * \brief Get the list of items associated with a given user
+ * \param name name for the user
+ * TODO: define the proper way to return (or make use of) the retrieved list
+ */
+void Database::getItemsForUser(const std::string& name) {
+    sqlite3_stmt* stmt = nullptr;
+    int code = -1;
+
+    int result = sqlite3_prepare_v2(db, "select item, end_date, is_worn from PURCHASES where user = :name and date('now') <= date(end_date)", -1, &stmt, NULL);
+    if (result != SQLITE_OK) {
+        SDL_LogError(SDL_LOG_CATEGORY_ERROR, "%s", sqlite3_errmsg(db));
+    }
+
+    // Bind values
+    sqlite3_bind_text(stmt, sqlite3_bind_parameter_index(stmt, ":name"), name.c_str(), -1, SQLITE_STATIC);
+
+    while (sqlite3_step(stmt) == SQLITE_ROW) {
+        int itemCode = sqlite3_column_int(stmt, 0);
+        const char* dateText = (const char*)sqlite3_column_text(stmt, 1);
+        bool isWorn = sqlite3_column_int(stmt, 2) == 1;
+    }
+
+    sqlite3_finalize(stmt);
+}
+
+/**
  * \brief Remove an item
  * \param name name for the user
  * \param itemCode index for this item
@@ -343,7 +369,7 @@ void Database::init() {
         "user text not null, " \
         "item int not null, " \
         "type int not null, " \
-        "end_date text not null, " \
+        "end_date date not null, " \
         "is_worn int default 0);";
 
     rc = sqlite3_exec(db, sql.c_str(), NULL, 0, &zErrMsg);

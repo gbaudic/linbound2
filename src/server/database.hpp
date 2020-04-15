@@ -30,6 +30,7 @@ public:
     int updateUser(const std::string &name, const int goldDelta, const int gpDelta = 0);
     int buyItem(const std::string& name, const int itemCode, ItemType type, ItemValidity validity);
     int wearItem(const std::string& name, const int itemCode, ItemType type, bool wear);
+    void getItemsForUser(const std::string& name);
     int deleteItem(const std::string& name, const int itemCode);
     PlayerBasicInfo getUserInfo(const std::string& name);
 
