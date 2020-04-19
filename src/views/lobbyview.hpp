@@ -42,6 +42,8 @@ public:
 
     GameMode getMode() const;
     std::string getMap() const;
+    std::string getCurrentPlayerName() const;
+    SuddenDeathType getSuddenDeathType() const;
 
     virtual void drawBackground(SDL_Renderer* screen) override;
     virtual void processMessage(const Uint8 code, const std::string& message) override;
@@ -66,6 +68,10 @@ private:
 
     bool isCurrentPlayerAdmin = false;
     RoomBasicInfo roomBasicInfo;
+    SuddenDeathType sdType = SuddenDeathType::BIGBOMB;
+
+    // List of players
+    std::string currentPlayerName; // TODO: replace by proper structure
 
     void addWidgets();
 };

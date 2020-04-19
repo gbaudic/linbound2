@@ -15,6 +15,7 @@
 
 #include <algorithm>
 #include <sstream>
+#include <regex>
 #include "../utils.hpp"
 #include "../sound.hpp"
 #include "../protocol.hpp"
@@ -145,7 +146,7 @@ void RoomView::processEvent(SDL_Event &event) {
             currentMode = InteractionMode::IDLE;
 
             stringstream msg;
-            // user name should go here
+            msg << origin->getCurrentPlayerName();
             msg << ";" << static_cast<int>(getSelectedType());
             msg << ";" << pb_power.getValue();
             msg << ";" << lbl_currentAngle.getCaption();
@@ -154,6 +155,17 @@ void RoomView::processEvent(SDL_Event &event) {
             lbl_lastAngle.setCaption(lbl_currentAngle.getCaption());
         }
         // Support here arrow up/down (angle), left/right (motion), F7 (mobile), F8 (pass turn), F1-6 (item use)...
+        if (event.key.keysym.sym == SDLK_F8 && currentMode == InteractionMode::TURN) {
+            // Player skipped turn
+            currentMode = InteractionMode::IDLE;
+            // Stop the countdown to 0 here
+            network.send(SKIP_TURN_MSG, origin->getCurrentPlayerName());
+        }
+        if (event.key.keysym.sym == SDLK_F7 && currentMode == InteractionMode::TURN && gameMode == GameMode::DUO) {
+            // Switch mobile
+            // Update view too
+            network.send(SWITCH_MOBILE_MSG, origin->getCurrentPlayerName());
+        }
     } else if (event.type == SDL_MOUSEMOTION) {
         SDL_MouseMotionEvent mouseEvent = event.motion;
 
@@ -183,7 +195,16 @@ void RoomView::processEvent(SDL_Event &event) {
  */
 void RoomView::addMessage(const std::string& sender, const std::string& message, const Uint8 type) {
     msgLog.addMessage(sender, message, type);
-    if (!sender.empty()) {
+    if (type == REWARD_MSG || type == PENALTY_MSG) {
+        if (sender == origin->getCurrentPlayerName()) {
+            // Also add to the current gold balance widget
+            regex pattern{ "(-?\\d+)G$" };
+            smatch matches;
+            if (regex_search(message, matches, pattern)) {
+                goldDisplay.updateValue(stoi(matches[1], nullptr, 10));
+            }
+        }
+    } else if (type == TEAM_CHAT_MSG || type == ROOM_CHAT_MSG) {
         // TODO show in chatballoon
 
         // and add to the chat channel of the room lobby

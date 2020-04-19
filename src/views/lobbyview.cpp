@@ -80,12 +80,38 @@ void LobbyView::addMessage(const std::string &user, const std::string &message, 
     }
 }
 
+/**
+ * \brief Convenience function to get currently selected game mode
+ * \return the GameMode
+ * \see GameMode
+ */
 GameMode LobbyView::getMode() const {
     return roomBasicInfo.mode;
 }
 
+/**
+ * \brief Convenience function to get currently selected map
+ * \return the name of the map
+ */
 std::string LobbyView::getMap() const {
     return roomBasicInfo.mapName;
+}
+
+/**
+ * \brief Convenience function to get the name of the player currently connected with this client
+ * \return the name
+ */
+std::string LobbyView::getCurrentPlayerName() const {
+    return currentPlayerName;
+}
+
+/**
+ * \brief Convenience function to get currently selected sudden death type
+ * \return the type of sudden death
+ * \see SuddenDeathType
+ */
+SuddenDeathType LobbyView::getSuddenDeathType() const {
+    return sdType;
 }
 
 void LobbyView::addWidgets() {
