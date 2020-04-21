@@ -17,12 +17,19 @@ else()
 endif()
 
 if(NOT RESOURCE_PREFIX)
-    if(WIN32)
+    if(WIN32 OR MSYS OR MINGW)
         set(RESOURCE_PREFIX "./res")
-    else(WIN32)
+    else()
         set(RESOURCE_PREFIX ${CMAKE_INSTALL_PREFIX}/share/${PROJECT_NAME})
-    endif(WIN32)
+    endif()
 endif()
+
+# Print status of compilation variables
+message(STATUS "Compilation variables have the following values:")
+message(STATUS "  ENABLE_SERVER   : ${ENABLE_SERVER}")
+message(STATUS "  ENABLE_TESTS    : ${ENABLE_TESTS}")
+message(STATUS "  RESOURCE_PREFIX : ${RESOURCE_PREFIX}")
+message(STATUS "")
 
 set(EXECUTABLE_OUTPUT_PATH bin/${CMAKE_BUILD_TYPE})
  
@@ -51,6 +58,10 @@ INCLUDE(CheckIncludeFiles)
 
 if(NOT MSVC)
 	PKG_SEARCH_MODULE(SDL2 REQUIRED sdl2)
+	if(MSYS OR MINGW)
+		message(STATUS "Checking for SDL2main, required on Windows systems")
+		find_library(SDL2MAIN NAMES SDL2main PATHS /mingw64/lib /mingw32/lib)
+	endif()
 	PKG_SEARCH_MODULE(SDL2_IMAGE REQUIRED SDL2_image>=2.0.0)
 	PKG_SEARCH_MODULE(SDL2_TTF REQUIRED SDL2_ttf)
 	PKG_SEARCH_MODULE(SDL2_GFX REQUIRED SDL2_gfx)
@@ -63,8 +74,10 @@ if(NOT MSVC)
 	
 	PKG_SEARCH_MODULE(TINYXML2 REQUIRED tinyxml2)
 	PKG_SEARCH_MODULE(SQLITE3 REQUIRED sqlite3)
+	message(STATUS "Checking for Box2D")
 	find_library(BOX2D Box2D PATHS /mingw64/lib /mingw32/lib)
 else(MSVC)
+	message(STATUS "Finding location of libraries")
 	find_library(SDL2_LIBRARIES NAMES SDL2)
 	find_library(SDL2MAIN NAMES SDL2main)
 	find_library(SDL2_IMAGE_LIBRARIES NAMES SDL2_image)
@@ -83,6 +96,7 @@ else(MSVC)
 	find_library(SQLITE3_LIBRARIES NAMES sqlite3)
 	find_library(BOX2D_LIBRARIES NAMES Box2D)
 
+	message(STATUS "Finding location of INCLUDE files")
 	find_path(TINYXML2_INCLUDE_DIRS tinyxml2.h)
 	find_path(SDL2_INCLUDE_DIRS SDL.h)
 	if(SDL2_INCLUDE_DIRS STREQUAL SDL2_INCLUDE_DIRS-NOTFOUND)
@@ -136,7 +150,8 @@ if(ENABLE_TESTS)
 	file(GLOB_RECURSE test_files RELATIVE ${PROJECT_SOURCE_DIR} test/*.cpp)
 	add_executable(${PROJECT_TEST_NAME} ${test_files})
 	add_dependencies(${PROJECT_TEST_NAME} ${PROJECT_NAME})
-    if(WIN32)
+    if(MSVC OR CYGWIN OR MSYS OR MINGW)
+		# We need a main on Windows
 		target_link_libraries(${PROJECT_TEST_NAME} ${GTEST_MAIN} ${SDL2_LIBRARIES}
 		${SDL2_IMAGE_LIBRARIES} 
 		${SDL2_TTF_LIBRARIES}
@@ -147,7 +162,7 @@ if(ENABLE_TESTS)
 		${TINYXML2_LIBRARIES}
 		${SQLITE3_LIBRARIES}
 		${BOX2D_LIBRARIES} ${GTEST})
-	else(WIN32)	
+	else()	
 		target_link_libraries(${PROJECT_TEST_NAME} ${SDL2_LIBRARIES} 
 		${SDL2_IMAGE_LIBRARIES} 
 		${SDL2_TTF_LIBRARIES}
@@ -158,7 +173,7 @@ if(ENABLE_TESTS)
 		${TINYXML2_LIBRARIES}
 		${SQLITE3_LIBRARIES}
 		${BOX2D_LIBRARIES} ${GTEST_LDFLAGS})
-	endif(WIN32)
+	endif()
 	target_compile_options(${PROJECT_TEST_NAME} PUBLIC ${GTEST_CFLAGS})
 	if(CMAKE_VERSION VERSION_LESS 3.10)
 		gtest_add_tests(${PROJECT_TEST_NAME} "" AUTO)
