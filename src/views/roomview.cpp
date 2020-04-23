@@ -29,7 +29,7 @@ const Uint16 RoomView::MAX_POWER;
  * @param view the LobbyView, which already has players and all parameters set
  */
 RoomView::RoomView(const LobbyView *view) : Context(ContextName::ROOM),
-gameMode(view->getMode()), currentMap(new GameMap(view->getMap())) {
+itemBox(ContextName::ROOM), gameMode(view->getMode()), currentMap(new GameMap(view->getMap())) {
 
 
     fg_rect.w = getWidth();
@@ -69,6 +69,9 @@ gameMode(view->getMode()), currentMap(new GameMap(view->getMap())) {
     results.addActionListener(this);
 
     scoreBoard.setHeight(15);
+
+    itemBox.setActionEventId("item");
+    itemBox.addActionListener(this);
 
     currentMap->load();
 
@@ -244,6 +247,7 @@ void RoomView::addWidgets() {
     addWidget(&msgLog, 2, 2);
     addWidget(&goldDisplay, getWidth() - goldDisplay.getWidth() - 2, getHeight() - goldDisplay.getHeight() - 2);
     addWidget(&scoreBoard, getWidth() - scoreBoard.getWidth() - 2, goldDisplay.getY() - scoreBoard.getHeight() - 2);
+    addWidget(&itemBox, pb_power.getX(), pb_power.getY() - itemBox.getHeight() - 10);
 
     addCenteredWidget(&results);
 }

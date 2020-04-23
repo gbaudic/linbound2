@@ -23,6 +23,7 @@
 #include "../context.hpp"
 #include "../common/commonroom.hpp"
 #include "../common/messages.hpp"
+#include "../ui/itembox.hpp"
 
 class LobbyView : public Context, public gcn::ActionListener {
 public:
@@ -65,6 +66,7 @@ private:
     gcn::TabbedArea tabs;
     gcn::TextField tf_message;
     gcn::TextBox tb_messages;
+    ItemBox itemBox;
 
     bool isCurrentPlayerAdmin = false;
     RoomBasicInfo roomBasicInfo;

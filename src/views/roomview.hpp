@@ -23,6 +23,7 @@
 #include "../ui/chatballoon.hpp"
 #include "../ui/resultsdialog.hpp"
 #include "../ui/scoreboard.hpp"
+#include "../ui/itembox.hpp"
 #include "../common/commonplayer.hpp" // temporary, use clientplayer
 #include "../common/messages.hpp" // for WeaponType
 #include "lobbyview.hpp"
@@ -93,6 +94,7 @@ private:
     ResultsDialog results;
     ScoreBoard scoreBoard;
     GoldDisplay goldDisplay;
+    ItemBox itemBox;
 
     Uint16 turnCount = 0;
     InteractionMode currentMode = InteractionMode::IDLE;

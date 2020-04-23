@@ -17,7 +17,7 @@
 #include "lobbyview.hpp"
 using namespace gcn;
 
-LobbyView::LobbyView(ContextName name): Context(name) {
+LobbyView::LobbyView(ContextName name): Context(name), itemBox(name) {
 
     btn_back.setActionEventId("back");
     btn_back.addActionListener(this);
@@ -31,6 +31,8 @@ LobbyView::LobbyView(ContextName name): Context(name) {
     btn_teamSwitch.addActionListener(this);
     tf_message.setActionEventId("message");
     tf_message.addActionListener(this);
+    itemBox.setActionEventId("itembox");
+    itemBox.addActionListener(this);
 
     Color darkblue{ 0, 0, 0xff };
     Color white{ 0xff, 0xff, 0xff };
@@ -119,8 +121,14 @@ void LobbyView::addWidgets() {
     addWidget(&lbl_name, 20, 5);
     addWidget(&btn_editName, 100, 5);
 
+    addWidget(&tabs, 15, getHeight() - 3 * btn_back.getHeight() - tf_message.getHeight());
+    addWidget(&tf_message, 15, getHeight() - 3 * btn_back.getHeight() - tf_message.getHeight());
+
+    addWidget(&itemBox, getWidth() - 15 - itemBox.getWidth(), tabs.getY());
+
     addWidget(&btn_back, 5, getHeight() - 2 * btn_back.getHeight());
     addWidget(&btn_ready, getWidth() - 5 - btn_ready.getWidth(), getHeight() - 2 * btn_back.getHeight());
+    addWidget(&btn_teamSwitch, btn_ready.getX() - 15 - btn_teamSwitch.getWidth(), btn_ready.getY());
 }
 
 void LobbyView::drawBackground(SDL_Renderer* screen) {
