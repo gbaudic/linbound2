@@ -51,9 +51,9 @@ private:
     gcn::Color reward{ 0, 0xff, 0xff };
     gcn::Color penalty{ 0xff, 0, 0 };
 
-    std::unique_ptr<gcn::Image> imgServer{ gcn::Image::load(RESOURCE_PREFIX + "/server_message.png") };
-    std::unique_ptr<gcn::Image> imgPenalty{ gcn::Image::load(RESOURCE_PREFIX + "/penalty_message.png") };
-    std::unique_ptr<gcn::Image> imgReward{ gcn::Image::load(RESOURCE_PREFIX + "/gold_message.png") };
+    std::unique_ptr<gcn::Image> imgServer{ gcn::Image::load(RESOURCE_PREFIX + "/messages/server_message.png") };
+    std::unique_ptr<gcn::Image> imgPenalty{ gcn::Image::load(RESOURCE_PREFIX + "/messages/penalty_message.png") };
+    std::unique_ptr<gcn::Image> imgReward{ gcn::Image::load(RESOURCE_PREFIX + "/messages/gold_message.png") };
 };
 
 
