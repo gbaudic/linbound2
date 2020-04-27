@@ -187,9 +187,9 @@ ServerInfo ServerList::makeInfo(const std::string & message) {
 
     if (pieces.size() >= 4) {
         result.name = pieces[0];
-        result.levelMin = static_cast<Uint8>(pieces[1].at(0));
-        result.levelMax = static_cast<Uint8>(pieces[2].at(0));
-        result.busy = static_cast<Uint8>(pieces[3].at(0));
+        result.levelMin = static_cast<Uint8>(stoi(pieces[1]));
+        result.levelMax = static_cast<Uint8>(stoi(pieces[2]));
+        result.busy = static_cast<Uint8>(stoi(pieces[3]));
     }
 
     return result;

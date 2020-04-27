@@ -193,7 +193,7 @@ Context * Context::getNextContext(ContextName nextName) {
 	case ContextName::ROOM:
 		if (currentContext) {
 			currentContext->leave();
-			LobbyView* lobby = dynamic_cast<LobbyView*>(currentContext);
+			const LobbyView* lobby = dynamic_cast<LobbyView*>(currentContext);
 			if (lobby) {
 				// Normally this should be the only path from which we can create a RoomView...
 				currentContext = new RoomView(lobby);

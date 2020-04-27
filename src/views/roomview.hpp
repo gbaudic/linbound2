@@ -18,6 +18,7 @@
 
 #include "../context.hpp"
 #include "../constants.hpp"
+#include "../config.hpp"
 #include "../gamemap.hpp"
 #include "../ui/messagelog.hpp"
 #include "../ui/chatballoon.hpp"

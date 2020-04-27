@@ -46,6 +46,12 @@ NetworkManager::~NetworkManager() {
     SDLNet_Quit();
 }
 
+/**
+ * \brief Send a packet to the server
+ * \param code packet type
+ * \param message message to send, as a string
+ * \see protocol.hpp
+ */
 void NetworkManager::send(Uint8 code, const string & message) {
     int dataSize = static_cast<int>(message.size()) + 1 + 1;
     UDPpacket *packet = SDLNet_AllocPacket(dataSize);
@@ -60,6 +66,10 @@ void NetworkManager::send(Uint8 code, const string & message) {
     SDLNet_FreePacket(packet);
 }
 
+/**
+ * \brief Receive all packets currently awaiting processing
+ * \return an ordered list of the received packets on the client socket
+ */
 vector<UDPpacket*> & NetworkManager::receive() {
     // Cleanly remove the previously allocated packets, if any
     for(UDPpacket *p : packets) {
@@ -101,6 +111,7 @@ void NetworkManager::setServerInfo(Uint32 ip) {
 /**
  * Extract message code from a packet
  * \param p packet to handle
+ * \return code for the packet
  */
 Uint8 NetworkManager::getCode(const UDPpacket *p) {
     return p->data[0];
@@ -109,6 +120,7 @@ Uint8 NetworkManager::getCode(const UDPpacket *p) {
 /**
  * Extract payload from a packet
  * \param p packet to handle
+ * \return payload
  */
 string NetworkManager::getMessage(const UDPpacket *p) {
     string message(reinterpret_cast<char*>(p->data+1));

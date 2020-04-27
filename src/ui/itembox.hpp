@@ -34,7 +34,7 @@ public:
     virtual void keyReleased(gcn::KeyEvent& keyEvent) override;
 
 private:
-    static const int SIZE = 6;
+    static const int SIZE = 6; //!< number of slots available
     bool inGame;
     GameItemType items[SIZE]{GameItemType::NONE_1, GameItemType::NONE_1, GameItemType::NONE_1, GameItemType::NONE_1, GameItemType::NONE_1, GameItemType::NONE_1};
     GameItemType current{ GameItemType::NONE_1 };

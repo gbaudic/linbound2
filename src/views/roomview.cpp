@@ -72,6 +72,7 @@ itemBox(ContextName::ROOM), gameMode(view->getMode()), currentMap(new GameMap(vi
 
     itemBox.setActionEventId("item");
     itemBox.addActionListener(this);
+    itemBox.setEnabled(false);
 
     currentMap->load();
 
@@ -84,9 +85,10 @@ RoomView::~RoomView() {
 void RoomView::action(const gcn::ActionEvent &actionEvent) {
     if(actionEvent.getId() == "text") {
         // TODO send the message to the correct scope
-    }
-    else if (actionEvent.getId() == "results") {
+    } else if (actionEvent.getId() == "results") {
         setNextContext(ContextName::ROOM_LOBBY); // FIXME to support local too
+    } else if (actionEvent.getId() == "item") {
+        // TODO process item choice
     }
 }
 
@@ -154,20 +156,21 @@ void RoomView::processEvent(SDL_Event &event) {
             msg << ";" << pb_power.getValue();
             msg << ";" << lbl_currentAngle.getCaption();
             
-            network.send(SHOT_MSG, msg.str());
+            send(SHOT_MSG, msg.str());
             lbl_lastAngle.setCaption(lbl_currentAngle.getCaption());
+            itemBox.setEnabled(false); // make sure items cannot be selected between turns
         }
-        // Support here arrow up/down (angle), left/right (motion), F7 (mobile), F8 (pass turn), F1-6 (item use)...
+        // Support here arrow up/down (angle), left/right (motion), F7 (mobile)...
         if (event.key.keysym.sym == SDLK_F8 && currentMode == InteractionMode::TURN) {
             // Player skipped turn
             currentMode = InteractionMode::IDLE;
             // Stop the countdown to 0 here
-            network.send(SKIP_TURN_MSG, origin->getCurrentPlayerName());
+            send(SKIP_TURN_MSG, origin->getCurrentPlayerName());
         }
         if (event.key.keysym.sym == SDLK_F7 && currentMode == InteractionMode::TURN && gameMode == GameMode::DUO) {
             // Switch mobile
             // Update view too
-            network.send(SWITCH_MOBILE_MSG, origin->getCurrentPlayerName());
+            send(SWITCH_MOBILE_MSG, origin->getCurrentPlayerName());
         }
     } else if (event.type == SDL_MOUSEMOTION) {
         SDL_MouseMotionEvent mouseEvent = event.motion;
@@ -191,8 +194,8 @@ void RoomView::processEvent(SDL_Event &event) {
 
 /**
  * \brief Add a chat message in the different channels
- * \param sender
- * \param message
+ * \param sender player concerned by the message, if any
+ * \param message actual message
  * \param type see protocol.hpp
  * \see protocol.hpp, messagelog.hpp
  */
@@ -235,14 +238,14 @@ void RoomView::updateMagicEdge(const int coordinate, Uint32 &target) {
  * \brief Add the widgets to the container
  */
 void RoomView::addWidgets() {
-    addWidget(&tf_chat, 50, getHeight() - 100);
-    addWidget(&btn_supershot, 40, getHeight() - 5 - btn_supershot.getHeight());
-    addWidget(&btn_2, 40, btn_supershot.getY() - 5 - btn_2.getHeight());
-    addWidget(&btn_1, 40, btn_2.getY() - 5 - btn_1.getHeight());
-    addWidget(&lbl_wind, 20, getHeight() - 20);
+    addWidget(&tf_chat, 150, getHeight() - 100 - 15);
+    addWidget(&btn_supershot, 100, getHeight() - 5 - btn_supershot.getHeight());
+    addWidget(&btn_2, 100, btn_supershot.getY() - 5 - btn_2.getHeight());
+    addWidget(&btn_1, 100, btn_2.getY() - 5 - btn_1.getHeight());
+    addWidget(&lbl_wind, 50 - lbl_wind.getWidth() / 2, getHeight() - 50 - lbl_wind.getHeight() / 2);
 
-    addWidget(&pb_power, 70, getHeight() - pb_power.getHeight() - 10);
-    addWidget(&pb_motion, 70, pb_power.getY() - 20);
+    addWidget(&pb_power, 150, getHeight() - pb_power.getHeight() - 10);
+    addWidget(&pb_motion, 150, pb_power.getY() - 20);
 
     addWidget(&msgLog, 2, 2);
     addWidget(&goldDisplay, getWidth() - goldDisplay.getWidth() - 2, getHeight() - goldDisplay.getHeight() - 2);
@@ -271,6 +274,7 @@ void RoomView::setTurn() {
     currentMode = InteractionMode::TURN;
     pb_power.setValue(0);
     pb_motion.setValue(MOTION_LIMIT);
+    itemBox.setEnabled(true);
     // TODO play a sound once to wake up player
 }
 
