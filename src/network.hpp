@@ -17,28 +17,33 @@
 #include <vector>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_net.h>
+#include "common/commonplayer.hpp"
 
 #ifndef _H_NETWORK_
 #define _H_NETWORK_
 
 class NetworkManager final {
 public:
-    NetworkManager();
+    NetworkManager(bool isServer);
     ~NetworkManager();
-    void send(Uint8 code, const std::string & message);
+    void send(Uint8 code, const std::string & message, IPaddress target);
+    void sendToServer(Uint8 code, const std::string& message);
     void setServerInfo(Uint32 ip);
     std::vector<UDPpacket*> & receive();
 
-	void logout();
+    void logout();
     
     static Uint8 getCode(const UDPpacket *p);
     static std::string getMessage(const UDPpacket *p);
+    static IPaddress getAddress(const UDPpacket* p);
+
+    static bool isExpected(Uint8 code, PlayerLocationType location, bool isPlaying = false);
+
     
 private:
     const Uint16 SERVER_PORT = 6545;
-    
-    UDPsocket clientSock; //! to send data
-    UDPsocket serverSock; //! only useful if also a server
+
+    UDPsocket socket; //! to send data
     IPaddress serverInfo;
     
     std::vector<UDPpacket*> packets;

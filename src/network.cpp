@@ -20,16 +20,17 @@ using namespace std;
 
 /**
  * Constructor
+ * \param isServer indicate if we are on the server side
  */
-NetworkManager::NetworkManager() {
+NetworkManager::NetworkManager(bool isServer) {
     int init = SDLNet_Init();
     
-    if(init == 0) {
-        clientSock = SDLNet_UDP_Open(0); // pick the pork you want
+    if (init == 0) {
+        socket = SDLNet_UDP_Open(isServer ? SERVER_PORT : 0); // pick the pork you want
     }
 
-	serverInfo.host = INADDR_ANY;
-	serverInfo.port = 0;
+    serverInfo.host = INADDR_ANY;
+    serverInfo.port = 0;
 }
 
 /**
@@ -41,29 +42,39 @@ NetworkManager::~NetworkManager() {
     }
     packets.clear();
     
-    SDLNet_UDP_Close(clientSock);
+    SDLNet_UDP_Close(socket);
     
     SDLNet_Quit();
 }
 
 /**
- * \brief Send a packet to the server
+ * \brief Send a packet
  * \param code packet type
  * \param message message to send, as a string
+ * \param target address to which the packet should be sent
  * \see protocol.hpp
  */
-void NetworkManager::send(Uint8 code, const string & message) {
+void NetworkManager::send(Uint8 code, const string & message, IPaddress target) {
     int dataSize = static_cast<int>(message.size()) + 1 + 1;
     UDPpacket *packet = SDLNet_AllocPacket(dataSize);
     
     packet->len = dataSize;
-    packet->address = serverInfo;
+    packet->address = target;
     packet->data[0] = code;
-	strncpy((char*)packet->data+1, message.c_str(), message.size() + 1);
+    strncpy((char*)packet->data+1, message.c_str(), message.size() + 1);
     
-    SDLNet_UDP_Send(clientSock, -1, packet);
+    SDLNet_UDP_Send(socket, -1, packet);
     
     SDLNet_FreePacket(packet);
+}
+
+/**
+ * \brief Convenience function to send message to server
+ * \param code packet type
+ * \param message message to send
+ */
+void NetworkManager::sendToServer(Uint8 code, const std::string& message) {
+    send(code, message, serverInfo);
 }
 
 /**
@@ -79,12 +90,12 @@ vector<UDPpacket*> & NetworkManager::receive() {
     
     UDPpacket *packet = SDLNet_AllocPacket(1024);
     
-    int nbRecv = SDLNet_UDP_Recv(clientSock, packet);
+    int nbRecv = SDLNet_UDP_Recv(socket, packet);
     while(nbRecv == 1) {
         packets.push_back(packet);
         
         packet = SDLNet_AllocPacket(1024);
-        nbRecv = SDLNet_UDP_Recv(clientSock, packet);
+        nbRecv = SDLNet_UDP_Recv(socket, packet);
     }
     
     SDLNet_FreePacket(packet); // the last allocated one is empty
@@ -96,7 +107,7 @@ vector<UDPpacket*> & NetworkManager::receive() {
  * Inform the server we are leaving
  */
 void NetworkManager::logout() {
-	send(LOGOUT_MSG, "goodbye");
+    sendToServer(LOGOUT_MSG, "goodbye");
 }
 
 /**
@@ -126,3 +137,48 @@ string NetworkManager::getMessage(const UDPpacket *p) {
     string message(reinterpret_cast<char*>(p->data+1));
     return message;
 }
+
+/**
+ * Extract address from a packet
+ * Useful for server to know who to reply to
+ * \param p packet to handle
+ * \return address to use
+ */
+IPaddress NetworkManager::getAddress(const UDPpacket* p){
+    return p->address;
+}
+
+/**
+ * \brief Determine if a given message type should exist
+ * \param code message type
+ * \param location player location on server
+ * \param isPlaying if in a room, is the room playing (defaults to false)
+ * \return true if message should exist at this point, false otherwise
+ */
+bool NetworkManager::isExpected(Uint8 code, PlayerLocationType location, bool isPlaying) {
+    bool result = false;
+
+    switch (location) {
+    case PlayerLocationType::DISCONNECTED:
+        result = code == HELLO_MSG || code == CREATE_MSG || code == LOGIN_MSG;
+        break;
+    case PlayerLocationType::SERVER:
+        result = code >= 200 || code == SELL_ITEM_MSG || code == BUY_ITEM_MSG || 
+            code == ENTER_ROOM_MSG || code == CREATE_ROOM_MSG || code == FRIEND_ADD || code == FRIEND_DEL;
+        break;
+    case PlayerLocationType::ROOM:
+        result = (code >= 51 && code <= 60) || (code >= 99 && code < 110);
+        if (isPlaying) {
+            result = result || (code >= 110 && code <= 150);
+        } else {
+            result = result || code == KICK_MSG;
+        }
+        break;
+    default: 
+        break;
+    }
+    
+    return result;
+}
+
+

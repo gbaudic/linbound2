@@ -26,7 +26,7 @@ using namespace std;
 Context* Context::currentContext = nullptr;
 Context* Context::lastContext = nullptr;
 gcn::Container* Context::parent = nullptr;
-NetworkManager Context::network;
+NetworkManager Context::network(false);
 
 /**
  * Constructor
@@ -106,7 +106,7 @@ void Context::receive() {
  * \param message message, formatted as a string
  */
 void Context::send(const Uint8 code, const std::string & message) {
-	network.send(code, message);
+	network.sendToServer(code, message);
 }
 
 /**
