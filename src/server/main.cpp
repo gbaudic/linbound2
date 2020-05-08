@@ -15,51 +15,68 @@
 
 #include <iostream>
 #include <string>
+#include <vector>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_net.h>
 #include "../config.hpp"
 #include "../network.hpp"
 #include "../utils.hpp"
+#include "../protocol.hpp"
 #include "database.hpp"
 using namespace std;
 
-void loop();
+Database db;
+
+void loop(NetworkManager &manager);
 
 int main(int argc, char *argv[]) {
-	
-	//Initializing SDL
-	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) != 0) {
-		SDL_LogError(SDL_LOG_CATEGORY_ERROR, "FATAL: Cannot init SDL: %s", SDL_GetError());
-		return -1;
-	}
+    
+    //Initializing SDL
+    if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) != 0) {
+        SDL_LogError(SDL_LOG_CATEGORY_ERROR, "FATAL: Cannot init SDL: %s", SDL_GetError());
+        return -1;
+    }
 
-	// Basic argument parsing
-	if (argc >= 2) {
-		if (SDL_strncmp("--debug\0", argv[1], 7) == 0) {
-			SDL_LogSetAllPriority(SDL_LOG_PRIORITY_DEBUG);
-		}
-	}
-	
-	SDL_LogInfo(SDL_LOG_CATEGORY_APPLICATION, "Starting LinBound server v%s", linbound::getVersionString().c_str());
+    // Basic argument parsing
+    if (argc >= 2) {
+        if (SDL_strncmp("--debug\0", argv[1], 7) == 0) {
+            SDL_LogSetAllPriority(SDL_LOG_PRIORITY_DEBUG);
+        }
+    }
+    
+    SDL_LogInfo(SDL_LOG_CATEGORY_APPLICATION, "Starting LinBound server v%s", linbound::getVersionString().c_str());
 
-	loop();
-	
-	SDL_LogInfo(SDL_LOG_CATEGORY_APPLICATION, "Exiting");
-	SDL_Quit();
-	
-	return 0;
+    NetworkManager manager(true);
+
+    loop(manager);
+    
+    SDL_LogInfo(SDL_LOG_CATEGORY_APPLICATION, "Exiting");
+    SDL_Quit();
+    
+    return 0;
 }
 
-void loop() {
-	SDL_Event event;
+void loop(NetworkManager &manager) {
+    SDL_Event event;
 
-	for (;;) {
-		while (SDL_PollEvent(&event) == 1) {
-			// Make sure the server can be stopped using e.g. Ctrl+C (Unix)
-			if (event.type == SDL_QUIT)
-				return;
-		}
+    for (;;) {
+        while (SDL_PollEvent(&event) == 1) {
+            // Make sure the server can be stopped using e.g. Ctrl+C (Unix)
+            if (event.type == SDL_QUIT)
+                return;
+        }
 
-		// TBD: process network events (packets)
-	}
+        // Process network events (packets)
+        vector<UDPpacket*> packets = manager.receive();
+        for (const UDPpacket* p : packets) {
+            Uint8 code = NetworkManager::getCode(p);
+            switch (code) {
+            case HELLO_MSG:
+                manager.send(SERVER_INFO, "server\0030\003255\0030", NetworkManager::getAddress(p));
+                break;
+            default:
+                break;
+            }
+        }
+    }
 }
