@@ -29,7 +29,7 @@ const Uint16 RoomView::MAX_POWER;
  * @param view the LobbyView, which already has players and all parameters set
  */
 RoomView::RoomView(const LobbyView *view) : Context(ContextName::ROOM),
-itemBox(ContextName::ROOM), gameMode(view->getMode()), currentMap(new GameMap(view->getMap())) {
+gameMode(view->getMode()), currentMap(new GameMap(view->getMap())) {
 
 
     fg_rect.w = getWidth();

@@ -34,21 +34,21 @@ ItemBox::ItemBox(ContextName name) : inGame(name == ContextName::ROOM) {
 bool ItemBox::add(GameItemType item) {
     bool result = false;
     int size = GameItem::getSize(item);
-    for (int i = 0; i < SIZE; i++) {
+    int i = 0;
+    while (!result && i < SIZE) {
         if (items[i] == GameItemType::NONE_1) {
             if (size == 1) {
                 items[i] = item;
                 result = true;
-                break;
             } else { // size == 2: we need 2 slots
                 if (i < SIZE - 1 && items[i + 1] == GameItemType::NONE_1) {
                     items[i] = item;
                     items[i + 1] = item;
                     result = true;
-                    break;
                 }
             }
         }
+        i++;
     }
     return result;
 }
@@ -59,19 +59,22 @@ bool ItemBox::add(GameItemType item) {
  * \param type type to remove
  */
 void ItemBox::remove(GameItemType type) {
-    if (!inGame) {
-        int size = GameItem::getSize(type);
-        int i = 0;
-        while (i < SIZE) {
-            if (items[i] == type) {
-                items[i] = GameItemType::NONE_1;
-                if (size == 2) {
-                    items[i + 1] = GameItemType::NONE_1;
-                }
-                i += size;
-            } else {
-                i++;
+    if (inGame) {
+        // This operation cannot happen in-game
+        return;
+    }
+    
+    int size = GameItem::getSize(type);
+    int i = 0;
+    while (i < SIZE) {
+        if (items[i] == type) {
+            items[i] = GameItemType::NONE_1;
+            if (size == 2) {
+                items[i + 1] = GameItemType::NONE_1;
             }
+            i += size;
+        } else {
+            i++;
         }
     }
 }
@@ -82,23 +85,28 @@ void ItemBox::remove(GameItemType type) {
  */
 bool ItemBox::remove(const int index) {
     bool result = false;
-    if (index >= 0 && index < SIZE) {
-        int i = 0;
-        while (i < SIZE) {
-            int size = GameItem::getSize(items[i]);
-            if ((index == i && size == 1) || (size == 2 && (index == i || index == i + 1))) {
-                // Location found
-                current = items[i];
-                items[i] = GameItemType::NONE_1;
-                if (size == 2) {
-                    items[i + 1] = GameItemType::NONE_1;
-                }
-                result = current != GameItemType::NONE_1;
-                break;
-            }
-            i += size;
-        }
+
+    // Range check for parameter
+    if (index < 0 || index >= SIZE) {
+        return false;
     }
+
+    int i = 0;
+    while (i < SIZE) {
+        int size = GameItem::getSize(items[i]);
+        if ((index == i && size == 1) || (size == 2 && (index == i || index == i + 1))) {
+            // Location found
+            current = items[i];
+            items[i] = GameItemType::NONE_1;
+            if (size == 2) {
+                items[i + 1] = GameItemType::NONE_1;
+            }
+            result = current != GameItemType::NONE_1;
+            break;
+        }
+        i += size;
+    }
+
     return result;
 }
 
@@ -145,14 +153,12 @@ void ItemBox::draw(gcn::Graphics* graphics) {
 }
 
 void ItemBox::mouseReleased(gcn::MouseEvent& mouseEvent) {
-    if (mouseEvent.getButton() == MouseEvent::LEFT || mouseEvent.getButton() == MouseEvent::RIGHT) {
-        if (mouseEvent.getX() >= 0 && mouseEvent.getX() <= getWidth() && mouseEvent.getY() >= 0 && mouseEvent.getY() <= getHeight()) {
-            bool hasItem = remove(mouseEvent.getX() / 34);
-            if (hasItem) {
-                generateAction();
-            }
-            mouseEvent.consume();
+    if ((mouseEvent.getButton() == MouseEvent::LEFT || mouseEvent.getButton() == MouseEvent::RIGHT) && mouseEvent.getX() >= 0 && mouseEvent.getX() <= getWidth() && mouseEvent.getY() >= 0 && mouseEvent.getY() <= getHeight()) {
+        bool hasItem = remove(mouseEvent.getX() / 34);
+        if (hasItem) {
+            generateAction();
         }
+        mouseEvent.consume();
     }
 }
 

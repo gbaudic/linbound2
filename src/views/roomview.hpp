@@ -95,7 +95,7 @@ private:
     ResultsDialog results;
     ScoreBoard scoreBoard;
     GoldDisplay goldDisplay;
-    ItemBox itemBox;
+    ItemBox itemBox{ ContextName::ROOM };
 
     Uint16 turnCount = 0;
     InteractionMode currentMode = InteractionMode::IDLE;

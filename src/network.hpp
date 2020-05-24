@@ -24,7 +24,7 @@
 
 class NetworkManager final {
 public:
-    NetworkManager(bool isServer);
+    explicit NetworkManager(bool isServer);
     ~NetworkManager();
     void send(Uint8 code, const std::string & message, IPaddress target);
     void sendToServer(Uint8 code, const std::string& message);

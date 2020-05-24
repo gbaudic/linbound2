@@ -74,6 +74,9 @@ void loop(NetworkManager &manager) {
             case HELLO_MSG:
                 manager.send(SERVER_INFO, "server\0030\003255\0030", NetworkManager::getAddress(p));
                 break;
+            case STATUS_PING:
+                manager.send(STATUS_PONG, "", NetworkManager::getAddress(p));
+                break;
             default:
                 break;
             }
