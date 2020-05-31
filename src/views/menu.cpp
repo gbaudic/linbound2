@@ -20,7 +20,6 @@ using namespace std;
 
 /**
  * Constructor
- * @param p main Container for the GUI
  */
 Menu::Menu() : Context(ContextName::MAIN_MENU) {
 	lbl_version.setCaption("Version " + linbound::getVersionString());
@@ -30,9 +29,9 @@ Menu::Menu() : Context(ContextName::MAIN_MENU) {
 	btn_newGame.addActionListener(this);
 	btn_newGame.adjustSize();
 	btn_credits.setActionEventId("credits");
-	btn_settings.setActionEventId("settings");
 	btn_credits.addActionListener(this);
 	btn_credits.adjustSize();
+	btn_settings.setActionEventId("settings");
 	btn_settings.addActionListener(this);
 	btn_settings.adjustSize();
 	btn_back.setActionEventId("back");
@@ -56,6 +55,19 @@ Menu::Menu() : Context(ContextName::MAIN_MENU) {
 	btn_webGame.adjustSize();
 	btn_webGame.setActionEventId("web");
 	btn_webGame.addActionListener(this);
+
+	lbl1.setAlignment(gcn::Graphics::CENTER);
+	lbl2.setAlignment(gcn::Graphics::CENTER);
+	lbl3.setAlignment(gcn::Graphics::CENTER);
+	lbl4.setAlignment(gcn::Graphics::CENTER);
+	lbl1.setWidth(150);
+	lbl2.setWidth(150);
+	lbl3.setWidth(150);
+	lbl4.setWidth(150);
+	lbl1.setHeight(15);
+	lbl2.setHeight(15);
+	lbl3.setHeight(15);
+	lbl4.setHeight(15);
 
 	string backgroundPath = RESOURCE_PREFIX + "/menu/LB_menu.png";
 	background = IMG_Load(backgroundPath.c_str());
@@ -124,6 +136,11 @@ void Menu::moveToGame(bool move) {
 	btn_lanGame.setVisible(move);
 	btn_localGame.setVisible(move);
 	btn_webGame.setVisible(move);
+
+	lbl1.setCaption(move ? "Back" : "New game");
+	lbl2.setCaption(move ? "LAN game" : "Settings");
+	lbl3.setCaption(move ? "Local game" : "Credits");
+	lbl4.setCaption(move ? "Web game" : "Quit");
 }
 
 /**
@@ -141,15 +158,21 @@ void Menu::drawBackground(SDL_Renderer * screen) {
  * \brief Add the widgets to the container
  */
 void Menu::addWidgets() {
-	addWidget(&btn_newGame, 70, 225);
+	addWidget(&btn_newGame, 50 + 20, 225);
 	addWidget(&btn_settings, 50 + 2 * 20 + 150, 225);
 	addWidget(&btn_credits, 50 + 3 * 20 + 2 * 150, 225);
 	addWidget(&btn_quit, 50 + 4 * 20 + 3 * 150, 225);
 
-	addWidget(&btn_back, 70, 225);
+	addWidget(&btn_back, 50 + 20, 225);
 	addWidget(&btn_localGame, 50 + 2 * 20 + 150, 225);
 	addWidget(&btn_lanGame, 50 + 3 * 20 + 2 * 150, 225);
 	addWidget(&btn_webGame, 50 + 4 * 20 + 3 * 150, 225);
+
+	int captions_y = 225 + 20 + btn_newGame.getHeight();
+	addWidget(&lbl1, btn_newGame.getX(), captions_y);
+	addWidget(&lbl2, btn_settings.getX(), captions_y);
+	addWidget(&lbl3, btn_credits.getX(), captions_y);
+	addWidget(&lbl4, btn_quit.getX(), captions_y);
 
 	addWidget(&lbl_version, 20, background->h - 40);
 }

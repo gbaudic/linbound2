@@ -47,6 +47,10 @@ private:
 	gcn::ImageButton btn_lanGame{ RESOURCE_PREFIX + "/menu/langame.png" };
 	gcn::ImageButton btn_localGame{ RESOURCE_PREFIX + "/menu/localgame.png" };
 	gcn::ImageButton btn_webGame{ RESOURCE_PREFIX + "/menu/webgame.png" };
+	gcn::Label lbl1{"New game"};
+	gcn::Label lbl2{"Settings"};
+	gcn::Label lbl3{"Credits"};
+	gcn::Label lbl4{"Quit"};
 
 	gcn::Label lbl_version;
 
