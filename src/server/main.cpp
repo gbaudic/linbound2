@@ -26,8 +26,25 @@
 using namespace std;
 
 Database db;
+// Settings variables -- put here just for simplicity
+string serverName = "server";
+Uint8 minLevel = 0;
+Uint8 maxLevel = 255;
 
 void loop(NetworkManager &manager);
+
+/**
+ * Print a basic help in case of improper arguments
+ */
+void usage() {
+    cout << "Linbound server" << endl
+        << "Supported options:" << endl
+        << "--debug  : enable debug output" << endl
+        << "--help   : print this help and exit" << endl
+        << "--name n : give this server a name (default: server)" << endl
+        << "--min x  : set minimum level to enter (default: no limit)" << endl
+        << "--max x  : set maximum level to enter (default: no limit)" << endl;
+}
 
 int main(int argc, char *argv[]) {
     
@@ -39,9 +56,55 @@ int main(int argc, char *argv[]) {
 
     // Basic argument parsing
     if (argc >= 2) {
-        if (SDL_strncmp("--debug\0", argv[1], 7) == 0) {
-            SDL_LogSetAllPriority(SDL_LOG_PRIORITY_DEBUG);
+        int argIndex = 1;
+        int code = -1;
+        while (argIndex < argc) {
+            if (SDL_strncmp("--debug\0", argv[argIndex], 7) == 0) {
+                SDL_LogSetAllPriority(SDL_LOG_PRIORITY_DEBUG);
+                argIndex++;
+            } else if (SDL_strncmp("--help\0", argv[argIndex], 6) == 0) {
+                code = 0;
+                break;
+            } else if (SDL_strncmp("--name\0", argv[argIndex], 6) == 0) {
+                if (argIndex + 1 < argc) {
+                    // Use name
+                    serverName = string(argv[argIndex + 1]);
+                    argIndex += 2;
+                } else {
+                    // Error
+                    break;
+                }
+            } else if (SDL_strncmp("--min\0", argv[argIndex], 5) == 0) {
+                if (argIndex + 1 < argc) {
+                    // Use min
+                    minLevel = strtol(argv[argIndex + 1], nullptr, 10);
+                    argIndex += 2;
+                } else {
+                    // Error
+                    break;
+                }
+            } else if (SDL_strncmp("--max\0", argv[argIndex], 5) == 0) {
+                if (argIndex + 1 < argc) {
+                    // Use max
+                    maxLevel = strtol(argv[argIndex + 1], nullptr, 10);
+                    argIndex += 2;
+                } else {
+                    // Error
+                    break;
+                }
+            } else {
+                // Unknown option = error
+                break;
+            }
         }
+        if (argIndex < argc) {
+            // Premature stop, exit
+            usage();
+            SDL_Quit();
+            return code;
+        }
+
+        // TODO check min < max, range detection
     }
     
     SDL_LogInfo(SDL_LOG_CATEGORY_APPLICATION, "Starting LinBound server v%s", linbound::getVersionString().c_str());
@@ -56,6 +119,10 @@ int main(int argc, char *argv[]) {
     return 0;
 }
 
+/**
+ * Main loop of the program
+ * @param manager network component to send/receive packets
+ */
 void loop(NetworkManager &manager) {
     SDL_Event event;
 
