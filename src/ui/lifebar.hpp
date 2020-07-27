@@ -24,11 +24,12 @@ class Lifebar {
 
 public:
     Lifebar();
-    void draw(SDL_Renderer* renderer, Sint16 x, Sint16 y);
+    void draw(SDL_Renderer* renderer, Sint16 x, Sint16 y) const;
     void setValue(Sint16 value);
 
 private:
-    Sint16 value = 0;
+    // current value of life for player -- negative values show as 0 but are allowed
+    Sint16 value = 0; 
 
 };
 

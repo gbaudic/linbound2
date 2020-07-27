@@ -30,7 +30,7 @@ public:
     void load();
     void unload();
     void useBSide(const bool use);
-    void makeHole(const int x, const int y, const int radius);
+    void makeHole(const Sint16 x, const Sint16 y, const Sint16 radius);
     SDL_Texture *getBackground();
     SDL_Texture *getForeground();
     SDL_Texture *getPreview();

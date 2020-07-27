@@ -26,9 +26,9 @@ TTF_Font *ChatBalloon::font = nullptr;
  * \param x x coord of the tip (bottom) of the balloon
  * \param y y coord of the tip (bottom) of the balloon
  */
-ChatBalloon::ChatBalloon(const string &text, const int x, const int y) : message(text), 
+ChatBalloon::ChatBalloon(const string &text, const Sint16 x, const Sint16 y) : message(text), 
 _x(x), _y(y) {
-    if(message.size() == 0) {
+    if (message.size() == 0) {
         message = " ";
     }
 }
@@ -39,15 +39,15 @@ _x(x), _y(y) {
  * \param xOffset value >= 0, used only in Room mode
  * \param yOffset value >= 0, used only in Room mode
  */
-void ChatBalloon::draw(SDL_Renderer *renderer, const int xOffset, const int yOffset) {
+void ChatBalloon::draw(SDL_Renderer *renderer, const Sint16 xOffset, const Sint16 yOffset) {
 	// Update line width if necessary
-    if(nbCharsDisplayed < message.size()) {
+    if (nbCharsDisplayed < message.size()) {
         Uint32 delta = SDL_GetTicks() - creationTime;
         nbCharsDisplayed = 1 + delta / (1000 / CHARACTERS_PER_SECOND);
     }
 
-	int x = _x - xOffset;
-	int y = _y - yOffset;
+	Sint16 x = _x - xOffset;
+	Sint16 y = _y - yOffset;
     
 	// Compute balloon size
     int charsInLine = nbCharsDisplayed >= BALLOON_WIDTH ? BALLOON_WIDTH : nbCharsDisplayed;
@@ -56,7 +56,7 @@ void ChatBalloon::draw(SDL_Renderer *renderer, const int xOffset, const int yOff
 	string testText(charsInLine, 'M');
 	TTF_SizeText(font, testText.c_str(), &textWidth, &lineHeight);
     int nbLines = 1 + nbCharsDisplayed / BALLOON_WIDTH;
-    if(nbCharsDisplayed > 0 && nbCharsDisplayed % BALLOON_WIDTH == 0) {
+    if (nbCharsDisplayed > 0 && nbCharsDisplayed % BALLOON_WIDTH == 0) {
         nbLines -= 1;
     }
     

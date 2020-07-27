@@ -27,8 +27,8 @@ public:
 	ChatWindow(const std::string &friendName, const std::string &message);
 	void addMessage(const std::string &author, const std::string &message);
 	void action(const gcn::ActionEvent &actionEvent) override;
-	std::string const getRecipientName();
-	std::string const getMessage();
+	std::string getRecipientName() const;
+	std::string getMessage() const;
 	static void setMyName(const std::string &myName);
 
 private:

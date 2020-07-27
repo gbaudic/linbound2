@@ -86,7 +86,7 @@ public:
     CommonPlayer();
     void setInfo(const PlayerBasicInfo &newInfo);
     void setTeam(char newTeam);
-    int getRewardAmount(const int baseAmount);
+    int getRewardAmount(const int baseAmount) const;
 private:
     PlayerBasicInfo info;
     char team = 'A';

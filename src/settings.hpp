@@ -35,7 +35,7 @@ public:
 	void setMusicVolume(Uint8 newMusicVolume);
 	Uint16 getWidth();
 	void setWidth(Uint16 newWidth);
-	bool isAServer();
+	bool isAServer() const;
 	void setServer(bool server);
 	void save();
 

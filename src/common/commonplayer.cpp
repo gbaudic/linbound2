@@ -31,6 +31,6 @@ void CommonPlayer::setTeam(char newTeam) {
  * \param baseAmount amount of the reward
  * \return actual amount to use for this player
  */
-int CommonPlayer::getRewardAmount(const int baseAmount) {
+int CommonPlayer::getRewardAmount(const int baseAmount) const {
     return baseAmount * (100 + properties[0]) / 100;
 }

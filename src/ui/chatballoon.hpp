@@ -26,21 +26,21 @@ public:
     const int CHARACTERS_PER_SECOND = 10; //! used when deploying the balloon
     const Uint32 FULL_DELAY = 5000; //! time to leave the full balloon visible
     
-    ChatBalloon(const std::string &text, const int x, const int y);
+    ChatBalloon(const std::string &text, const Sint16 x, const Sint16 y);
     
-    void draw(SDL_Renderer *renderer, const int xOffset = 0, const int yOffset = 0);
+    void draw(SDL_Renderer *renderer, const Sint16 xOffset = 0, const Sint16 yOffset = 0);
     bool isVisible() const;
 
 	static void setFont(TTF_Font *textFont);
     
 private:
     std::string message;
-    int _x;
-    int _y;
+    Sint16 _x;
+    Sint16 _y;
     int nbCharsDisplayed = 1;
     Uint32 creationTime{ SDL_GetTicks() };
     
-    const int PADDING = 5; //! in pixels
+    const Sint16 PADDING = 5; //! in pixels
 
 	static TTF_Font* font;
 };

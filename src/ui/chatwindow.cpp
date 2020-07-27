@@ -106,7 +106,7 @@ void ChatWindow::addMessage(const std::string &author, const std::string &messag
  *  of an ongoing conversation (existing window) or if it is a new one (constructor call necessary)
  *  \return the friend name, as a std::string
  */
-string const ChatWindow::getRecipientName() {
+string ChatWindow::getRecipientName() const {
 	return recipient;
 }
 
@@ -114,7 +114,7 @@ string const ChatWindow::getRecipientName() {
  * Get the last message sent from this window
  * \param the message sent
  */
-string const ChatWindow::getMessage() {
+string ChatWindow::getMessage() const {
 	return messageSent;
 }
 

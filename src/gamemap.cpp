@@ -112,7 +112,7 @@ void GameMap::unload() {
  * \param y y coord of the point of impact, expressed in map coordinates
  * \param radius hole radius in pixels
  */
-void GameMap::makeHole(const int x, const int y, const int radius) {
+void GameMap::makeHole(const Sint16 x, const Sint16 y, const Sint16 radius) {
     filledCircleRGBA(mapRenderer, x, y, radius, 0xff, 0, 0xff, 0); // transparent magenta
 }
 

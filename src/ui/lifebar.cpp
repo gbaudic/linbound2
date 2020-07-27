@@ -30,7 +30,7 @@ Lifebar::Lifebar() {
  * \param x x coordinate of top-left hand corner of lifebar
  * \param y y coordinate of top left hand corner of lifebar
  */
-void Lifebar::draw(SDL_Renderer* renderer, Sint16 x, Sint16 y) {
+void Lifebar::draw(SDL_Renderer* renderer, Sint16 x, Sint16 y) const {
     SDL_Rect rect;
     rect.x = x;
     rect.y = y;

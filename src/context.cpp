@@ -33,10 +33,10 @@ NetworkManager Context::network(false);
  * \param type name of the context being created
  */
 Context::Context(ContextName type) : 
-	name(type) {
-	top.setWidth(parent->getWidth());
-	top.setHeight(parent->getHeight());
-	top.setOpaque(false);
+    name(type) {
+    top.setWidth(parent->getWidth());
+    top.setHeight(parent->getHeight());
+    top.setOpaque(false);
 }
 
 Context::~Context() {
@@ -47,8 +47,8 @@ Context::~Context() {
  * \brief Getter for context name
  * \return name of the current context
  */
-ContextName const Context::getName() {
-	return name;
+ContextName Context::getName() const {
+    return name;
 }
 
 /**
@@ -56,8 +56,8 @@ ContextName const Context::getName() {
  * if an operation triggering a change happened in this Context
  * \return name of next context
  */
-ContextName const Context::getNextContextName() {
-	return next;
+ContextName Context::getNextContextName() const {
+    return next;
 }
 
 /**
@@ -68,21 +68,21 @@ ContextName const Context::getNextContextName() {
  * \param topContainer top Container in Guisan
  */
 void Context::setParent(gcn::Container * topContainer) {
-	parent = topContainer;
+    parent = topContainer;
 }
 
 /**
  * Call this function when entering this Context
  */
 void Context::enter() {
-	parent->add(&top);
+    parent->add(&top);
 }
 
 /**
  * Call this function when leaving a Context, either to another one or when exiting the app
  */
 void Context::leave() {
-	parent->remove(&top);
+    parent->remove(&top);
 }
 
 /**
@@ -90,13 +90,13 @@ void Context::leave() {
  * It is up to the Context to do the processing
  */
 void Context::receive() {
-	// Get messages from network manager
-	vector<UDPpacket *> data = network.receive();
-	
-	// Unpack and feed context, one by one
-	for(const UDPpacket *p : data) {
-		processMessage(NetworkManager::getCode(p), NetworkManager::getMessage(p));
-	}
+    // Get messages from network manager
+    vector<UDPpacket *> data = network.receive();
+    
+    // Unpack and feed context, one by one
+    for(const UDPpacket *p : data) {
+        processMessage(NetworkManager::getCode(p), NetworkManager::getMessage(p));
+    }
 }
 
 /**
@@ -106,7 +106,7 @@ void Context::receive() {
  * \param message message, formatted as a string
  */
 void Context::send(const Uint8 code, const std::string & message) {
-	network.sendToServer(code, message);
+    network.sendToServer(code, message);
 }
 
 /**
@@ -114,7 +114,7 @@ void Context::send(const Uint8 code, const std::string & message) {
  * \param ip address to use
  */
 void Context::setServerIP(const Uint32 ip) {
-	network.setServerInfo(ip);
+    network.setServerInfo(ip);
 }
 
 /**
@@ -123,7 +123,7 @@ void Context::setServerIP(const Uint32 ip) {
  * \return height of the container, in pixels
  */
 const int Context::getHeight() const {
-	return top.getHeight();
+    return top.getHeight();
 }
 
 /**
@@ -132,7 +132,7 @@ const int Context::getHeight() const {
  * \return width of the container, in pixels
  */
 const int Context::getWidth() const {
-	return top.getWidth();
+    return top.getWidth();
 }
 
 /**
@@ -141,72 +141,72 @@ const int Context::getWidth() const {
  * \param nextName name for the context to go to
  */
 Context * Context::getNextContext(ContextName nextName) {
-	ContextName currentName = ContextName::NONE;
+    ContextName currentName = ContextName::NONE;
 
-	switch (nextName) {
-	case ContextName::MAIN_MENU:
-		if (currentContext) {
-			currentContext->leave();
-			delete currentContext;
-		}
-		currentContext = new Menu();
-		currentContext->enter();
-		break;
-	case ContextName::SERVER_LIST_LAN: // fallthrough
-	case ContextName::SERVER_LIST_WEB:
-		if (currentContext) {
-			currentContext->leave();
-			delete currentContext;
-		}
-		currentContext = new ServerList(nextName);
-		currentContext->enter();
-		break;
-	case ContextName::ROOM_LIST:
-		if (currentContext) {
-			currentName = currentContext->getName();
-			currentContext->leave();
-			delete currentContext;
-		}
-		currentContext = new ServerView(currentName);
-		currentContext->enter();
-		break;
-	case ContextName::ROOM_LOBBY: // fallthrough
-	case ContextName::ROOM_LOBBY_LOCAL:
-		if (currentContext) {
-			currentName = currentContext->getName();
-			currentContext->leave();
-			if (currentName == ContextName::ROOM) {
-				// Restore the previous lobby
-				const Context* previousContext = currentContext;
-				currentContext = dynamic_cast<RoomView*>(currentContext)->getLobby();
-				delete previousContext;
-			} else {
-				// Create a new one from scratch
-				delete currentContext;
-				currentContext = new LobbyView(nextName);
-			}
-			currentContext->enter();
-		} else {
-			SDL_LogCritical(SDL_LOG_CATEGORY_ERROR, "Trying to enter room lobby from nowhere");
-		}
-		break;
-	case ContextName::ROOM:
-		if (currentContext) {
-			currentContext->leave();
-			const LobbyView* lobby = dynamic_cast<LobbyView*>(currentContext);
-			if (lobby) {
-				// Normally this should be the only path from which we can create a RoomView...
-				currentContext = new RoomView(lobby);
-			} 
-			currentContext->enter();
-		} else {
-			SDL_LogCritical(SDL_LOG_CATEGORY_ERROR, "Trying to enter room from nowhere");
-		}
-		break;
-	default:
-		break;
-	}
-	return currentContext;
+    switch (nextName) {
+    case ContextName::MAIN_MENU:
+        if (currentContext) {
+            currentContext->leave();
+            delete currentContext;
+        }
+        currentContext = new Menu();
+        currentContext->enter();
+        break;
+    case ContextName::SERVER_LIST_LAN: // fallthrough
+    case ContextName::SERVER_LIST_WEB:
+        if (currentContext) {
+            currentContext->leave();
+            delete currentContext;
+        }
+        currentContext = new ServerList(nextName);
+        currentContext->enter();
+        break;
+    case ContextName::ROOM_LIST:
+        if (currentContext) {
+            currentName = currentContext->getName();
+            currentContext->leave();
+            delete currentContext;
+        }
+        currentContext = new ServerView(currentName);
+        currentContext->enter();
+        break;
+    case ContextName::ROOM_LOBBY: // fallthrough
+    case ContextName::ROOM_LOBBY_LOCAL:
+        if (currentContext) {
+            currentName = currentContext->getName();
+            currentContext->leave();
+            if (currentName == ContextName::ROOM) {
+                // Restore the previous lobby
+                const Context* previousContext = currentContext;
+                currentContext = dynamic_cast<RoomView*>(currentContext)->getLobby();
+                delete previousContext;
+            } else {
+                // Create a new one from scratch
+                delete currentContext;
+                currentContext = new LobbyView(nextName);
+            }
+            currentContext->enter();
+        } else {
+            SDL_LogCritical(SDL_LOG_CATEGORY_ERROR, "Trying to enter room lobby from nowhere");
+        }
+        break;
+    case ContextName::ROOM:
+        if (currentContext) {
+            currentContext->leave();
+            const LobbyView* lobby = dynamic_cast<LobbyView*>(currentContext);
+            if (lobby) {
+                // Normally this should be the only path from which we can create a RoomView...
+                currentContext = new RoomView(lobby);
+            } 
+            currentContext->enter();
+        } else {
+            SDL_LogCritical(SDL_LOG_CATEGORY_ERROR, "Trying to enter room from nowhere");
+        }
+        break;
+    default:
+        break;
+    }
+    return currentContext;
 }
 
 /**
@@ -218,7 +218,7 @@ Context * Context::getNextContext(ContextName nextName) {
  * \see Context::addCenteredWidget(gcn::Widget*)
  */
 void Context::addWidget(gcn::Widget * widget, int x, int y){
-	top.add(widget, x, y);
+    top.add(widget, x, y);
 }
 
 /**
@@ -227,10 +227,10 @@ void Context::addWidget(gcn::Widget * widget, int x, int y){
  *  \param widget widget to insert
  */
 void Context::addCenteredWidget(gcn::Widget * widget) {
-	int x = (top.getWidth() - widget->getWidth()) / 2;
-	int y = (top.getHeight() - widget->getHeight()) / 2;
+    int x = (top.getWidth() - widget->getWidth()) / 2;
+    int y = (top.getHeight() - widget->getHeight()) / 2;
 
-	addWidget(widget, x, y);
+    addWidget(widget, x, y);
 }
 
 /**
@@ -238,5 +238,5 @@ void Context::addCenteredWidget(gcn::Widget * widget) {
  * \param newContext new context to use
  */
 void Context::setNextContext(const ContextName newContext) {
-	next = newContext;
+    next = newContext;
 }
