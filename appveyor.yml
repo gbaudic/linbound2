@@ -3,7 +3,7 @@ platform: x64
 
 install:
   - set MSYSTEM=MINGW64
-  - set PATH=C:\msys64\%MSYSTEM%\bin;C:\msys64\usr\bin;%PATH%;"C:\Program Files (x86)\Inno Setup 5"
+  - set PATH=C:\msys64\%MSYSTEM%\bin;C:\msys64\usr\bin;%PATH%;"C:\Program Files (x86)\Inno Setup 6"
   - bash -lc "pacman -Syu --noconfirm"
   - bash -lc "pacman -Syu --noconfirm"
   - bash -lc "pacman -S --needed --noconfirm make cmake scons"
