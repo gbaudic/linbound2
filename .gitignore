@@ -33,5 +33,10 @@
 
 /dll/
 /Output/
+/out/
 /.vs/
 /CMakeFiles/
+
+# Generated files
+Makefile
+src/config.hpp

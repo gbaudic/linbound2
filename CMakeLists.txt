@@ -147,11 +147,22 @@ if(ENABLE_TESTS)
 	include(CTest)
 	enable_testing()
 	set(PROJECT_TEST_NAME ${PROJECT_NAME}_test)
-	file(GLOB_RECURSE test_files RELATIVE ${PROJECT_SOURCE_DIR} test/*.cpp)
+	file(GLOB test_files RELATIVE ${PROJECT_SOURCE_DIR} test/*.cpp src/utils.cpp src/network.cpp src/settings.cpp)
 	add_executable(${PROJECT_TEST_NAME} ${test_files})
 	add_dependencies(${PROJECT_TEST_NAME} ${PROJECT_NAME})
-    if(MSVC OR CYGWIN OR MSYS OR MINGW)
+    if(MSYS OR MINGW)
 		# We need a main on Windows
+		target_link_libraries(${PROJECT_TEST_NAME} ${SDL2_LIBRARIES}
+		${SDL2_IMAGE_LIBRARIES} 
+		${SDL2_TTF_LIBRARIES}
+		${SDL2_GFX_LIBRARIES}
+		${SDL2_MIXER_LIBRARIES}
+		${SDL2_NET_LIBRARIES}
+		${GUISAN_LIBRARIES}
+		${TINYXML2_LIBRARIES}
+		${SQLITE3_LIBRARIES}
+		${BOX2D_LIBRARIES} ${GTEST_LIBRARIES})
+	elseif(MSVC)
 		target_link_libraries(${PROJECT_TEST_NAME} ${GTEST_MAIN} ${SDL2_LIBRARIES}
 		${SDL2_IMAGE_LIBRARIES} 
 		${SDL2_TTF_LIBRARIES}
@@ -162,7 +173,7 @@ if(ENABLE_TESTS)
 		${TINYXML2_LIBRARIES}
 		${SQLITE3_LIBRARIES}
 		${BOX2D_LIBRARIES} ${GTEST})
-	else()	
+	else()
 		target_link_libraries(${PROJECT_TEST_NAME} ${SDL2_LIBRARIES} 
 		${SDL2_IMAGE_LIBRARIES} 
 		${SDL2_TTF_LIBRARIES}

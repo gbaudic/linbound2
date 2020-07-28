@@ -1,4 +1,6 @@
-#include "../src/settings.cpp"
+#define SDL_MAIN_HANDLED
+#include <SDL2/SDL.h>
+#include "../src/settings.hpp"
 #include "gtest/gtest.h" 
 
 
@@ -16,7 +18,8 @@ namespace {
     
 }
 
-/*int main(int argc, char *argv[]) {
+int main(int argc, char *argv[]) {
+  SDL_SetMainReady();
   ::testing::InitGoogleTest(&argc, argv);
   return RUN_ALL_TESTS();
-}*/
+}
