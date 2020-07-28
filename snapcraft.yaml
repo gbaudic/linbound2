@@ -78,3 +78,6 @@ apps:
   linbound:
     command: linbound
     plugs: [home, network, network-bin, alsa, pulseaudio, x11]
+  linbound_server
+    command: linbound_server
+    plugs: [home, network, network-bin, x11]
