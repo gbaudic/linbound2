@@ -22,34 +22,33 @@
 #include <SDL2/SDL.h>
 
 /**
- *  \brief Singleton to encapsulate game settings
+ * \brief Singleton to encapsulate game settings
  */
 class Settings {
 public:
-	Uint16 getEffectsVolume();
-	void setEffectsVolume(Uint8 newEffectsVolume);
-	Uint16 getHeight();
-	void setHeight(Uint16 newHeight);
-	static Settings* getInstance();
-	Uint16 getMusicVolume();
-	void setMusicVolume(Uint8 newMusicVolume);
-	Uint16 getWidth();
-	void setWidth(Uint16 newWidth);
-	bool isAServer() const;
-	void setServer(bool server);
-	void save();
+    Uint16 getEffectsVolume();
+    void setEffectsVolume(Uint8 newEffectsVolume);
+    Uint16 getHeight();
+    void setHeight(Uint16 newHeight);
+    static Settings* getInstance();
+    Uint16 getMusicVolume();
+    void setMusicVolume(Uint8 newMusicVolume);
+    Uint16 getWidth();
+    void setWidth(Uint16 newWidth);
+    bool isAServer() const;
+    void setServer(bool server);
+    void save();
 
 private:
-	std::map<std::string,Uint16> values;
-	bool isServer = false;
-	bool isServerSet = false; //ensure boolean above is only touched once
-	static Settings* instance;
-	Settings();
-	~Settings();
-	void init();
-	void checkConsistency();
-	Settings& operator= (const Settings&) = delete; //ensure singleton
-	Settings (const Settings&) = delete;
+    std::map<std::string,Uint16> values;
+    bool isServer = false;
+    bool isServerSet = false; //ensure boolean above is only touched once
+    static Settings* instance;
+    Settings();
+    void init();
+    void checkConsistency();
+    Settings& operator= (const Settings&) = delete; //ensure singleton
+    Settings (const Settings&) = delete;
 };
 
 

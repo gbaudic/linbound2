@@ -46,6 +46,9 @@ enum class MobileName {
     UNICORN
 };
 
+/**
+ * Status of the mobile, to tweak display
+ */
 enum class MobileStatus : unsigned int {
     ALIVE,
     DYING,
@@ -54,7 +57,15 @@ enum class MobileStatus : unsigned int {
     FLYING //!< when dying in multi mode
 };
 
+/**
+ * Shared class to define a mobile, on which the player sits when playing
+ */
 class CommonMobile {
+public:
+
+    int getMinAngle(WeaponType type) const;
+    int getMaxAngle(WeaponType type) const;
+    void setStatus(MobileStatus newStatus);
 
 private:
     int minAngles[3]{ 0, 0, 0 };  // in degrees

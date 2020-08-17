@@ -81,6 +81,7 @@ void ItemBox::remove(GameItemType type) {
 
 /**
  * \brief Remove an item at the specified index
+ * \param index array index to use (0-5)
  * \return true if success, false otherwise
  */
 bool ItemBox::remove(const int index) {

@@ -19,6 +19,10 @@
 #include "serverlist.hpp"
 using namespace std;
 
+/**
+ * \brief Constructor
+ * \param name used to toggle between local and web games
+ */
 ServerList::ServerList(ContextName name) : Context(name) {
     btn_back.setActionEventId("back");
     btn_back.addActionListener(this);

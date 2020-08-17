@@ -17,8 +17,11 @@
 #define _H_COMMONROOM_
 
 #include <string>
+#include <vector>
 #include <SDL2/SDL.h>
 #include "../constants.hpp"
+#include "commongameitem.hpp"
+#include "commonplayer.hpp"
 
 /**
  * Status of a room
@@ -26,7 +29,7 @@
 enum class RoomStatus {
     WAITING, //! still accepting players
     FULL,    //! all seats full, entrance not permitted
-    PLAYING  //! game being played
+    PLAYING  //! game being played, players can leave (with penalty) but cannot join
 };
 
 /**
@@ -38,6 +41,11 @@ enum class SuddenDeathType {
     SS //!< unlimited use of Super Shot 
 };
 
+/**
+ * Convenience struct to hold room creation data, also required in server view
+ * The fields can be changed after creation by the room admin, unless the room 
+ * is playing
+ */
 struct RoomCreationInfo {
     std::string name;
     std::string password; //!< leave blank for none
@@ -47,6 +55,9 @@ struct RoomCreationInfo {
     Uint8 sdTurns;
 };
 
+/**
+ * Basic room info, used in room list to be able to show the buttons
+ */
 struct RoomBasicInfo {
     Uint16 number;
     std::string name;
@@ -56,6 +67,23 @@ struct RoomBasicInfo {
     std::string mapName;
     Uint8 nbTeams;
     Uint8 playersPerTeam;
+};
+
+/**
+ * Shared definitions for a room between client and server
+ * Meant to be subclassed at each side
+ */
+class CommonRoom {
+public:
+    CommonRoom(const RoomCreationInfo& info);
+    virtual void addPlayer(CommonPlayer * player);
+    virtual void removePlayer(std::string playerName);
+    RoomStatus getStatus() const;
+    bool isPlayerAdmin(std::string playerName) const;
+
+protected:
+    RoomCreationInfo rcInfo;
+    std::vector<CommonPlayer*> players;
 };
  
 #endif //! _H_COMMONROOM_ 

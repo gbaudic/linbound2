@@ -42,7 +42,12 @@ enum class ItemType {
     EXTRA
 };
 
+/**
+ * Shared class for an avatar item worn by the player which confers extra abilities
+ */
 class CommonItem {
+public:
+    ItemType getType() const;
 
 private:
     Uint32 code;

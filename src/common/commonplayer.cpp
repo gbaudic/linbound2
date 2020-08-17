@@ -15,13 +15,25 @@
 
 #include "commonplayer.hpp"
 
+/**
+ * \brief Constructor
+ */
 CommonPlayer::CommonPlayer() {
+    
 }
 
+/**
+ * \brief Inject the info from db or server into the player object
+ * \param newInfo info on player
+ */
 void CommonPlayer::setInfo(const PlayerBasicInfo& newInfo) {
     info = newInfo;
 }
 
+/**
+ * \brief Set/change the team for this player
+ * \param newTeam name of the team to join, A, B, C or D
+ */
 void CommonPlayer::setTeam(char newTeam) {
     team = newTeam;
 }

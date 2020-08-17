@@ -20,6 +20,17 @@ namespace {
 
 int main(int argc, char *argv[]) {
   SDL_SetMainReady();
+
+  //Initializing SDL
+  if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) != 0) {
+      SDL_LogError(SDL_LOG_CATEGORY_ERROR, "FATAL: Cannot init SDL: %s", SDL_GetError());
+      return -1;
+  }
+
   ::testing::InitGoogleTest(&argc, argv);
-  return RUN_ALL_TESTS();
+  int result = RUN_ALL_TESTS();
+
+  SDL_Quit();
+
+  return result;
 }

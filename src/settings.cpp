@@ -5,7 +5,6 @@
  * \author G. B.
  * \date 29/10/2016
  */
-
 /* This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0.
  * If a copy of the MPL was not distributed with this file,
  * You can obtain one at http://mozilla.org/MPL/2.0/.
@@ -27,50 +26,86 @@ using namespace std;
 
 Settings* Settings::instance = nullptr;
 
+/**
+ * @brief Getter for sound FX volume
+ * @return the volume
+*/
 Uint16 Settings::getEffectsVolume() {
     return values["EffectsVolume"];
 }
 
+/**
+ * @brief Setter for sound FX volume
+ * @param newEffectsVolume new volume to use
+*/
 void Settings::setEffectsVolume( Uint8 newEffectsVolume) {
     values["EffectsVolume"] = newEffectsVolume;
 }
 
+/**
+ * @brief Getter for window height
+ * @return window height in pixels
+*/
 Uint16 Settings::getHeight() {
     return values["Height"];
 }
 
+/**
+ * @brief Setter for window height
+ * @param newHeight window height in pixels
+*/
 void Settings::setHeight( Uint16 newHeight) {
     values["Height"] = newHeight;
 }
 
+/**
+ * @brief Getter for the singleton pattern
+ * @return object instance, created if necessary
+*/
 Settings* Settings::getInstance() {
-    if(instance == nullptr){
+    if (instance == nullptr){
         instance = new Settings();
     }
     return instance;
 }
 
+/**
+ * @brief Getter for main music volume
+ * @return current music volume
+*/
 Uint16 Settings::getMusicVolume() {
     return values["MusicVolume"];
 }
 
+/**
+ * @brief Setter for main music volume
+ * @param newMusicVolume new music volume to use
+*/
 void Settings::setMusicVolume( Uint8 newMusicVolume) {
     values["MusicVolume"] = newMusicVolume;
 }
 
+/**
+ * @brief Getter for window width
+ * @return current window width in pixels
+*/
 Uint16 Settings::getWidth() {
     return values["Width"];
 }
 
+/**
+ * @brief Setter for window width
+ * @param newWidth new window width to use in pixels
+*/
 void Settings::setWidth( Uint16 newWidth) {
     values["Width"] = newWidth;
 }
 
+/**
+ * @brief Constructor
+*/
 Settings::Settings() {
     init();
-}
-
-Settings::~Settings() {
 }
 
 bool Settings::isAServer() const {
@@ -148,7 +183,7 @@ void Settings::checkConsistency() {
 }
 
 /**
- * \@brief Write setting changes to disk
+ * @brief Write setting changes to disk
  */
 void Settings::save() {
     

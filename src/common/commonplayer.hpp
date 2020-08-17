@@ -21,6 +21,9 @@
 #include <SDL2/SDL.h>
 #include "commonitem.hpp"
 
+/**
+ * Represent the level among the categories defined in the game
+ */
 enum class PlayerLevel : unsigned int {
     ROOKIE,
     WOOD_HAMMER,
@@ -36,6 +39,10 @@ enum class PlayerLevel : unsigned int {
     ADMIN
 };
 
+/**
+ * Location
+ * Only useful in buddy list
+ */
 enum class PlayerLocationType {
     DISCONNECTED,
     SERVER,
@@ -57,6 +64,9 @@ struct PlayerBasicInfo {
     Uint32 cash; //! only here for compatibility, but unsupported
 };
 
+/**
+ * Additional statistics, only shown in-game on first turn to all players
+ */
 struct PlayerStats {
     std::string name;
     unsigned int worldRanking;

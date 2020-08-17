@@ -22,6 +22,9 @@
 #ifndef _H_NETWORK_
 #define _H_NETWORK_
 
+/**
+ * @brief Utility class to perform sending and receiving of packets
+*/
 class NetworkManager final {
 public:
     explicit NetworkManager(bool isServer);
