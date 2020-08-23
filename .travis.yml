@@ -1,6 +1,6 @@
 language: cpp
 compiler: gcc
-dist: xenial
+dist: bionic
 sudo: required
 
 addons:

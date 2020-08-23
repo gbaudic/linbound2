@@ -22,40 +22,37 @@ after_build:
   # Copy msys 64-bit DLLs into a dll subdir
   - mkdir dll
   - copy /b /y C:\msys64\%MSYSTEM%\bin\libBox2D.dll dll\
+  - copy /b /y C:\msys64\%MSYSTEM%\bin\libbrotlicommon.dll dll\
+  - copy /b /y C:\msys64\%MSYSTEM%\bin\libbrotlidec.dll dll\
+  - copy /b /y C:\msys64\%MSYSTEM%\bin\libbz2*.dll dll\
+  - copy /b /y C:\msys64\%MSYSTEM%\bin\libFLAC*.dll dll\
   - copy /b /y C:\msys64\%MSYSTEM%\bin\libfreetype*.dll dll\
   - copy /b /y C:\msys64\%MSYSTEM%\bin\libgcc_s_seh*.dll dll\
+  - copy /b /y C:\msys64\%MSYSTEM%\bin\libglib*.dll dll\
+  - copy /b /y C:\msys64\%MSYSTEM%\bin\libgraphite2.dll dll\
+  - copy /b /y C:\msys64\%MSYSTEM%\bin\libharfbuzz-0.dll dll\
+  - copy /b /y C:\msys64\%MSYSTEM%\bin\libiconv*.dll dll\
+  - copy /b /y C:\msys64\%MSYSTEM%\bin\libintl*.dll dll\
   - copy /b /y C:\msys64\%MSYSTEM%\bin\libjpeg*.dll dll\
   - copy /b /y C:\msys64\%MSYSTEM%\bin\liblzma*.dll dll\
   - copy /b /y C:\msys64\%MSYSTEM%\bin\libmpg123*.dll dll\
-  - copy /b /y C:\msys64\%MSYSTEM%\bin\libogg*.dll dll\
+  - copy /b /y C:\msys64\%MSYSTEM%\bin\libogg-0.dll dll\
+  - copy /b /y C:\msys64\%MSYSTEM%\bin\libopus-0.dll dll\
+  - copy /b /y C:\msys64\%MSYSTEM%\bin\libopusfile-0.dll dll\
+  - copy /b /y C:\msys64\%MSYSTEM%\bin\libpcre-1.dll dll\
   - copy /b /y C:\msys64\%MSYSTEM%\bin\libpng16*.dll dll\
+  - copy /b /y C:\msys64\%MSYSTEM%\bin\libSDL2_gfx*.dll dll\
+  - copy /b /y C:\msys64\%MSYSTEM%\bin\libsqlite3*.dll dll\
   - copy /b /y C:\msys64\%MSYSTEM%\bin\libstdc*.dll dll\
   - copy /b /y C:\msys64\%MSYSTEM%\bin\libtiff*.dll dll\
-  - copy /b /y C:\msys64\%MSYSTEM%\bin\SDL2*.dll dll\
-  - copy /b /y C:\msys64\%MSYSTEM%\bin\libSDL2*.dll dll\
+  - copy /b /y C:\msys64\%MSYSTEM%\bin\libtinyxml2.dll dll\
   - copy /b /y C:\msys64\%MSYSTEM%\bin\libvorbis*.dll dll\
+  - copy /b /y C:\msys64\%MSYSTEM%\bin\libvorbisfile*.dll dll\
   - copy /b /y C:\msys64\%MSYSTEM%\bin\libwebp*.dll dll\
   - copy /b /y C:\msys64\%MSYSTEM%\bin\libwinpthread*.dll dll\
   - copy /b /y C:\msys64\%MSYSTEM%\bin\libzstd.dll dll\
-  - copy /b /y C:\msys64\%MSYSTEM%\bin\libsqlite3*.dll dll\
-  - copy /b /y C:\msys64\%MSYSTEM%\bin\libtinyxml2.dll dll\
+  - copy /b /y C:\msys64\%MSYSTEM%\bin\SDL2*.dll dll\
   - copy /b /y C:\msys64\%MSYSTEM%\bin\zlib1.dll dll\
-  - copy /b /y C:\msys64\%MSYSTEM%\bin\libbz2*.dll dll\
-  - copy /b /y C:\msys64\%MSYSTEM%\bin\libharfbuzz-0.dll dll\
-  - copy /b /y C:\msys64\%MSYSTEM%\bin\libintl*.dll dll\
-  - copy /b /y C:\msys64\%MSYSTEM%\bin\libpcre-1.dll dll\
-  - copy /b /y C:\msys64\%MSYSTEM%\bin\libsndfile*.dll dll\
-  - copy /b /y C:\msys64\%MSYSTEM%\bin\libtermcap*.dll dll\
-  - copy /b /y C:\msys64\%MSYSTEM%\bin\libFLAC*.dll dll\
-  - copy /b /y C:\msys64\%MSYSTEM%\bin\libfluidsynth*.dll dll\
-  - copy /b /y C:\msys64\%MSYSTEM%\bin\libglib*.dll dll\
-  - copy /b /y C:\msys64\%MSYSTEM%\bin\libgraphite2.dll dll\
-  - copy /b /y C:\msys64\%MSYSTEM%\bin\libgmodule*.dll dll\
-  - copy /b /y C:\msys64\%MSYSTEM%\bin\libopusfile*.dll dll\
-  - copy /b /y C:\msys64\%MSYSTEM%\bin\libopus-0.dll dll\
-  - copy /b /y C:\msys64\%MSYSTEM%\bin\libspeex-1.dll dll\
-  - copy /b /y C:\msys64\%MSYSTEM%\bin\libportaudio*.dll dll\
-  - copy /b /y C:\msys64\%MSYSTEM%\bin\libreadline*.dll dll\
   - iscc linbound.iss
   
 artifacts:
