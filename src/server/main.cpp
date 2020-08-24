@@ -46,9 +46,62 @@ void usage() {
         << "--max x  : set maximum level to enter (default: no limit)" << endl;
 }
 
+/**
+ * Process command-line arguments if any
+ * \param argIndex counter for arguments processed so far
+ * \param code return code to use in case of error during parsing
+ * \param argc number of arguments supplied
+ * \param argv text of arguments supplied
+ */
+void processArgs(int &argIndex, int &code, int argc, char *argv[]) {
+    while (argIndex < argc) {
+        if (SDL_strncmp("--debug\0", argv[argIndex], 7) == 0) {
+            SDL_LogSetAllPriority(SDL_LOG_PRIORITY_DEBUG);
+            argIndex++;
+        } else if (SDL_strncmp("--help\0", argv[argIndex], 6) == 0) {
+            code = 0;
+            break;
+        } else if (SDL_strncmp("--name\0", argv[argIndex], 6) == 0) {
+            if (argIndex + 1 < argc) {
+                // Use name
+                serverName = string(argv[argIndex + 1]);
+                argIndex += 2;
+            } else {
+                // Error
+                break;
+            }
+        } else if (SDL_strncmp("--min\0", argv[argIndex], 5) == 0) {
+            if (argIndex + 1 < argc) {
+                // Use min
+                minLevel = strtol(argv[argIndex + 1], nullptr, 10);
+                argIndex += 2;
+            } else {
+                // Error
+                break;
+            }
+        } else if (SDL_strncmp("--max\0", argv[argIndex], 5) == 0) {
+            if (argIndex + 1 < argc) {
+                // Use max
+                maxLevel = strtol(argv[argIndex + 1], nullptr, 10);
+                argIndex += 2;
+            } else {
+                // Error
+                break;
+            }
+        } else {
+            // Unknown option = error
+            break;
+        }
+    }
+    return;
+}
+
+/**
+ * Main function
+ */
 int main(int argc, char *argv[]) {
     
-    //Initializing SDL
+    // Initializing SDL
     if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) != 0) {
         SDL_LogError(SDL_LOG_CATEGORY_ERROR, "FATAL: Cannot init SDL: %s", SDL_GetError());
         return -1;
@@ -58,53 +111,15 @@ int main(int argc, char *argv[]) {
     if (argc >= 2) {
         int argIndex = 1;
         int code = -1;
-        while (argIndex < argc) {
-            if (SDL_strncmp("--debug\0", argv[argIndex], 7) == 0) {
-                SDL_LogSetAllPriority(SDL_LOG_PRIORITY_DEBUG);
-                argIndex++;
-            } else if (SDL_strncmp("--help\0", argv[argIndex], 6) == 0) {
-                code = 0;
-                break;
-            } else if (SDL_strncmp("--name\0", argv[argIndex], 6) == 0) {
-                if (argIndex + 1 < argc) {
-                    // Use name
-                    serverName = string(argv[argIndex + 1]);
-                    argIndex += 2;
-                } else {
-                    // Error
-                    break;
-                }
-            } else if (SDL_strncmp("--min\0", argv[argIndex], 5) == 0) {
-                if (argIndex + 1 < argc) {
-                    // Use min
-                    minLevel = strtol(argv[argIndex + 1], nullptr, 10);
-                    argIndex += 2;
-                } else {
-                    // Error
-                    break;
-                }
-            } else if (SDL_strncmp("--max\0", argv[argIndex], 5) == 0) {
-                if (argIndex + 1 < argc) {
-                    // Use max
-                    maxLevel = strtol(argv[argIndex + 1], nullptr, 10);
-                    argIndex += 2;
-                } else {
-                    // Error
-                    break;
-                }
-            } else {
-                // Unknown option = error
-                break;
-            }
-        }
-        if (argIndex < argc) {
+        processArgs(argIndex, code, argc, argv);
+        if (argIndex < argc || minLevel > maxLevel) {
             // Premature stop, exit
             usage();
             SDL_Quit();
             return code;
         }
 
-        // TODO check min < max, range detection
+        // TODO range detection
     }
     
     SDL_LogInfo(SDL_LOG_CATEGORY_APPLICATION, "Starting LinBound server v%s", linbound::getVersionString().c_str());
