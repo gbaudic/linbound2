@@ -21,6 +21,9 @@
 #include "../common/commonitem.hpp"
 #include "../common/commonplayer.hpp"
 
+/**
+ * Wrapper around the sqlite3 DB used server-side
+ */
 class Database {
 public:
     Database();

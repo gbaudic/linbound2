@@ -70,6 +70,13 @@ Settings* Settings::getInstance() {
 }
 
 /**
+ * Destructor
+ */
+Settings::~Settings() {
+    delete instance;
+}
+
+/**
  * @brief Getter for main music volume
  * @return current music volume
 */

@@ -78,7 +78,7 @@ void ChatManager::action(const gcn::ActionEvent & action) {
 	try {
 	    ChatWindow* w = windows.at(dest);
 		string message = w->getMessage();
-		// Send the message to the network system
+		// TODO Send the message to the network system
 	}
 	catch (out_of_range) {
 		SDL_LogWarn(SDL_LOG_CATEGORY_APPLICATION, "Received an action from an unknown widget");

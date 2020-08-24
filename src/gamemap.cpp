@@ -36,7 +36,7 @@ GameMap::GameMap(const string &mapName) {
     // Number of sides (1 or 2) (optional)
     const XMLElement *sides = root->FirstChildElement("sides");
     int nbSides = 0;
-    if(sides) {
+    if (sides) {
         sides->QueryIntText(&nbSides);
     }
     hasBSide = nbSides == 2;
@@ -47,13 +47,13 @@ GameMap::GameMap(const string &mapName) {
     
     // Music recommendation (optional)
     const XMLElement *music = root->FirstChildElement("music_playlist");
-    if(music) {
+    if (music) {
         musicFile.assign(music->GetText());
     }
     
     // File paths (mandatory)
     XMLElement *surface = root->FirstChildElement("surface");
-    while(surface) {
+    while (surface) {
         string type(surface->Attribute("name"));
         string value(surface->Attribute("file"));
         
@@ -64,6 +64,11 @@ GameMap::GameMap(const string &mapName) {
     }    
 }
 
+/**
+ * Convenience function to store an image path in the right attribute
+ * \param key XML key
+ * \param value path to store
+ */
 void GameMap::storePath(const string &key, const string &value) {
     if(key == "preview") {
         // Load preview
@@ -76,6 +81,9 @@ void GameMap::storePath(const string &key, const string &value) {
     }
 }
 
+/**
+ * Destructor
+ */
 GameMap::~GameMap() {
     SDL_DestroyRenderer(mapRenderer);
     if(background) {
@@ -89,6 +97,9 @@ GameMap::~GameMap() {
     }
 }
 
+/**
+ * \brief Load map data to memory for a game
+ */
 void GameMap::load() {
     // Load background
     
@@ -99,6 +110,10 @@ void GameMap::load() {
     // Set renderer, target foreground
 }
 
+/**
+ * \brief Destroy the loaded data in memory
+ * Used to rebuild the map from scratch after a game so the terrain is in a clean state for the next one
+ */
 void GameMap::unload() {
     SDL_DestroyTexture(background);
     background = nullptr;
@@ -116,18 +131,37 @@ void GameMap::makeHole(const Sint16 x, const Sint16 y, const Sint16 radius) {
     filledCircleRGBA(mapRenderer, x, y, radius, 0xff, 0, 0xff, 0); // transparent magenta
 }
 
+/**
+ * Getter for the background texture
+ * Used to draw the map on screen
+ * \return the desired texture
+ */
 SDL_Texture *GameMap::getBackground(){
     return background;
 }
 
+/**
+ * Getter for the foreground texture
+ * Used to draw the map on screen
+ * \return the desired texture
+ */
 SDL_Texture *GameMap::getForeground() {
     return foreground;
 }
 
+/**
+ * Getter for the preview texture
+ * Used to introduce the map in Room and Room list view (on the buttons)
+ * \return the desired texture
+ */
 SDL_Texture *GameMap::getPreview() {
     return preview;
 }
 
+/**
+ * Getter for music file name if one was specified
+ * This is the "preferred" one which will be used every time when playing this map
+ */
 string GameMap::getMusicFile() const {
     return musicFile;
 }

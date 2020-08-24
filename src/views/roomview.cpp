@@ -78,6 +78,9 @@ gameMode(view->getMode()), currentMap(new GameMap(view->getMap())) {
 
 }
 
+/**
+ * Destructor
+ */
 RoomView::~RoomView() {
     delete currentMap; // because of new in constructor -- improve this
 }

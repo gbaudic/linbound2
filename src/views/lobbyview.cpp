@@ -17,6 +17,10 @@
 #include "lobbyview.hpp"
 using namespace gcn;
 
+/**
+ * Constructor
+ * \param name ???
+ */
 LobbyView::LobbyView(ContextName name): Context(name), itemBox(name) {
 
     btn_back.setActionEventId("back");
@@ -62,19 +66,36 @@ void LobbyView::action(const gcn::ActionEvent& actionEvent) {
     }
 }
 
+/**
+ * Update the data about the room
+ * \param new info about the room (sudden death type, turns, team size...)
+ */
 void LobbyView::updateRoomInfo(const RoomBasicInfo &info) {
     // TBD: refresh the view accordingly
     roomBasicInfo = info;
 }
 
+/**
+ * Update the data (and the representation) of a given player
+ * In this mode, changes are most likely to be a mobile or team change, or the current player becomes an admin
+ */
 void LobbyView::updatePlayerInfo() {
     // TBD
 }
 
+/**
+ * Update the list of items which are available or not
+ */
 void LobbyView::updateItemInfo() {
     // TBD
 }
 
+/**
+ * Make a new message appear in the UI
+ * \param user name of sender of message
+ * \param message text of the message
+ * \param showBalloon if true, also draw the balloon above the player who said the message
+ */
 void LobbyView::addMessage(const std::string &user, const std::string &message, bool showBalloon) {
     tb_messages.addRow(user + "] " + message);
     if (showBalloon) {

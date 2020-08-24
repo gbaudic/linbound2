@@ -38,6 +38,9 @@ enum class ContextName {
     EXIT // for quitting
 };
 
+/**
+ * Parent class for the views/states of the software
+ */
 class Context {
 public:
     explicit Context(ContextName type);

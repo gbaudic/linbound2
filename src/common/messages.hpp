@@ -20,6 +20,9 @@
 #include <map>
 #include <SDL2/SDL.h>
 
+/**
+ * Weapon, among the 3 available
+ */
 enum class WeaponType : unsigned int {
     ONE = 1,
     TWO = 2,

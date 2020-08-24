@@ -1,6 +1,8 @@
 /**
  * \file serverview.cpp
  * \date 17/11/2019
+ * \author G. B.
+ * \version 0.1a
  * \brief UI class for server view, where user can chat and select a game room
  */
 /* This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0.
@@ -49,6 +51,9 @@ ServerView::ServerView(ContextName previous) : Context(ContextName::ROOM_LIST),
     addWidgets();
 }
 
+/**
+ * Destructor
+ */
 ServerView::~ServerView() {
     // Cleanup our surfaces
     if (background) {
@@ -94,6 +99,8 @@ void ServerView::addWidgets() {
 
 /**
  * \brief Append a new message to the channel view
+ * \param user sende of the message
+ * \param message message body
  */
 void ServerView::receiveChatMessage(const std::string& user, const std::string& message) {
     tb_chat.addRow(user + "] " + message);

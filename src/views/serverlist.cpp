@@ -53,6 +53,9 @@ ServerList::ServerList(ContextName name) : Context(name) {
     addWidgets();
 }
 
+/**
+ * Destructor
+ */
 ServerList::~ServerList() {
     // Cleanup our surfaces
     if (background) {
@@ -90,6 +93,8 @@ void ServerList::drawBackground(SDL_Renderer * screen) {
         backTexture = SDL_CreateTextureFromSurface(screen, background);
     }
     
+    // Some internal processing which has almost nothing to do with the background,
+    // but due to how Context is written, we have to process it here
     Uint32 currentTime = SDL_GetTicks();
     if(state != State::NONE && currentTime - lastChangeTime > REQUEST_TIMEOUT) {
         switch(state) {
@@ -109,6 +114,11 @@ void ServerList::drawBackground(SDL_Renderer * screen) {
     SDL_RenderCopy(screen, backTexture, NULL, NULL);
 }
 
+/**
+ * Handle a partly processed incoming message
+ * \param code message type
+ * \param message message body as a string
+ */
 void ServerList::processMessage(const Uint8 code, const string & message) {
     switch (code) {
     case SERVER_INFO:
@@ -168,6 +178,12 @@ void ServerList::sendRequest(Uint32 ip) {
     lastChangeTime = SDL_GetTicks();
 }
 
+/**
+ * Send a login message to a distant server
+ * \param ip IPv4 address of the server to reach
+ * \param login player name
+ * \param password password to use, in cleartext for the moment
+ */
 void ServerList::login(Uint32 ip, const string & login, const string & password) {
     // Set IP in NetworkManager
     setServerIP(ip);

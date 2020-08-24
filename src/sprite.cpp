@@ -40,6 +40,9 @@ Sprite::Sprite(const std::string &filename, const int width, const int height, c
 	creationTS = SDL_GetTicks();
 }
 
+/**
+ * Destructor
+ */
 Sprite::~Sprite() {
 	SDL_FreeSurface(surface);
 }

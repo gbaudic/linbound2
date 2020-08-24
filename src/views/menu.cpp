@@ -80,6 +80,9 @@ Menu::Menu() : Context(ContextName::MAIN_MENU) {
 	setNextContext(ContextName::MAIN_MENU);
 }
 
+/**
+ * Destructor
+ */
 Menu::~Menu() {
 	// Cleanup our surfaces
 	if (background) {
