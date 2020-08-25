@@ -80,6 +80,9 @@ RoomCreationInfo NewRoomDialog::getInfo() const {
     return rci;
 }
 
+/**
+ * Put the widgets at their place and please Sonar
+ */
 void NewRoomDialog::addWidgets() {
     int margin = 2;
     add(&lbl_name, margin, margin);
@@ -114,6 +117,9 @@ TeamListModel::TeamListModel() {
     data.emplace("4v4", std::make_pair(2, 4));
 }
 
+/**
+ * \copydoc gcn::ListModel::getNumberOfElements()
+ */
 int TeamListModel::getNumberOfElements() {
     return data.size();
 }

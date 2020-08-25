@@ -35,7 +35,7 @@ public:
     
 private:
     std::string message;
-    Sint16 _x;
+    Sint16 _x; // Coordinates of the tip of the balloon
     Sint16 _y;
     int nbCharsDisplayed = 1;
     Uint32 creationTime{ SDL_GetTicks() };

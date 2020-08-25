@@ -43,7 +43,9 @@ void ResultsDialog::setStats(const std::vector<PlayerResult>& matchStats, const 
     setVisible(true);
 }
 
-/** @copydoc gcn::Widget::draw(Graphics*) */
+/** 
+ * \copydoc gcn::Widget::draw(Graphics*)
+ */
 void ResultsDialog::draw(gcn::Graphics* graphics) {
     // Draw window and button first
     Window::draw(graphics);
@@ -98,7 +100,9 @@ void ResultsDialog::draw(gcn::Graphics* graphics) {
     }
 }
 
-/** @copydoc gcn::ActionListener::action(ActionEvent) */
+/** 
+ * \copydoc gcn::ActionListener::action(ActionEvent)
+ */
 void ResultsDialog::action(const gcn::ActionEvent& actionEvent) {
     if (actionEvent.getId() == "ok") {
         // Close the window and go back to room lobby

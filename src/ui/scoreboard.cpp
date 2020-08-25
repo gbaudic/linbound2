@@ -24,6 +24,9 @@ ScoreBoard::ScoreBoard() : Widget() {
     setWidth(100);
 }
 
+/** 
+ * \copydoc gcn::Widget::draw(Graphics*)
+ */
 void ScoreBoard::draw(Graphics* graphics) {
     unsigned int step = getWidth() / (scores.size() * 2);
     int i = 0;

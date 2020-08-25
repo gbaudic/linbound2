@@ -19,6 +19,9 @@
 #include <guisan.hpp>
 #include <guisan/sdl.hpp>
 
+/**
+ * A subwindow so you know who to send pizza to if you like the software
+ */
 class CreditsWindow final : public gcn::Window, public gcn::ActionListener {
 public:
 	CreditsWindow();

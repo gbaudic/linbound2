@@ -22,7 +22,7 @@
 #include <guisan/sdl.hpp>
 
 /**
- *  \brief Subwindow to control settings from main menu
+ * \brief Subwindow to control settings from main menu
  */
 class SettingsWindow final : public gcn::Window, public gcn::ActionListener {
 public:

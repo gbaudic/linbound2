@@ -19,6 +19,10 @@
 #ifndef _H_SERVERLISTELEMENT_
 #define _H_SERVERLISTELEMENT_
 
+/**
+ * Convenience datatype to store server data
+ * Only used in this view
+ */
 struct ServerInfo {
 	Uint32 ip;
 	std::string name;

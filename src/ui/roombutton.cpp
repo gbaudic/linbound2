@@ -19,16 +19,25 @@ using namespace std;
 
 /**
  * Constructor
+ * \param nb room number
+ * \param name room name
+ * \param mode current game mode (SOLO, DUO, etc.)
  */
 LB_RoomButton::LB_RoomButton(const Uint16 nb, const std::string &name, const GameMode mode) : gcn::ImageButton(RESOURCE_PREFIX + "room_button.png"), 
 number(nb), roomName(name), gameMode(mode) {
-
+    // TODO room status
 }
 
+/**
+ * Destructor
+ */
 LB_RoomButton::~LB_RoomButton() {
 
 }
 
+/** 
+ * \copydoc gcn::Widget::draw(Graphics*)
+ */
 void LB_RoomButton::draw(gcn::Graphics* graphics) {
 	//TODO
 

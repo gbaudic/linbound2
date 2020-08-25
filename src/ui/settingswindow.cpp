@@ -52,8 +52,8 @@ SettingsWindow::SettingsWindow() : gcn::Window()
 	setVisible(false);
 }
 
-/**
- * \brief Handle button clicks
+/** 
+ * \copydoc gcn::ActionListener::action(ActionEvent&)
  */
 void SettingsWindow::action(const gcn::ActionEvent& actionEvent) {
 	if(actionEvent.getId() == "cancel") {

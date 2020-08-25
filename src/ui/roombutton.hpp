@@ -32,8 +32,9 @@ public:
 	Uint16 getNumber();
 
 private:
-	Uint16 number;
-	std::string roomName;
+    // TODO use RoomBasicInfo instead if applicable
+	Uint16 number; //! room number as created by server
+	std::string roomName; //! room name
 	GameMode gameMode;
 	gcn::Image* mStatusImages;
 };

@@ -21,6 +21,9 @@
 #include <guisan.hpp>
 #include <guisan/sdl.hpp>
 
+/**
+ * A subwindow to conduct a chat with one of your in-game friends
+ */
 class ChatWindow final : public gcn::Window, public gcn::ActionListener {
 public:
 	explicit ChatWindow(const std::string &friendName);

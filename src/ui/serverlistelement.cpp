@@ -23,59 +23,66 @@ using namespace std;
  */
 ServerListElement::ServerListElement(const ServerInfo &info) : 
 _info(info) {
-	setWidth(500);
-	setHeight(60);
-	setOpaque(false);
+    setWidth(500);
+    setHeight(60);
+    setOpaque(false);
 
-	lbl_name.setCaption(info.name);
-	lbl_name.adjustSize();
+    lbl_name.setCaption(info.name);
+    lbl_name.adjustSize();
 
-	lbl_ip.setCaption(linbound::prettifyIP(info.ip));
-	lbl_ip.adjustSize();
+    lbl_ip.setCaption(linbound::prettifyIP(info.ip));
+    lbl_ip.adjustSize();
 
-	// Levels are displayed as text for the moment...
-	lbl_lvlMin.setCaption("Level min: " + to_string(info.levelMin));
-	lbl_lvlMin.adjustSize();
+    // Levels are displayed as text for the moment...
+    lbl_lvlMin.setCaption("Level min: " + to_string(info.levelMin));
+    lbl_lvlMin.adjustSize();
 
-	lbl_lvlMax.setCaption("Level max: " + to_string(info.levelMax));
-	lbl_lvlMax.adjustSize();
+    lbl_lvlMax.setCaption("Level max: " + to_string(info.levelMax));
+    lbl_lvlMax.adjustSize();
 
-	string business = "";
-	switch (info.busy) {
-	case 0: business = "Low"; break;
-	case 1: business = "Medium"; break;
-	case 2: business = "High"; break;
-	case 255: business = "Full"; break;
-	default: break;
-	}
+    string business = "";
+    switch (info.busy) {
+        case 0: business = "Low"; break;
+        case 1: business = "Medium"; break;
+        case 2: business = "High"; break;
+        case 255: business = "Full"; break;
+        default: break;
+    }
 
-	lbl_busy.setCaption(business);
-	lbl_busy.adjustSize();
+    lbl_busy.setCaption(business);
+    lbl_busy.adjustSize();
 
-	btn_connect.setWidth(100);
-	btn_connect.setHeight(getHeight() - 10);
-	btn_connect.addActionListener(this);
+    btn_connect.setWidth(100);
+    btn_connect.setHeight(getHeight() - 10);
+    btn_connect.addActionListener(this);
 
-	addWidgets();
+    addWidgets();
 }
 
+/**
+ * Getter for server info
+ * \return the server info
+ */
 ServerInfo ServerListElement::getInfo() const {
-	return _info;
+    return _info;
 }
 
+/**
+ * \copydoc gcn::ActionListener::action(gcn::ActionEvent &)
+ */
 void ServerListElement::action(const gcn::ActionEvent & event) {
-	if (event.getSource() == &btn_connect) {
-		generateAction();
-	}
+    if (event.getSource() == &btn_connect) {
+        generateAction();
+    }
 }
 
 void ServerListElement::addWidgets() {
-	int padding = 5;
-	add(&lbl_name, padding, padding);
-	add(&lbl_ip, lbl_name.getWidth() + 2 * padding, padding);
-	add(&btn_connect, getWidth() - padding - btn_connect.getWidth(), padding);
+    int padding = 5;
+    add(&lbl_name, padding, padding);
+    add(&lbl_ip, lbl_name.getWidth() + 2 * padding, padding);
+    add(&btn_connect, getWidth() - padding - btn_connect.getWidth(), padding);
 
-	add(&lbl_lvlMin, padding, getHeight() - padding - lbl_lvlMin.getHeight());
-	add(&lbl_lvlMax, 100, getHeight() - padding - lbl_lvlMin.getHeight());
-	add(&lbl_busy, btn_connect.getX() - padding - lbl_busy.getWidth(), getHeight() - padding - lbl_lvlMin.getHeight());
+    add(&lbl_lvlMin, padding, getHeight() - padding - lbl_lvlMin.getHeight());
+    add(&lbl_lvlMax, 100, getHeight() - padding - lbl_lvlMin.getHeight());
+    add(&lbl_busy, btn_connect.getX() - padding - lbl_busy.getWidth(), getHeight() - padding - lbl_lvlMin.getHeight());
 }
