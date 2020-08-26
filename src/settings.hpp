@@ -45,7 +45,6 @@ private:
     bool isServerSet = false; //ensure boolean above is only touched once
     static Settings* instance;
     Settings();
-    ~Settings();
     void init();
     void checkConsistency();
     Settings& operator= (const Settings&) = delete; //ensure singleton

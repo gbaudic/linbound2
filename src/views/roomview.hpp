@@ -122,7 +122,7 @@ private:
     void updateMagicEdge(const int coordinate, Uint32 &target);
     void moveViewport(const int xDelta, const int yDelta, SDL_Renderer *screen);
     void moveViewportTo(const int x, const int y, SDL_Renderer *screen);
-    WeaponType getSelectedType();
+    WeaponType getSelectedType() const;
 };
 
 #endif /* _H_ROOMVIEW_ */

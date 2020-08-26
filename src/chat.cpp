@@ -29,10 +29,10 @@ ChatManager::ChatManager(gcn::Container * topContainer) : top(topContainer) {
  * Destructor
  */
 ChatManager::~ChatManager() {
-	for (const auto &w : windows) {
-		top->remove(w.second);
-		delete w.second;
-	}
+    for (const auto &w : windows) {
+        top->remove(w.second);
+        delete w.second;
+    }
 }
 
 /**
@@ -41,17 +41,17 @@ ChatManager::~ChatManager() {
  * \param message message sent
  */
 void ChatManager::addMessage(const string &sender, const string &message) {
-	try {
-		ChatWindow* w = windows.at(sender);
-		w->addMessage(sender, message);
-		top->moveToTop(w);
-	}
-	catch (out_of_range) {
-		// Unknown sender: create a new window
-		windows[sender] = new ChatWindow(sender, message);
-		windows[sender]->addActionListener(this);
-		top->add(windows[sender], top->getWidth() - 20 - windows[sender]->getWidth(), 20);
-	}
+    try {
+        ChatWindow* w = windows.at(sender);
+        w->addMessage(sender, message);
+        top->moveToTop(w);
+    }
+    catch (out_of_range &) {
+        // Unknown sender: create a new window
+        windows[sender] = new ChatWindow(sender, message);
+        windows[sender]->addActionListener(this);
+        top->add(windows[sender], top->getWidth() - 20 - windows[sender]->getWidth(), 20);
+    }
 }
 
 /**
@@ -59,28 +59,28 @@ void ChatManager::addMessage(const string &sender, const string &message) {
  * \param other name of the player receiving the messages
  */
 void ChatManager::startConversation(const std::string &other) {
-	try {
-		// Bring back the window if it exists
-		ChatWindow* w = windows.at(other);
-		w->setVisible(true);
-		top->moveToTop(w);
-	}
-	catch (out_of_range) {
-		// Otherwise, create a new, empty one
-		windows[other] = new ChatWindow(other);
-		windows[other]->addActionListener(this);
-		top->add(windows[other], top->getWidth() - 20 - windows[other]->getWidth(), 20);
-	}
+    try {
+        // Bring back the window if it exists
+        ChatWindow* w = windows.at(other);
+        w->setVisible(true);
+        top->moveToTop(w);
+    }
+    catch (out_of_range &) {
+        // Otherwise, create a new, empty one
+        windows[other] = new ChatWindow(other);
+        windows[other]->addActionListener(this);
+        top->add(windows[other], top->getWidth() - 20 - windows[other]->getWidth(), 20);
+    }
 }
 
 void ChatManager::action(const gcn::ActionEvent & action) {
-	string dest = action.getId();
-	try {
-	    ChatWindow* w = windows.at(dest);
-		string message = w->getMessage();
-		// TODO Send the message to the network system
-	}
-	catch (out_of_range) {
-		SDL_LogWarn(SDL_LOG_CATEGORY_APPLICATION, "Received an action from an unknown widget");
-	}
+    string dest = action.getId();
+    try {
+        const ChatWindow* w = windows.at(dest);
+        string message = w->getMessage();
+        // TODO Send the message to the network system
+    }
+    catch (out_of_range &) {
+        SDL_LogWarn(SDL_LOG_CATEGORY_APPLICATION, "Received an action from an unknown widget");
+    }
 }

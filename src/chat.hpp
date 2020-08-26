@@ -9,7 +9,7 @@
  * If a copy of the MPL was not distributed with this file,
  * You can obtain one at http://mozilla.org/MPL/2.0/.
  *
- * This Source Code Form is “Incompatible With Secondary Licenses”,
+ * This Source Code Form is ï¿½Incompatible With Secondary Licensesï¿½,
  * as defined by the Mozilla Public License, v. 2.0.
  */
  
@@ -24,15 +24,15 @@
 
 class ChatManager final : public gcn::ActionListener {
 public:
-	explicit ChatManager(gcn::Container *topContainer);
-	~ChatManager();
-	void addMessage(const std::string &sender, const std::string &message);
-	void startConversation(const std::string &other);
-	void action(const gcn::ActionEvent &action) override;
+    explicit ChatManager(gcn::Container *topContainer);
+    ~ChatManager();
+    void addMessage(const std::string &sender, const std::string &message);
+    void startConversation(const std::string &other);
+    void action(const gcn::ActionEvent &action) override;
 
 private:
-	std::map<std::string, ChatWindow*> windows;
-	gcn::Container* top = nullptr;
+    std::map<std::string, ChatWindow*> windows;
+    gcn::Container* top = nullptr;
 };
 
 #endif // !_H_CHAT_

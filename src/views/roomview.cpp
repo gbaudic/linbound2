@@ -328,7 +328,7 @@ void RoomView::moveViewportTo(const int x, const int y, SDL_Renderer *screen) {
  * \brief Get the weapon the player currently wants to fire
  * \return the weapon type
  */
-WeaponType RoomView::getSelectedType() {
+WeaponType RoomView::getSelectedType() const {
     if (btn_1.isFocused()) {
         return WeaponType::ONE;
     } else if (btn_2.isFocused()) {

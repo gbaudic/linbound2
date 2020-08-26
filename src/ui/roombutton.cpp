@@ -95,6 +95,6 @@ void LB_RoomButton::draw(gcn::Graphics* graphics) {
  *  May be necessary for GUI interaction
  *  \return the number for the room represented by this button on the GUI
  */
-Uint16 LB_RoomButton::getNumber() {
+Uint16 LB_RoomButton::getNumber() const {
 	return number; 
 }

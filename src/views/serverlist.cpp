@@ -9,7 +9,7 @@
  * If a copy of the MPL was not distributed with this file,
  * You can obtain one at http://mozilla.org/MPL/2.0/.
  *
- * This Source Code Form is “Incompatible With Secondary Licenses”,
+ * This Source Code Form is "Incompatible With Secondary Licenses",
  * as defined by the Mozilla Public License, v. 2.0.
  */
 
@@ -201,7 +201,7 @@ void ServerList::login(Uint32 ip, const string & login, const string & password)
  * \brief Recreate info for a server from packet data
  * \param message packet data as a string
  */
-ServerInfo ServerList::makeInfo(const std::string & message) {
+ServerInfo ServerList::makeInfo(const std::string & message) const {
     ServerInfo result;
     vector<string> pieces = linbound::split(message, '\3');
 
