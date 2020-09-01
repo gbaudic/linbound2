@@ -42,10 +42,13 @@ public:
 private:
     Uint32 animationStartTime = 0;
     static const Uint32 FRAME_DURATION = 100; // milliseconds
-    Sint16 targetValue = 0;
-    Sint16 currentValue = 0;
+    Sint16 targetValue = 0; // real value for which animation must stop
+    Sint16 currentValue = 0; // displayed value
 };
 
+/**
+ * @brief Main game view showing the arena
+ */
 class RoomView: public Context, public gcn::ActionListener {
 public:
     /**
@@ -117,8 +120,8 @@ private:
     void addWidgets();
     void setWind(Uint8 newPower, Uint16 newAngle);
     void updateMagicEdge(const int coordinate, Uint32 &target);
-    void moveViewport(const int xDelta, const int yDelta);
-    void moveViewportTo(const int x, const int y);
+    void moveViewport(const int xDelta, const int yDelta, SDL_Renderer *screen);
+    void moveViewportTo(const int x, const int y, SDL_Renderer *screen);
     WeaponType getSelectedType();
 };
 

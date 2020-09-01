@@ -27,22 +27,29 @@ class GameMap {
 public:
     explicit GameMap(const std::string &mapName);
     ~GameMap();
-    void load();
     void unload();
     void useBSide(const bool use);
     void makeHole(const Sint16 x, const Sint16 y, const Sint16 radius);
-    SDL_Texture *getBackground();
-    SDL_Texture *getForeground();
-    SDL_Texture *getPreview();
+    SDL_Texture *getBackground(SDL_Renderer *rdr);
+    SDL_Texture *getForeground(SDL_Renderer *rdr);
+    SDL_Texture *getPreview(SDL_Renderer *rdr);
     std::string getMusicFile() const;
+    std::string getPathToBack() const;
+    std::string getPathToPreview() const;
+    std::string getName() const;
+    std::string getPathToFrontA() const;
+    std::string getPathToFrontB() const;
     
 private:
     SDL_Renderer *mapRenderer; //! internal one
-    SDL_Texture *background;
-    SDL_Texture *foreground;
-    SDL_Texture *preview;
+
+    SDL_Texture *background = nullptr;
+    SDL_Texture *foreground = nullptr;
+    SDL_Texture *preview = nullptr;
+    SDL_Surface* front = nullptr;
     
     std::string name;
+    std::string pathToPreview;
     std::string pathToBack;
     std::string pathToFrontA;
     std::string pathToFrontB;

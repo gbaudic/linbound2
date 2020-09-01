@@ -74,8 +74,6 @@ gameMode(view->getMode()), currentMap(new GameMap(view->getMap())) {
     itemBox.addActionListener(this);
     itemBox.setEnabled(false);
 
-    currentMap->load();
-
 }
 
 /**
@@ -112,7 +110,7 @@ void RoomView::drawBackground(SDL_Renderer *screen) {
     if (cursors[1] > 0 && currentTime - cursors[1] >= AUTOSCROLL_DELAY) {
         xdelta = SCROLL_DELTA;
     }
-    moveViewport(xdelta, ydelta);
+    moveViewport(xdelta, ydelta, screen);
     
     SDL_Rect fullScreen;
     fullScreen.x = 0;
@@ -124,11 +122,11 @@ void RoomView::drawBackground(SDL_Renderer *screen) {
     // Draw top indicators if applicable
     
     // Draw map background
-    SDL_RenderCopy(screen, currentMap->getBackground(), &bg_rect, &fullScreen);
+    SDL_RenderCopy(screen, currentMap->getBackground(screen), &bg_rect, &fullScreen);
     // Draw weather effects if any
     
     // Draw map foreground
-    SDL_RenderCopy(screen, currentMap->getForeground(), &fg_rect, &fullScreen);
+    SDL_RenderCopy(screen, currentMap->getForeground(screen), &fg_rect, &fullScreen);
     // Draw mobiles
 
     // Draw flying weapons if any
@@ -294,9 +292,10 @@ LobbyView* RoomView::getLobby() {
  * Move the viewport from a given offset
  * @param xDelta x offset
  * @param yDelta y offset
+ * @param screen renderer
  */
-void RoomView::moveViewport(const int xDelta, const int yDelta) {
-    moveViewportTo(fg_rect.x + xDelta, fg_rect.y + yDelta);
+void RoomView::moveViewport(const int xDelta, const int yDelta, SDL_Renderer *screen) {
+    moveViewportTo(fg_rect.x + xDelta, fg_rect.y + yDelta, screen);
 }
 
 /**
@@ -305,15 +304,16 @@ void RoomView::moveViewport(const int xDelta, const int yDelta) {
  * TODO: implement a limit so we do not move too harshly
  * @param x new x coordinate
  * @param y new y coordinate
+ * @param screen renderer
  */
-void RoomView::moveViewportTo(const int x, const int y) {
+void RoomView::moveViewportTo(const int x, const int y, SDL_Renderer *screen) {
     // Get some data about the map file
     int fgW;
     int fgH;
-    SDL_QueryTexture(currentMap->getForeground(), NULL, NULL, &fgW, &fgH);
+    SDL_QueryTexture(currentMap->getForeground(screen), NULL, NULL, &fgW, &fgH);
     int bgW;
     int bgH;
-    SDL_QueryTexture(currentMap->getBackground(), NULL, NULL, &bgW, &bgH);
+    SDL_QueryTexture(currentMap->getBackground(screen), NULL, NULL, &bgW, &bgH);
 
     fg_rect.x = max(0, min(x, fgW - getWidth() - 1));
     fg_rect.y = max(0, min(y, fgH - getHeight() - 1));

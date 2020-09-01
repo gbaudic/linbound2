@@ -23,7 +23,6 @@ using namespace tinyxml2;
 
 /**
  * Constructor
- * Only actually loads the preview, to save space
  * \param mapName name of the map, corresponds to its folder name
  */
 GameMap::GameMap(const string &mapName) {
@@ -71,7 +70,7 @@ GameMap::GameMap(const string &mapName) {
  */
 void GameMap::storePath(const string &key, const string &value) {
     if(key == "preview") {
-        // Load preview
+        pathToPreview.assign(value);
     } else if(key == "background") {
         pathToBack.assign(value);
     } else if(key == "mapA") {
@@ -85,29 +84,21 @@ void GameMap::storePath(const string &key, const string &value) {
  * Destructor
  */
 GameMap::~GameMap() {
-    SDL_DestroyRenderer(mapRenderer);
-    if(background) {
+    if (mapRenderer) {
+        SDL_DestroyRenderer(mapRenderer);
+    }
+    if (background) {
         SDL_DestroyTexture(background);
     }
-    if(foreground) {
+    if (foreground) {
         SDL_DestroyTexture(foreground);
     }
-    if(preview) {
+    if (front) {
+        SDL_FreeSurface(front);
+    }
+    if (preview) {
         SDL_DestroyTexture(preview);
     }
-}
-
-/**
- * \brief Load map data to memory for a game
- */
-void GameMap::load() {
-    // Load background
-    
-    // Load foreground
-    
-    // Set colorkey
-    
-    // Set renderer, target foreground
 }
 
 /**
@@ -119,6 +110,8 @@ void GameMap::unload() {
     background = nullptr;
     SDL_DestroyTexture(foreground); // mandatory: we will have to restart from a clean one
     foreground = nullptr;
+    SDL_FreeSurface(front);
+    front = nullptr;
 }
 
 /**
@@ -129,6 +122,9 @@ void GameMap::unload() {
  */
 void GameMap::makeHole(const Sint16 x, const Sint16 y, const Sint16 radius) {
     filledCircleRGBA(mapRenderer, x, y, radius, 0xff, 0, 0xff, 0); // transparent magenta
+    // Remove the texture so it gets updated
+    SDL_DestroyTexture(foreground);
+    foreground = nullptr;
 }
 
 /**
@@ -136,7 +132,10 @@ void GameMap::makeHole(const Sint16 x, const Sint16 y, const Sint16 radius) {
  * Used to draw the map on screen
  * \return the desired texture
  */
-SDL_Texture *GameMap::getBackground(){
+SDL_Texture *GameMap::getBackground(SDL_Renderer *rdr){
+    if (background == nullptr) {
+        background = IMG_LoadTexture(rdr, pathToBack.c_str());
+    }
     return background;
 }
 
@@ -145,7 +144,14 @@ SDL_Texture *GameMap::getBackground(){
  * Used to draw the map on screen
  * \return the desired texture
  */
-SDL_Texture *GameMap::getForeground() {
+SDL_Texture *GameMap::getForeground(SDL_Renderer* rdr) {
+    if (foreground == nullptr) {
+        if (front == nullptr) {
+            // Refresh surface too
+            front = IMG_Load(bSide ? pathToFrontB.c_str() : pathToFrontA.c_str());
+        }
+        foreground = SDL_CreateTextureFromSurface(rdr, front);
+    }
     return foreground;
 }
 
@@ -154,16 +160,63 @@ SDL_Texture *GameMap::getForeground() {
  * Used to introduce the map in Room and Room list view (on the buttons)
  * \return the desired texture
  */
-SDL_Texture *GameMap::getPreview() {
+SDL_Texture *GameMap::getPreview(SDL_Renderer* rdr) {
+    if (preview == nullptr) {
+        preview = IMG_LoadTexture(rdr, pathToPreview.c_str());
+    }
     return preview;
 }
 
 /**
  * Getter for music file name if one was specified
  * This is the "preferred" one which will be used every time when playing this map
+ * \return name of the music file with the extension
  */
 string GameMap::getMusicFile() const {
     return musicFile;
+}
+
+/**
+ * @brief Getter for path to background
+ * Mostly useful for unit testing
+ * @return path to background image, without animations
+ */
+string GameMap::getPathToBack() const {
+    return pathToBack;
+}
+
+/**
+ * @brief Getter for path to preview
+ * Mostly useful for unit testing
+ * @return path to preview image
+ */
+string GameMap::getPathToPreview() const {
+    return pathToPreview;
+}
+
+/**
+ * @brief Getter for map name
+ * @return the name as found in the XML file
+ */
+string GameMap::getName() const {
+    return name;
+}
+
+/**
+ * @brief Getter for foreground file, A side
+ * @return path to foreground image A side
+ */
+string GameMap::getPathToFrontA() const {
+    return pathToFrontA;
+}
+
+/**
+ * @brief Getter for foreground file, B side
+ * There may be none!
+ * @return path to foreground image B side
+ */
+string GameMap::getPathToFrontB() const {
+    return pathToFrontB;
 }
 
 /**
@@ -171,7 +224,7 @@ string GameMap::getMusicFile() const {
  * \param use true for B, false for A
  */
 void GameMap::useBSide(const bool use) {
-    if(hasBSide) {
+    if (hasBSide) {
         bSide = use;
     }
 }
