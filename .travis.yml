@@ -33,7 +33,7 @@ install:
     - pushd googletest && cmake -DCMAKE_CXX_STANDARD=11 . && sudo make install && popd
 
 script:
-    - cmake -DENABLE_SERVER=ON .
+    - cmake -DENABLE_SERVER=ON -DRESOURCE_PREFIX=./res .
     - build-wrapper-linux-x86-64 --out-dir bw-outputs make -j2
     - sonar-scanner
     - make -j2

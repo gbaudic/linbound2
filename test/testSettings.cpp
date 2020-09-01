@@ -3,7 +3,6 @@
 #include "../src/settings.hpp"
 #include "gtest/gtest.h" 
 
-
 namespace {
     
     TEST(SettingsTest, DefaultWidth) {
@@ -14,6 +13,28 @@ namespace {
     TEST(SettingsTest, DefaultHeight) {
         Settings* set = Settings::getInstance();
         EXPECT_EQ(set->getHeight(), 600);
+    }
+
+    TEST(SettingsTest, DefaultMusicVolume) {
+        Settings* set = Settings::getInstance();
+        EXPECT_EQ(set->getMusicVolume(), 64);
+    }
+
+    TEST(SettingsTest, DefaultFXVolume) {
+        Settings* set = Settings::getInstance();
+        EXPECT_EQ(set->getEffectsVolume(), 64);
+    }
+
+    TEST(SettingsTest, SetHeight) {
+        Settings* set = Settings::getInstance();
+        set->setHeight(742);
+        EXPECT_EQ(set->getHeight(), 742);
+    }
+
+    TEST(SettingsTest, SetWidth) {
+        Settings* set = Settings::getInstance();
+        set->setWidth(742);
+        EXPECT_EQ(set->getWidth(), 742);
     }
     
 }
