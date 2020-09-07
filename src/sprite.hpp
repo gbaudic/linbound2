@@ -21,21 +21,25 @@
 
 class Sprite {
 public:
-	Sprite(const std::string &filename, const int width, const int height, const Uint16 duration);
-	~Sprite();
+    Sprite(const std::string &filename, const int width, const int height, const Uint16 duration);
+    ~Sprite();
 
-	SDL_Rect & getRect();
-	SDL_Surface* getSurface();
-	void setState(const int newState);
+    SDL_Rect & getRect();
+    SDL_Surface* getSurface();
+    SDL_Texture* getTexture(SDL_Renderer* rdr);
+    int getWidth() const;
+    int getHeight() const;
+    void setState(const int newState);
 
 private:
-	SDL_Rect currentRect;
-	SDL_Surface *surface = nullptr;
-	int nbSteps;
-	int nbStates;
-	int currentState = 0;
-	Uint16 stepDuration;
-	Uint32 creationTS;  //! timestamp of creation
+    SDL_Rect currentRect;
+    SDL_Surface *surface = nullptr;
+    SDL_Texture* texture = nullptr;
+    int nbSteps; // number of steps if animated
+    int nbStates; // number of different states
+    int currentState = 0;
+    Uint16 stepDuration; // duration in milliseconds of one animation step
+    Uint32 creationTS;  //! timestamp of creation
 };
 
 #endif // ! _H_SPRITE_

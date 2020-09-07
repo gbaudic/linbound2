@@ -24,27 +24,33 @@ using namespace std;
  * \param height height of one frame of the sprite (not the full image!)
  */
 Sprite::Sprite(const std::string &filename, const int width, const int height, const Uint16 duration): 
-	stepDuration(duration) {
+    stepDuration(duration) {
 
-	surface = IMG_Load(filename.c_str());
-	SDL_SetColorKey(surface, SDL_RLEACCEL, SDL_MapRGB(surface->format, 0xff, 0, 0xff));
+    surface = IMG_Load(filename.c_str());
+    SDL_SetColorKey(surface, SDL_RLEACCEL, SDL_MapRGB(surface->format, 0xff, 0, 0xff));
 
-	nbStates = surface->h / height;
-	nbSteps = surface->w / width;
+    // Autocompute nb of states and nb of steps
+    nbStates = surface->h / height;
+    nbSteps = surface->w / width;
 
-	currentRect.x = 0;
-	currentRect.y = 0;
-	currentRect.h = height;
-	currentRect.w = width;
+    currentRect.x = 0;
+    currentRect.y = 0;
+    currentRect.h = height;
+    currentRect.w = width;
 
-	creationTS = SDL_GetTicks();
+    creationTS = SDL_GetTicks();
 }
 
 /**
  * Destructor
  */
 Sprite::~Sprite() {
-	SDL_FreeSurface(surface);
+    if (surface) {
+        SDL_FreeSurface(surface);
+    }
+    if (texture) {
+        SDL_DestroyTexture(texture);
+    }
 }
 
 /**
@@ -53,20 +59,51 @@ Sprite::~Sprite() {
  * @return the correct SDL_Rect
  */
 SDL_Rect & Sprite::getRect() {
-	currentRect.y = currentState * currentRect.h;
-	// Find, given current time, at which step we are
-	Uint32 current = (SDL_GetTicks() - creationTS) % (stepDuration * nbSteps);
-	currentRect.x = currentRect.w * (current / nbSteps);
+    currentRect.y = currentState * currentRect.h;
+    // Find, given current time, at which step we are
+    Uint32 current = (SDL_GetTicks() - creationTS) % (stepDuration * nbSteps);
+    currentRect.x = currentRect.w * (current / nbSteps);
 
-	return currentRect;
+    return currentRect;
 }
 
 /**
  * Get the underlying SDL_Surface
+ * This is the full surface, use getRect() to take only the relevant part
  * @return a pointer to the surface
  */
-SDL_Surface * Sprite::getSurface() {
-	return surface;
+SDL_Surface* Sprite::getSurface() {
+    return surface;
+}
+
+/**
+ * @brief Get the underlying SDL_Texture, creating it if needed
+ * @param rdr renderer to use
+ * @return a pointer to the texture
+*/
+SDL_Texture* Sprite::getTexture(SDL_Renderer* rdr) {
+    if (surface && texture == nullptr) {
+        texture = SDL_CreateTextureFromSurface(rdr, surface);
+    }
+    return texture;
+}
+
+/**
+ * @brief Get the width of the sprite
+ * This is the width of one frame, not the whole surface!
+ * @return the width in pixels
+*/
+int Sprite::getWidth() const {
+    return currentRect.w;
+}
+
+/**
+ * @brief Get the height of the sprite
+ * This is the height of one frame, not the whole surface! 
+ * @return the height in pixels
+*/
+int Sprite::getHeight() const {
+    return currentRect.h;
 }
 
 /**
@@ -74,9 +111,9 @@ SDL_Surface * Sprite::getSurface() {
  * @param newState index of the new state
  */
 void Sprite::setState(const int newState) {
-	if (newState >= 0 && newState < nbStates) {
-		currentState = newState;
-	} else {
-		currentState = 0;
-	}
+    if (newState >= 0 && newState < nbStates) {
+        currentState = newState;
+    } else {
+        currentState = 0;
+    }
 }

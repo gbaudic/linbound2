@@ -135,7 +135,27 @@ void RoomView::drawBackground(SDL_Renderer *screen) {
 }
 
 void RoomView::drawOverlay(SDL_Renderer *screen) {
-    // TODO overlays appear for sudden deaths, game start or exceptional achievements
+    // Overlays appear for sudden deaths, game start or exceptional achievements
+    if (overlay.first != OverlayType::NONE) {
+        if (SDL_GetTicks() - overlay.second >= 4000) {
+            // Time has elapsed, reset flag
+            overlay.first = OverlayType::NONE;
+        } else {
+            shared_ptr<Sprite> sprite = OverlayFactory::getOverlay(overlay.first);
+            if (sprite != nullptr) {
+                // Make sure we have something to draw
+                SDL_Texture* texture = sprite->getTexture(screen);
+                SDL_Rect spriteArea = sprite->getRect();
+                SDL_Rect destArea{ (getWidth() - sprite->getWidth()) / 2,
+                    (getHeight() - sprite->getHeight()) / 2,
+                    sprite->getWidth(),
+                    sprite->getHeight() };
+
+                // Draw it!
+                SDL_RenderCopy(screen, texture, &spriteArea, &destArea);
+            }
+        }
+    }
 }
 
 void RoomView::processEvent(SDL_Event &event) {
@@ -262,10 +282,20 @@ void RoomView::addWidgets() {
  * \param newAngle new angle value (0-360), in degrees
  */
 void RoomView::setWind(Uint8 newPower, Uint16 newAngle) {
-    windPower = newPower;
-    windAngle = newAngle;
-    lbl_wind.setCaption(to_string(windPower));
+    wind.first = newPower;
+    wind.second = newAngle;
+    lbl_wind.setCaption(to_string(newPower));
     SoundManager::getInstance()->playSound("wind1");
+}
+
+/**
+ * @brief Tell the view an overlay has to be displayed
+ * This comes in response to a message from the server
+ * @param type type of overlay to display
+*/
+void RoomView::setOverlay(OverlayType type){
+    overlay.first = type;
+    overlay.second = SDL_GetTicks(); // time for animation
 }
 
 /**

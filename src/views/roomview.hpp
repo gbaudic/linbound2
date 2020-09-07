@@ -16,6 +16,7 @@
 #ifndef _H_ROOMVIEW_
 #define _H_ROOMVIEW_
 
+#include <utility>
 #include "../context.hpp"
 #include "../constants.hpp"
 #include "../config.hpp"
@@ -25,6 +26,7 @@
 #include "../ui/resultsdialog.hpp"
 #include "../ui/scoreboard.hpp"
 #include "../ui/itembox.hpp"
+#include "../ui/overlays.hpp"
 #include "../common/commonplayer.hpp" // temporary, use clientplayer
 #include "../common/messages.hpp" // for WeaponType
 #include "lobbyview.hpp"
@@ -107,8 +109,8 @@ private:
 
     LobbyView* origin = nullptr;
 
-    Uint8 windPower = 0;
-    Uint16 windAngle = 0;
+    std::pair<Uint8, Uint16> wind{ 0,0 };
+    std::pair<OverlayType, Uint32> overlay {OverlayType::NONE, 0};
 
     static const Uint32 AUTOSCROLL_DELAY = 2000; // in ms
     static const Uint16 SCROLL_DELTA = 4; // in pixels, for the foreground
@@ -119,6 +121,7 @@ private:
 
     void addWidgets();
     void setWind(Uint8 newPower, Uint16 newAngle);
+    void setOverlay(OverlayType type);
     void updateMagicEdge(const int coordinate, Uint32 &target);
     void moveViewport(const int xDelta, const int yDelta, SDL_Renderer *screen);
     void moveViewportTo(const int x, const int y, SDL_Renderer *screen);
