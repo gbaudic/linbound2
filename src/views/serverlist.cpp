@@ -16,6 +16,7 @@
 #include <SDL2/SDL_image.h>
 #include "../protocol.hpp"
 #include "../utils.hpp"
+#include "../common/messages.hpp"
 #include "serverlist.hpp"
 using namespace std;
 
@@ -188,7 +189,10 @@ void ServerList::login(Uint32 ip, const string & login, const string & password)
     // Set IP in NetworkManager
     setServerIP(ip);
     
-    string message = login + '\3' + password; // yup, in clear
+    LoginMessage msg;
+    msg.login = login;
+    msg.password = password;
+    string message = msg.toString();
     
     // Send it
     send(LOGIN_MSG, message);

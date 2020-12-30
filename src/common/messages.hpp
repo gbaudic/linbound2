@@ -30,23 +30,47 @@ enum class WeaponType : unsigned int {
 };
 
 /**
+ * Superclass for all messages
+ */
+class Message {
+public:
+    /**
+     * Fill in the message fields from the text representation
+     * \param message the message as extracted from the packet
+     */
+    virtual void fromMessage(const std::string & message);
+    
+    /**
+     * Produce the string for sending over the network
+     * Using strings for everything avoids having to deal with endianness for numbers
+     */
+    virtual std::string toString();
+};
+
+/**
  * Announce rewards or penalties in-game
  */
-struct RewardMessage {
+struct RewardMessage : public Message {
     std::string user;
     std::string reward;
     Sint16 gold;
     Sint16 xp;
+    
+    void fromMessage(const std::string & message) override;
+    std::string toString() override;
 };
 
 /**
  * Represents a shot from a player
  */
-struct ShotMessage {
+struct ShotMessage : public Message {
     std::string user;
     WeaponType type;
     Sint16 power;
     Sint16 angle;
+    
+    void fromMessage(const std::string & message) override;
+    std::string toString() override;
 };
 
 /**
@@ -64,6 +88,27 @@ struct FallingItem {
 struct WindChange {
     Uint8 newPower;
     Uint16 newAngle;
+};
+
+/**
+ * Login request
+ */
+struct LoginMessage : public Message {
+    std::string login;
+    std::string password;
+    
+    void fromMessage(const std::string & message) override;
+    std::string toString() override;
+};
+
+/**
+ * Logout request
+ */
+struct LogoutMessage : public Message {
+    std::string login;
+    
+    void fromMessage(const std::string & message) override;
+    std::string toString() override;
 };
 
 #endif // !_H_MESSAGES_
