@@ -16,12 +16,15 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <map>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_net.h>
 #include "../config.hpp"
 #include "../network.hpp"
 #include "../utils.hpp"
 #include "../protocol.hpp"
+#include "../serverplayer.hpp"
+#include "../common/messages.hpp"
 #include "database.hpp"
 using namespace std;
 
@@ -30,6 +33,7 @@ Database db;
 string serverName = "server";
 Uint8 minLevel = 0;
 Uint8 maxLevel = 255;
+map<string, ServerPlayer*> connectedPlayers;
 
 void loop(NetworkManager &manager);
 
@@ -152,12 +156,26 @@ void loop(NetworkManager &manager) {
         vector<UDPpacket*> packets = manager.receive();
         for (const UDPpacket* p : packets) {
             Uint8 code = NetworkManager::getCode(p);
+            string message = NetworkManager::getMessage(p);
             switch (code) {
             case HELLO_MSG:
                 manager.send(SERVER_INFO, "server\0030\003255\0030", NetworkManager::getAddress(p));
                 break;
             case STATUS_PING:
                 manager.send(STATUS_PONG, "", NetworkManager::getAddress(p));
+                break;
+            case LOGOUT_MSG: {
+                // Remove player from map of connected players
+                LogoutMessage logout;
+                logout.fromMessage(message);
+                connectedPlayers.erase(message.login);
+                }
+                break;
+            case LOGIN_MSG: {
+                // Try to login a new player
+                LoginMessage loginMsg;
+                loginMsg.fromMessage(message);
+            }
                 break;
             default:
                 break;
