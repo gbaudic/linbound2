@@ -23,7 +23,7 @@
 #include "../network.hpp"
 #include "../utils.hpp"
 #include "../protocol.hpp"
-#include "../serverplayer.hpp"
+#include "serverplayer.hpp"
 #include "../common/messages.hpp"
 #include "database.hpp"
 using namespace std;
@@ -168,7 +168,7 @@ void loop(NetworkManager &manager) {
                 // Remove player from map of connected players
                 LogoutMessage logout;
                 logout.fromMessage(message);
-                connectedPlayers.erase(message.login);
+                connectedPlayers.erase(logout.login);
                 }
                 break;
             case LOGIN_MSG: {

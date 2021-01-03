@@ -45,7 +45,7 @@ void ShotMessage::fromMessage(const string & message) {
 }
 
 string ShotMessage::toString() {
-    return user + '\3' + type + '\3' + to_string(power) + '\3' + to_string(angle);
+    return user + '\3' + to_string(static_cast<unsigned int>(type)) + '\3' + to_string(power) + '\3' + to_string(angle);
 }
 
 void LoginMessage::fromMessage(const string & message) {

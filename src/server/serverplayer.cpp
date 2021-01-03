@@ -37,7 +37,7 @@ void ServerPlayer::setIp(const IPaddress address) {
  * \return ip address
  */
 Uint32 ServerPlayer::getIp() const {
-    return ip->host;
+    return ip.host;
 }
 
 /**

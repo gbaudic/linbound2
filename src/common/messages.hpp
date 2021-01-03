@@ -32,25 +32,25 @@ enum class WeaponType : unsigned int {
 /**
  * Superclass for all messages
  */
-class Message {
+class NetworkMessage {
 public:
     /**
      * Fill in the message fields from the text representation
      * \param message the message as extracted from the packet
      */
-    virtual void fromMessage(const std::string & message);
+    virtual void fromMessage(const std::string & message) = 0;
     
     /**
      * Produce the string for sending over the network
      * Using strings for everything avoids having to deal with endianness for numbers
      */
-    virtual std::string toString();
+    virtual std::string toString() = 0;
 };
 
 /**
  * Announce rewards or penalties in-game
  */
-struct RewardMessage : public Message {
+struct RewardMessage : public NetworkMessage {
     std::string user;
     std::string reward;
     Sint16 gold;
@@ -63,7 +63,7 @@ struct RewardMessage : public Message {
 /**
  * Represents a shot from a player
  */
-struct ShotMessage : public Message {
+struct ShotMessage : public NetworkMessage {
     std::string user;
     WeaponType type;
     Sint16 power;
@@ -93,7 +93,7 @@ struct WindChange {
 /**
  * Login request
  */
-struct LoginMessage : public Message {
+struct LoginMessage : public NetworkMessage {
     std::string login;
     std::string password;
     
@@ -104,7 +104,7 @@ struct LoginMessage : public Message {
 /**
  * Logout request
  */
-struct LogoutMessage : public Message {
+struct LogoutMessage : public NetworkMessage {
     std::string login;
     
     void fromMessage(const std::string & message) override;
