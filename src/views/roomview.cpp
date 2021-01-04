@@ -131,7 +131,7 @@ void RoomView::drawBackground(SDL_Renderer *screen) {
 
     // Draw flying weapons if any
 
-    SDL_RenderSetClipRect(screen, NULL);
+    SDL_RenderSetClipRect(screen, nullptr);
 }
 
 void RoomView::drawOverlay(SDL_Renderer *screen) {
@@ -340,10 +340,10 @@ void RoomView::moveViewportTo(const int x, const int y, SDL_Renderer *screen) {
     // Get some data about the map file
     int fgW;
     int fgH;
-    SDL_QueryTexture(currentMap->getForeground(screen), NULL, NULL, &fgW, &fgH);
+    SDL_QueryTexture(currentMap->getForeground(screen), nullptr, nullptr, &fgW, &fgH);
     int bgW;
     int bgH;
-    SDL_QueryTexture(currentMap->getBackground(screen), NULL, NULL, &bgW, &bgH);
+    SDL_QueryTexture(currentMap->getBackground(screen), nullptr, nullptr, &bgW, &bgH);
 
     fg_rect.x = max(0, min(x, fgW - getWidth() - 1));
     fg_rect.y = max(0, min(y, fgH - getHeight() - 1));

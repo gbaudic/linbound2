@@ -41,7 +41,7 @@ public :
     static std::shared_ptr<Sprite> getOverlay(OverlayType type);
 
 private:
-    static void load(OverlayType type, std::string filename);
+    static void load(OverlayType type, const std::string & filename);
 
     static std::map<OverlayType, std::shared_ptr<Sprite>> overlays;
 };

@@ -29,7 +29,7 @@ public:
     void setLocation(const Uint32 room);
     Uint32 getLocation() const;
 private:
-    Uint32 location;
+    Uint32 location = 0;
     IPaddress ip;
     // current room    
 };

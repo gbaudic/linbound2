@@ -19,7 +19,7 @@ using namespace std;
 /**
  * Constructor
  */
-ServerPlayer::ServerPlayer() : CommonPlayer(), location(0) {
+ServerPlayer::ServerPlayer() : CommonPlayer() {
     
 }
 

@@ -24,7 +24,7 @@ class ResultsDialog : public gcn::Window, public gcn::ActionListener {
 public:
     ResultsDialog();
     void setStats(const std::vector<PlayerResult>& matchStats, const int nbTeams);
-    virtual void draw(gcn::Graphics* graphics) override;
+    void draw(gcn::Graphics* graphics) override;
     void action(const gcn::ActionEvent& actionEvent) override;
 
 private:

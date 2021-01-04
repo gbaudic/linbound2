@@ -24,11 +24,11 @@
  * Only used in this view
  */
 struct ServerInfo {
-	Uint32 ip;
-	std::string name;
-	Uint8 levelMin;
-	Uint8 levelMax;
-	Uint8 busy; //! level of attendance
+    Uint32 ip;
+    std::string name;
+    Uint8 levelMin;
+    Uint8 levelMax;
+    Uint8 busy; //! level of attendance
 };
 
 /**
@@ -36,20 +36,20 @@ struct ServerInfo {
  */
 class ServerListElement : public gcn::Container, public gcn::ActionListener {
 public:
-	explicit ServerListElement(const ServerInfo &info);
-	ServerInfo getInfo() const;
-	virtual void action(const gcn::ActionEvent &event) override;
+    explicit ServerListElement(const ServerInfo &info);
+    ServerInfo getInfo() const;
+    void action(const gcn::ActionEvent &event) override;
 
 private:
-	ServerInfo _info;
-	gcn::Button btn_connect{ "Connect" };
-	gcn::Label lbl_ip;
-	gcn::Label lbl_name;
-	gcn::Label lbl_lvlMin;
-	gcn::Label lbl_lvlMax;
-	gcn::Label lbl_busy;
+    ServerInfo _info;
+    gcn::Button btn_connect{ "Connect" };
+    gcn::Label lbl_ip;
+    gcn::Label lbl_name;
+    gcn::Label lbl_lvlMin;
+    gcn::Label lbl_lvlMax;
+    gcn::Label lbl_busy;
 
-	void addWidgets();
+    void addWidgets();
 };
 
 #endif // !_H_SERVERLISTELEMENT_

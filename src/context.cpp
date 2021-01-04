@@ -122,7 +122,7 @@ void Context::setServerIP(const Uint32 ip) {
  * Useful for subclasses when placing widgets if you do not want to code all coordinates in absolute
  * \return height of the container, in pixels
  */
-const int Context::getHeight() const {
+int Context::getHeight() const {
     return top.getHeight();
 }
 
@@ -131,7 +131,7 @@ const int Context::getHeight() const {
  * Useful for subclasses when placing widgets if you do not want to code all coordinates in absolute
  * \return width of the container, in pixels
  */
-const int Context::getWidth() const {
+int Context::getWidth() const {
     return top.getWidth();
 }
 

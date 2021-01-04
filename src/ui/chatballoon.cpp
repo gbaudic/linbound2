@@ -75,6 +75,9 @@ void ChatBalloon::draw(SDL_Renderer *renderer, const Sint16 xOffset, const Sint1
     int idx = 0;
     SDL_Color black;
     black.a = 0xff;
+    black.r = 0;
+    black.g = 0;
+    black.b = 0;
     SDL_Rect dest;
     dest.y = y - 9 - PADDING - nbLines * lineHeight;
 
@@ -94,7 +97,7 @@ void ChatBalloon::draw(SDL_Renderer *renderer, const Sint16 xOffset, const Sint1
         dest.h = textLine->h;
 
         // Place it in the balloon, and update coords for next line
-        SDL_RenderCopy(renderer, tx, NULL, &dest);
+        SDL_RenderCopy(renderer, tx, nullptr, &dest);
         idx += BALLOON_WIDTH;
         dest.y += textLine->h;
 

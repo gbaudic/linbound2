@@ -112,7 +112,7 @@ void ServerList::drawBackground(SDL_Renderer * screen) {
     }
     
     
-    SDL_RenderCopy(screen, backTexture, NULL, NULL);
+    SDL_RenderCopy(screen, backTexture, nullptr, nullptr);
 }
 
 /**

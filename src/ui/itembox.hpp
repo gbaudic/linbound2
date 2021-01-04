@@ -29,9 +29,9 @@ public:
     void remove(GameItemType type);
     bool remove(const int index);
     GameItemType getSelected();
-    virtual void draw(gcn::Graphics* graphics) override;
-    virtual void mouseReleased(gcn::MouseEvent& mouseEvent) override;
-    virtual void keyReleased(gcn::KeyEvent& keyEvent) override;
+    void draw(gcn::Graphics* graphics) override;
+    void mouseReleased(gcn::MouseEvent& mouseEvent) override;
+    void keyReleased(gcn::KeyEvent& keyEvent) override;
 
 private:
     static const int SIZE = 6; //!< number of slots available

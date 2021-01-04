@@ -75,7 +75,7 @@ struct RoomBasicInfo {
  */
 class CommonRoom {
 public:
-    CommonRoom(const RoomCreationInfo& info);
+    explicit CommonRoom(const RoomCreationInfo& info);
     virtual void addPlayer(CommonPlayer * player);
     virtual void removePlayer(std::string playerName);
     RoomStatus getStatus() const;

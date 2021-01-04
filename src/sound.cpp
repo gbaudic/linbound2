@@ -32,7 +32,7 @@ SoundManager::SoundManager() {
 	for (string item : effectNames) {
 		string path = RESOURCE_PREFIX + "/sounds/" + item + ".ogg";
 		Mix_Chunk* res = Mix_LoadWAV(path.c_str());
-		if (res != NULL) {
+		if (res != nullptr) {
 			effects.insert(make_pair(item, res));
 		}
 	}
@@ -106,7 +106,7 @@ void SoundManager::changeMode(const ContextName &currentMode, const ContextName 
 	music = Mix_LoadMUS(menuMusic.c_str());
 
 	
-	if (music != NULL) {
+	if (music != nullptr) {
 		Mix_PlayMusic(music, -1);
 	}
 }

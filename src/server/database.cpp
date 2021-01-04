@@ -23,7 +23,7 @@ using namespace std;
  */
 Database::Database() {
     string db_path = DB_PREFIX + "linbound.db";
-    int result = sqlite3_open_v2(db_path.c_str(), &db, SQLITE_OPEN_CREATE | SQLITE_OPEN_READWRITE, NULL);
+    int result = sqlite3_open_v2(db_path.c_str(), &db, SQLITE_OPEN_CREATE | SQLITE_OPEN_READWRITE, nullptr);
 
     if (result) {
         SDL_LogError(SDL_LOG_CATEGORY_ERROR, "Cannot open db file: %s", sqlite3_errmsg(db));
@@ -49,7 +49,7 @@ int Database::createUser(const std::string& name, const std::string& password) {
     sqlite3_stmt* stmt = nullptr;
     int code = -2;
 
-    int result = sqlite3_prepare_v2(db, "insert into USERS (name, password) values (:name, :password)", -1, &stmt, NULL);
+    int result = sqlite3_prepare_v2(db, "insert into USERS (name, password) values (:name, :password)", -1, &stmt, nullptr);
     if (result != SQLITE_OK) {
         SDL_LogError(SDL_LOG_CATEGORY_ERROR, "%s", sqlite3_errmsg(db));
         return -2;
@@ -89,7 +89,7 @@ int Database::connectUser(const std::string& name, const std::string& password) 
     bool found = false;
     int code = -1;
 
-    int result = sqlite3_prepare_v2(db, "select name, password from USERS where name = :name", -1, &stmt, NULL);
+    int result = sqlite3_prepare_v2(db, "select name, password from USERS where name = :name", -1, &stmt, nullptr);
     if (result != SQLITE_OK) {
         SDL_LogError(SDL_LOG_CATEGORY_ERROR, "%s", sqlite3_errmsg(db));
         return code;
@@ -100,7 +100,7 @@ int Database::connectUser(const std::string& name, const std::string& password) 
 
     while (sqlite3_step(stmt) == SQLITE_ROW) {
         found = true;
-        const char* pass = (const char*)sqlite3_column_text(stmt, 1);
+        auto pass = (const char*)sqlite3_column_text(stmt, 1);
         // Czech password
         code = password == string(pass) ? 0 : 1;
     }
@@ -125,7 +125,7 @@ int Database::updateUser(const std::string& name, const int goldDelta, const int
     sqlite3_stmt* stmt = nullptr;
     // Prepare statement
     int result = sqlite3_prepare_v2(db, "update USERS set gold = max(0, gold + :gold), gp = max(0, gp + :gp) where name = :name",
-        -1, &stmt, NULL);
+        -1, &stmt, nullptr);
     if (result != SQLITE_OK) {
         SDL_LogError(SDL_LOG_CATEGORY_ERROR, "%s", sqlite3_errmsg(db));
         return -1;
@@ -160,7 +160,7 @@ int Database::buyItem(const std::string& name, const int itemCode, ItemType type
     sqlite3_stmt* stmt = nullptr;
     int code = -2;
 
-    int result = sqlite3_prepare_v2(db, "insert into PURCHASES (user, item, type, end_date) values (:name, :item, :type, date('now',:delta))", -1, &stmt, NULL);
+    int result = sqlite3_prepare_v2(db, "insert into PURCHASES (user, item, type, end_date) values (:name, :item, :type, date('now',:delta))", -1, &stmt, nullptr);
     if (result != SQLITE_OK) {
         SDL_LogError(SDL_LOG_CATEGORY_ERROR, "%s", sqlite3_errmsg(db));
         return -2;
@@ -219,7 +219,7 @@ int Database::wearItem(const std::string& name, const int itemCode, ItemType typ
 
     // Create statement: first reinit all items from this type, then set chosen item
     int result = sqlite3_prepare_v2(db, "update PURCHASES set is_worn = 0 where user = :name and type = :type; " \
-        "update PURCHASES set is_worn = :worn where user = :name and item = :item;", -1, &stmt, NULL);
+        "update PURCHASES set is_worn = :worn where user = :name and item = :item;", -1, &stmt, nullptr);
     if (result != SQLITE_OK) {
         SDL_LogError(SDL_LOG_CATEGORY_ERROR, "%s", sqlite3_errmsg(db));
         return -2;
@@ -254,7 +254,7 @@ void Database::getItemsForUser(const std::string& name) {
     sqlite3_stmt* stmt = nullptr;
     int code = -1;
 
-    int result = sqlite3_prepare_v2(db, "select item, end_date, is_worn from PURCHASES where user = :name and date('now') <= date(end_date)", -1, &stmt, NULL);
+    int result = sqlite3_prepare_v2(db, "select item, end_date, is_worn from PURCHASES where user = :name and date('now') <= date(end_date)", -1, &stmt, nullptr);
     if (result != SQLITE_OK) {
         SDL_LogError(SDL_LOG_CATEGORY_ERROR, "%s", sqlite3_errmsg(db));
     }
@@ -264,7 +264,7 @@ void Database::getItemsForUser(const std::string& name) {
 
     while (sqlite3_step(stmt) == SQLITE_ROW) {
         int itemCode = sqlite3_column_int(stmt, 0);
-        const char* dateText = (const char*)sqlite3_column_text(stmt, 1);
+        auto dateText = (const char*)sqlite3_column_text(stmt, 1);
         bool isWorn = sqlite3_column_int(stmt, 2) == 1;
     }
 
@@ -282,7 +282,7 @@ int Database::deleteItem(const std::string& name, const int itemCode) {
     int code = -2;
 
     // Create statement: first reinit all items from this type, then set chosen item
-    int result = sqlite3_prepare_v2(db, "delete PURCHASES where user = :name and item = :item", -1, &stmt, NULL);
+    int result = sqlite3_prepare_v2(db, "delete PURCHASES where user = :name and item = :item", -1, &stmt, nullptr);
     if (result != SQLITE_OK) {
         SDL_LogError(SDL_LOG_CATEGORY_ERROR, "%s", sqlite3_errmsg(db));
         return -2;
@@ -316,7 +316,7 @@ PlayerBasicInfo Database::getUserInfo(const std::string& name) {
     sqlite3_stmt* stmt = nullptr;
 
     // Prepare query
-    int result = sqlite3_prepare_v2(db, "select name, gold, cash, gp, level from USERS where name = :name", -1, &stmt, NULL);
+    int result = sqlite3_prepare_v2(db, "select name, gold, cash, gp, level from USERS where name = :name", -1, &stmt, nullptr);
     if (result != SQLITE_OK) {
         SDL_LogError(SDL_LOG_CATEGORY_ERROR, "%s", sqlite3_errmsg(db));
     }
@@ -356,7 +356,7 @@ void Database::init() {
         "country text);";
 
     /* Execute SQL statement */
-    int rc = sqlite3_exec(db, sql.c_str(), NULL, 0, &zErrMsg);
+    int rc = sqlite3_exec(db, sql.c_str(), nullptr, 0, &zErrMsg);
 
     if (rc != SQLITE_OK) {
         SDL_LogError(SDL_LOG_CATEGORY_ERROR, "SQL error: %s\n", zErrMsg);
@@ -372,7 +372,7 @@ void Database::init() {
         "end_date date not null, " \
         "is_worn int default 0);";
 
-    rc = sqlite3_exec(db, sql.c_str(), NULL, 0, &zErrMsg);
+    rc = sqlite3_exec(db, sql.c_str(), nullptr, 0, &zErrMsg);
 
     if (rc != SQLITE_OK) {
         SDL_LogError(SDL_LOG_CATEGORY_ERROR, "SQL error: %s\n", zErrMsg);

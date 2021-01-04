@@ -46,10 +46,10 @@ public:
     std::string getCurrentPlayerName() const;
     SuddenDeathType getSuddenDeathType() const;
 
-    virtual void drawBackground(SDL_Renderer* screen) override;
-    virtual void processMessage(const Uint8 code, const std::string& message) override;
-    virtual void drawOverlay(SDL_Renderer* screen) override;
-    virtual void processEvent(SDL_Event& event) override {
+    void drawBackground(SDL_Renderer* screen) override;
+    void processMessage(const Uint8 code, const std::string& message) override;
+    void drawOverlay(SDL_Renderer* screen) override;
+    void processEvent(SDL_Event& event) override {
         // No specific handling to be done here, GUI handles everything
     };
 

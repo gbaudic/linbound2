@@ -59,7 +59,7 @@ shared_ptr<Sprite> OverlayFactory::getOverlay(OverlayType type) {
  * @param type type of overlay to display
  * @param filename file to load
 */
-void OverlayFactory::load(OverlayType type, std::string filename) {
+void OverlayFactory::load(OverlayType type, const std::string & filename) {
     const int height = 60;
     const int width = 400;
     const Uint16 duration = 4000; // in milliseconds

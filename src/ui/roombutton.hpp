@@ -26,17 +26,17 @@
  */
 class LB_RoomButton : public gcn::ImageButton {
 public:
-	LB_RoomButton(const Uint16 nb, const std::string &name, const GameMode mode);
-	virtual ~LB_RoomButton();
-	virtual void draw(gcn::Graphics* graphics) override;
-	Uint16 getNumber() const;
+    LB_RoomButton(const Uint16 nb, const std::string &name, const GameMode mode);
+    virtual ~LB_RoomButton();
+    void draw(gcn::Graphics* graphics) override;
+    Uint16 getNumber() const;
 
 private:
     // TODO use RoomBasicInfo instead if applicable
-	Uint16 number; //! room number as created by server
-	std::string roomName; //! room name
-	GameMode gameMode;
-	gcn::Image* mStatusImages;
+    Uint16 number; //! room number as created by server
+    std::string roomName; //! room name
+    GameMode gameMode;
+    gcn::Image* mStatusImages;
 };
 
 #endif //! _H_ROOMBUTTON_
