@@ -17,10 +17,13 @@
 #define _H_COMMONITEM_
 
 #include <string>
+#include <SDL2/SDL.h>
 
 /**
  * \enum ItemValidity
  * \brief tells for how long the user will keep an item in inventory
+ * Note that this is only used at the time of purchase; internally, this data gets converted to a date
+ * and we only retrieve the items currently available when the player connects
  */
 enum class ItemValidity {
     ONE_DAY, //!< 24 hours
@@ -28,6 +31,21 @@ enum class ItemValidity {
     ONE_MONTH, //!< 30 days
     ONE_YEAR, //!< 365 days
     LIMITLESS //!< 100 years
+};
+
+/**
+ * \enum ItemProperty
+ * \brief convenience enum to tell the various categories apart
+ */
+enum class ItemProperty {
+    DELAY, //!< delay when shooting
+    POPULARITY, //!< amount of money bonuses give you
+    ATTACK, //!< shot power
+    DEFENSE, //!< damage inflicted by others
+    ENERGY, //!< reloading of life bar
+    SHIELD, //!< ??? 
+    ITEMDELAY, //!< delay increased when using a weapon
+    PIT //!< land destruction
 };
 
 /**
@@ -48,6 +66,11 @@ enum class ItemType {
 class CommonItem {
 public:
     ItemType getType() const;
+    bool isGoldOnly();
+    bool isCashOnly();
+    int getProperty(ItemProperty property);
+    std::string getName() const;
+    std::string getDescription() const;
 
 private:
     Uint32 code;
