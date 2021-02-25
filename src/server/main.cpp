@@ -17,6 +17,7 @@
 #include <string>
 #include <vector>
 #include <map>
+#include <memory>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_net.h>
 #include "../config.hpp"
@@ -33,7 +34,7 @@ Database db;
 string serverName = "server";
 Uint8 minLevel = 0;
 Uint8 maxLevel = 255;
-map<string, ServerPlayer*> connectedPlayers;
+map<string, shared_ptr<ServerPlayer>> connectedPlayers;
 
 void loop(NetworkManager &manager);
 
@@ -139,6 +140,45 @@ int main(int argc, char *argv[]) {
 }
 
 /**
+ * @brief Connect a user to the server
+ * @param msg login message as received from the network
+*/
+int haendelLoginMessage(LoginMessage& msg) {
+    SDL_LogDebug(SDL_LOG_CATEGORY_APPLICATION, "Logging in %s:%s", msg.login.c_str(), msg.password.c_str());
+    int connected = db.connectUser(msg.login, msg.password);
+    int returnCode = 0;
+    // Check server state
+    if (connectedPlayers.size() >= 256) {
+        connected = 4;
+    }
+
+    if (connected == 0) {
+        // Check that user is not already connected
+        size_t nb = connectedPlayers.count(msg.login);
+        if (nb != 0) {
+            returnCode = 6;
+        } else {
+            // If not, fetch info and do more extensive checks
+            PlayerBasicInfo info = db.getUserInfo(msg.login);
+            unsigned int levelInt = static_cast<unsigned int>(info.level);
+            if (levelInt < minLevel || levelInt > maxLevel) {
+                // Level does not match
+                returnCode = 3;
+            } else {
+                // Everything OK, register the player as connected
+                shared_ptr<ServerPlayer> newPlayer = make_shared<ServerPlayer>();
+                newPlayer->setInfo(info);
+                connectedPlayers.insert(make_pair(msg.login, newPlayer));
+            }
+        }
+    } else {
+        // Problem already detected (login, password, server full)
+        returnCode = connected;
+    }
+    return returnCode;
+}
+
+/**
  * Main loop of the program
  * @param manager network component to send/receive packets
  */
@@ -157,24 +197,29 @@ void loop(NetworkManager &manager) {
         for (const UDPpacket* p : packets) {
             Uint8 code = NetworkManager::getCode(p);
             string message = NetworkManager::getMessage(p);
+            IPaddress destination = NetworkManager::getAddress(p);
+            SDL_LogDebug(SDL_LOG_CATEGORY_APPLICATION, "Received (%i)%s", code, message.c_str());
             switch (code) {
             case HELLO_MSG:
-                manager.send(SERVER_INFO, "server\0030\003255\0030", NetworkManager::getAddress(p));
+                manager.send(SERVER_INFO, "server\0030\003255\0030", destination);
                 break;
             case STATUS_PING:
-                manager.send(STATUS_PONG, "", NetworkManager::getAddress(p));
+                manager.send(STATUS_PONG, "", destination);
                 break;
             case LOGOUT_MSG: {
                 // Remove player from map of connected players
                 LogoutMessage logout;
                 logout.fromMessage(message);
                 connectedPlayers.erase(logout.login);
+                manager.send(LOGOUT_REPLY, "", destination);
                 }
                 break;
             case LOGIN_MSG: {
                 // Try to login a new player
                 LoginMessage loginMsg;
                 loginMsg.fromMessage(message);
+                int result = haendelLoginMessage(loginMsg);
+                manager.send(LOGIN_MSG, to_string(result), destination);
             }
                 break;
             default:

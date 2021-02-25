@@ -21,6 +21,7 @@ install:
 
 script:
     - cmake -DENABLE_SERVER=ON -DRESOURCE_PREFIX=./res .
+    - pushd bin && ln -s ../res && popd
     - build-wrapper-linux-x86-64 --out-dir bw-outputs make -j2
     - sonar-scanner
     - make -j2
