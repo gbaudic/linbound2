@@ -66,9 +66,9 @@ enum class ItemType {
 class CommonItem {
 public:
     ItemType getType() const;
-    bool isGoldOnly();
-    bool isCashOnly();
-    int getProperty(ItemProperty property);
+    bool isGoldOnly() const;
+    bool isCashOnly() const;
+    int getProperty(ItemProperty property) const;
     std::string getName() const;
     std::string getDescription() const;
 

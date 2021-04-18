@@ -29,7 +29,7 @@ ItemType CommonItem::getType() const {
  * @brief Determine if an item can only be bought by cash
  * @return true if it is the case
 */
-bool CommonItem::isCashOnly() {
+bool CommonItem::isCashOnly() const {
     return goldPrices[0] + goldPrices[1] + goldPrices[2] + goldPrices[3] + goldPrices[4] == -5;
 }
 
@@ -37,7 +37,7 @@ bool CommonItem::isCashOnly() {
  * @brief Determine if an item can only be bought by gold
  * @return true if it is the case
 */
-bool CommonItem::isGoldOnly() {
+bool CommonItem::isGoldOnly() const {
     return cashPrices[0] + cashPrices[1] + cashPrices[2] + cashPrices[3] + cashPrices[4] == -5;
 }
 
@@ -46,7 +46,7 @@ bool CommonItem::isGoldOnly() {
  * @param property desired property
  * @return specified value, 0 means that the item contributes nothing
 */
-int CommonItem::getProperty(ItemProperty property) {
+int CommonItem::getProperty(ItemProperty property) const {
     int result = 0;
     
     switch(property) {

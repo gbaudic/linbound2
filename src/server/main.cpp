@@ -160,13 +160,13 @@ int haendelLoginMessage(LoginMessage& msg) {
         } else {
             // If not, fetch info and do more extensive checks
             PlayerBasicInfo info = db.getUserInfo(msg.login);
-            unsigned int levelInt = static_cast<unsigned int>(info.level);
+            auto levelInt = static_cast<unsigned int>(info.level);
             if (levelInt < minLevel || levelInt > maxLevel) {
                 // Level does not match
                 returnCode = 3;
             } else {
                 // Everything OK, register the player as connected
-                shared_ptr<ServerPlayer> newPlayer = make_shared<ServerPlayer>();
+                auto newPlayer = make_shared<ServerPlayer>();
                 newPlayer->setInfo(info);
                 connectedPlayers.insert(make_pair(msg.login, newPlayer));
             }
