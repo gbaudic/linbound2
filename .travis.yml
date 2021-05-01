@@ -9,9 +9,7 @@ addons:
 
 before_install:
     - sudo apt-get update -qq
-    - wget https://github.com/leethomason/tinyxml2/archive/8.0.0.tar.gz && tar -xzf 8.0.0.tar.gz
-    - pushd tinyxml2-8.0.0 && cmake . -DBUILD_STATIC_LIBS:BOOL=ON && make && sudo make install && popd
-    - sudo apt-get install -qq libsdl2-dev libsdl2-net-dev libsdl2-ttf-dev libsdl2-gfx-dev libsdl2-mixer-dev libsdl2-image-dev libsqlite3-dev libbox2d-dev google-mock scons
+    - sudo apt-get install -qq libsdl2-dev libsdl2-net-dev libsdl2-ttf-dev libsdl2-gfx-dev libsdl2-mixer-dev libsdl2-image-dev libsqlite3-dev libbox2d-dev google-mock scons libtinyxml2-dev
 
 install:
     - git clone https://github.com/gbaudic/guisan.git
