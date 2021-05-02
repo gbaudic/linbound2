@@ -1,4 +1,5 @@
 #define SDL_MAIN_HANDLED
+#include <iostream>
 #include <SDL2/SDL.h>
 #include "../src/settings.hpp"
 #include "gtest/gtest.h" 
@@ -42,9 +43,9 @@ namespace {
 int main(int argc, char *argv[]) {
   SDL_SetMainReady();
 
-  //Initializing SDL
-  if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) != 0) {
-      SDL_LogError(SDL_LOG_CATEGORY_ERROR, "FATAL: Cannot init SDL: %s", SDL_GetError());
+  //Initializing SDL (with no audio because it will not work on Travis)
+  if (SDL_Init(SDL_INIT_VIDEO) != 0) {
+      std::cout << "FATAL: Cannot init SDL: " << SDL_GetError();
       return -1;
   }
 
