@@ -11,12 +11,12 @@ jobs:
     needs: setup
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout
+      - uses: actions/checkout@v2
         with:
           repository: gbaudic/guisan
           
       - run: pushd guisan && scons && sudo scons install && popd
-      - uses: actions/checkout
+      - uses: actions/checkout@v2
         with:
           repository: google/googletest
       - run: pushd googletest && cmake -DCMAKE_CXX_STANDARD=11 . && sudo make install && popd
@@ -24,7 +24,7 @@ jobs:
     needs: install-deps
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout
+      - uses: actions/checkout@v2
       - run: |
           cmake -DENABLE_SERVER=ON -DRESOURCE_PREFIX=./res .
           mkdir -p bin
