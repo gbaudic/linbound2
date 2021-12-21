@@ -1,0 +1,38 @@
+name: pipeline
+on: [push]
+jobs:
+  setup:
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+        sudo apt-get update -qq
+        sudo apt-get install -qq libsdl2-dev libsdl2-net-dev libsdl2-ttf-dev libsdl2-gfx-dev libsdl2-mixer-dev libsdl2-image-dev libsqlite3-dev libbox2d-dev google-mock scons libtinyxml2-dev
+  install-deps:
+    needs: setup
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout
+        with:
+          repository: gbaudic/guisan
+          
+      - run: pushd guisan && scons && sudo scons install && popd
+      - uses: actions/checkout
+        with:
+          repository: google/googletest
+      - run: pushd googletest && cmake -DCMAKE_CXX_STANDARD=11 . && sudo make install && popd
+  linbound:
+    needs: install-deps
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout
+      - run: |
+        cmake -DENABLE_SERVER=ON -DRESOURCE_PREFIX=./res .
+        mkdir -p bin
+        pushd bin && ln -s ../res && popd
+        make -j2
+        ctest
+      - name: SonarCloud Scan
+        uses: sonarsource/sonarcloud-github-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
