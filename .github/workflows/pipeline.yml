@@ -15,10 +15,17 @@ jobs:
         run: scons && sudo scons install
         working-directory: guisan
         shell: bash
+      - name: Clone gtest
+        run: git clone https://github.com/google/googletest --depth 1
+        shell: bash
       - name: Install gtest
-        uses: MarkusJx/googletest-installer@v1.1
-      - uses: actions/checkout@v2
-      - run: |
+        run: cmake -DCMAKE_CXX_STANDARD=11 . && sudo make install
+        working-directory: googletest
+        shell: bash
+      - name: Clone linbound
+        uses: actions/checkout@v2
+      - name: Build linbound
+        run: |
           cmake -DENABLE_SERVER=ON -DRESOURCE_PREFIX=./res .
           mkdir -p bin
           pushd bin && ln -s ../res && popd
