@@ -1,16 +1,13 @@
 name: pipeline
 on: [push]
 jobs:
-  setup:
+  linbound:
     runs-on: ubuntu-latest
     steps:
-      - run: |
+      - name: Install dependencies
+        run: |
           sudo apt-get update -qq
           sudo apt-get install -qq libsdl2-dev libsdl2-net-dev libsdl2-ttf-dev libsdl2-gfx-dev libsdl2-mixer-dev libsdl2-image-dev libsqlite3-dev libbox2d-dev google-mock scons libtinyxml2-dev xvfb
-  install-deps:
-    needs: setup
-    runs-on: ubuntu-latest
-    steps:
       - name: Clone guisan
         run: git clone https://github.com/gbaudic/guisan --depth 1
         shell: bash
@@ -20,10 +17,6 @@ jobs:
         shell: bash
       - name: Install gtest
         uses: MarkusJx/googletest-installer@v1.1
-  linbound:
-    needs: install-deps
-    runs-on: ubuntu-latest
-    steps:
       - uses: actions/checkout@v2
       - run: |
           cmake -DENABLE_SERVER=ON -DRESOURCE_PREFIX=./res .
