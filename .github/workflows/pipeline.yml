@@ -29,7 +29,7 @@ jobs:
           cmake -DENABLE_SERVER=ON -DRESOURCE_PREFIX=./res .
           mkdir -p bin
           pushd bin && ln -s ../res && popd
-          make -j2
+          xvfb-run --auto-servernum make -j2
           xvfb-run --auto-servernum ctest
       - name: SonarCloud Scan
         uses: sonarsource/sonarcloud-github-action@master
