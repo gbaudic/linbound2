@@ -69,7 +69,7 @@ int main(int argc, char* argv[]) {
 	//TTF is initialized correctly, so let's load the font
 	TTF_Font* font = TTF_OpenFont(fontPath.c_str(), 12);
 	if (font == NULL) {
-		SDL_LogError(SDL_LOG_CATEGORY_ERROR, "Font opening failed! %s", TTF_GetError());
+		SDL_LogError(SDL_LOG_CATEGORY_ERROR, "FATAL: Font opening failed: %s", TTF_GetError());
 		return -1;
 	}
 
@@ -118,7 +118,7 @@ int main(int argc, char* argv[]) {
 	if (!settings->isAServer()) {
 		// Init sound
 		if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 4096) == -1) {
-			SDL_LogError(SDL_LOG_CATEGORY_ERROR, "Mix_OpenAudio: %s", Mix_GetError());
+			SDL_LogError(SDL_LOG_CATEGORY_ERROR, "FATAL: Mix_OpenAudio: %s", Mix_GetError());
 			return -1;
 		}
 
@@ -130,7 +130,7 @@ int main(int argc, char* argv[]) {
 
 		int channels = 4;
 		if (Mix_AllocateChannels(channels) != channels) {
-			SDL_LogError(SDL_LOG_CATEGORY_ERROR, "%s", "All channels haven't been allocated, exiting");
+			SDL_LogError(SDL_LOG_CATEGORY_ERROR, "%s", "FATAL: All channels have not been allocated, exiting");
 			return -1;
 		}
 
@@ -209,7 +209,7 @@ int main(int argc, char* argv[]) {
  */
 void usage() {
     cout << "Linbound v" << linbound::getVersionString() << endl
-         << "(C) 2007-2020 G. Baudic" << endl;
+         << "(C) 2007-2022 G. Baudic" << endl;
     return;
 }
 

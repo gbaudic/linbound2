@@ -26,6 +26,8 @@
 class GameMap {
 public:
     explicit GameMap(const std::string &mapName);
+    GameMap(const GameMap & other);
+    GameMap & operator=(const GameMap & other);
     ~GameMap();
     void unload();
     void useBSide(const bool use);
@@ -46,7 +48,7 @@ private:
     SDL_Texture *background = nullptr;
     SDL_Texture *foreground = nullptr;
     SDL_Texture *preview = nullptr;
-    SDL_Surface* front = nullptr;
+    SDL_Surface *front = nullptr;
     
     std::string name;
     std::string pathToPreview;

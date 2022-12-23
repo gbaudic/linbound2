@@ -27,6 +27,8 @@ NetworkManager::NetworkManager(bool isServer) {
     
     if (init == 0) {
         socket = SDLNet_UDP_Open(isServer ? SERVER_PORT : 0); // pick the pork you want
+    } else {
+        SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "NetworkManager init error: %s", SDLNet_GetError());
     }
 
     serverInfo.host = INADDR_ANY;
@@ -37,11 +39,13 @@ NetworkManager::NetworkManager(bool isServer) {
  * Destructor
  */
 NetworkManager::~NetworkManager() {
+    // Clean up packets
     for(UDPpacket *p : packets) {
         SDLNet_FreePacket(p);
     }
     packets.clear();
     
+    // Close library
     SDLNet_UDP_Close(socket);
     
     SDLNet_Quit();
@@ -54,7 +58,7 @@ NetworkManager::~NetworkManager() {
  * \param target address to which the packet should be sent
  * \see protocol.hpp
  */
-void NetworkManager::send(Uint8 code, const string & message, IPaddress target) {
+void NetworkManager::send(Uint8 code, const string & message, const IPaddress & target) {
     int dataSize = static_cast<int>(message.size()) + 1 + 1;
     UDPpacket *packet = SDLNet_AllocPacket(dataSize);
     

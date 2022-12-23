@@ -28,8 +28,10 @@
 class NetworkManager final {
 public:
     explicit NetworkManager(bool isServer);
+    NetworkManager(const NetworkManager & mgr) = delete;
+    NetworkManager & operator=(const NetworkManager mgr) = delete;
     ~NetworkManager();
-    void send(Uint8 code, const std::string & message, IPaddress target);
+    void send(Uint8 code, const std::string & message, const IPaddress & target);
     void sendToServer(Uint8 code, const std::string& message);
     void setServerInfo(Uint32 ip);
     std::vector<UDPpacket*> & receive();

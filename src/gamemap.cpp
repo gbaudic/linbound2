@@ -9,7 +9,7 @@
  * If a copy of the MPL was not distributed with this file,
  * You can obtain one at http://mozilla.org/MPL/2.0/.
  *
- * This Source Code Form is “Incompatible With Secondary Licenses”,
+ * This Source Code Form is "Incompatible With Secondary Licenses",
  * as defined by the Mozilla Public License, v. 2.0.
  */
 
@@ -86,19 +86,79 @@ void GameMap::storePath(const string &key, const string &value) {
 GameMap::~GameMap() {
     if (mapRenderer) {
         SDL_DestroyRenderer(mapRenderer);
+        mapRenderer = nullptr;
     }
     if (background) {
         SDL_DestroyTexture(background);
+        background = nullptr;
     }
     if (foreground) {
         SDL_DestroyTexture(foreground);
+        foreground = nullptr;
     }
     if (front) {
         SDL_FreeSurface(front);
+        front = nullptr;
     }
     if (preview) {
         SDL_DestroyTexture(preview);
+        preview = nullptr;
     }
+}
+
+/**
+ * Copy constructor
+ */
+GameMap::GameMap(const GameMap & other) {
+    name = other.name;
+    pathToPreview = other.pathToPreview;
+    pathToBack = other.pathToBack;
+    pathToFrontA = other.pathToFrontA;
+    pathToFrontB = other.pathToFrontB;
+    musicFile = other.musicFile;
+    hasBSide = other.hasBSide;
+    bSide = other.bSide;
+}
+
+/**
+ * Assignment operator
+ */
+GameMap::GameMap & operator=(const GameMap & other){
+    if (this != &other) {
+        // Cleanup existing object
+        if (mapRenderer) {
+            SDL_DestroyRenderer(mapRenderer);
+            mapRenderer = nullptr;
+        }
+        if (background) {
+            SDL_DestroyTexture(background);
+            background = nullptr;
+        }
+        if (foreground) {
+            SDL_DestroyTexture(foreground);
+            foreground = nullptr;
+        }
+        if (front) {
+            SDL_FreeSurface(front);
+            front = nullptr;
+        }
+        if (preview) {
+            SDL_DestroyTexture(preview);
+            preview = nullptr;
+        }
+        
+        name = other.name;
+        pathToPreview = other.pathToPreview;
+        pathToBack = other.pathToBack;
+        pathToFrontA = other.pathToFrontA;
+        pathToFrontB = other.pathToFrontB;
+        musicFile = other.musicFile;
+        hasBSide = other.hasBSide;
+        bSide = other.bSide;
+        // No need to create surfaces, it will be done automatically when needed
+    }
+
+    return *this;
 }
 
 /**
