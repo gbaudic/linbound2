@@ -82,14 +82,14 @@ int Database::createUser(const std::string& name, const std::string& password) {
  * \brief Try to connect an existing user
  * \param name name for the user
  * \param password provided password for the user, cleartext for the moment
- * \return 0 if success, 1 wrong password, 2 unknown login. Other errors are not computed here. 
+ * \return 0 if success, 1 if login or password is wrong. Other errors are not computed here. 
  */
 int Database::connectUser(const std::string& name, const std::string& password) {
     sqlite3_stmt* stmt = nullptr;
     bool found = false;
     int code = -1;
 
-    int result = sqlite3_prepare_v2(db, "select name, password from USERS where name = :name", -1, &stmt, nullptr);
+    int result = sqlite3_prepare_v2(db, "select name, password, salt from USERS where name = :name", -1, &stmt, nullptr);
     if (result != SQLITE_OK) {
         SDL_LogError(SDL_LOG_CATEGORY_ERROR, "%s", sqlite3_errmsg(db));
         return code;
@@ -107,7 +107,7 @@ int Database::connectUser(const std::string& name, const std::string& password) 
 
     if (!found) {
         // Login not found
-        code = 2;
+        code = 1;
     }
     
     sqlite3_finalize(stmt);
@@ -171,7 +171,7 @@ int Database::buyItem(const std::string& name, const int itemCode, ItemType type
     sqlite3_bind_int(stmt, sqlite3_bind_parameter_index(stmt, ":item"), itemCode);
     sqlite3_bind_int(stmt, sqlite3_bind_parameter_index(stmt, ":type"), static_cast<int>(type));
 
-    std::string duration = "+1";
+    std::string duration{"+1"};
     switch (validity) {
     case ItemValidity::ONE_DAY:
         duration += " day";
@@ -349,6 +349,7 @@ void Database::init() {
         "id integer primary key autoincrement, " \
         "name text unique not null, " \
         "password text, " \
+        "salt text," \
         "gold int default 0, " \
         "cash int default 0, " \
         "gp int default 1000, " \

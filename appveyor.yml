@@ -12,7 +12,7 @@ install:
   - bash -lc "git clone https://github.com/gbaudic/guisan.git && pushd guisan && scons prefix=/mingw64 && scons install prefix=/mingw64 && popd"  
   
 build_script:
-  - bash -lc "cd $APPVEYOR_BUILD_FOLDER; export CC=gcc; export CXX=g++; cmake -DRESOURCE_PREFIX=../res -DENABLE_SERVER=ON . && cmake --build . && ctest" 
+  - bash -lc "cd $APPVEYOR_BUILD_FOLDER; export CC=gcc; export CXX=g++; cmake -DRESOURCE_PREFIX=./res -DENABLE_SERVER=ON . && cmake --build . && ctest" 
   
 matrix:
   fast_finish: true
