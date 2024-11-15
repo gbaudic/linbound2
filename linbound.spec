@@ -40,6 +40,11 @@ a multiplayer turn-based arcade game with a gameplay very close
 to Worms, Hedgewars or WarMUX. It is primarily targeted to Linux 
 but it aims to be as cross-platform as possible. 
 
+%package data
+BuildArch: noarch
+
+%package server
+
 %description data
 This package contains the game files.
 
@@ -56,19 +61,23 @@ cmake . -DENABLE_SERVER=ON
 make %{?_smp_mflags}
 
 %install
+rm -rf %{buildroot}
 %make_install
 
 %files
+%defattr(-,root,root,-)
 %doc README.md
 %doc AUTHORS
 %license LICENSE
-/usr/local/bin/linbound
+%attr(755,root,root) /usr/local/bin/linbound
 
 %files data
+%defattr(-,root,root,-)
 res/
 
 %files server
-/usr/local/bin/linbound_server
+%defattr(-,root,root,-)
+%attr(755,root,root) /usr/local/bin/linbound_server
 
 %changelog
 * date <email@mail.com> 
