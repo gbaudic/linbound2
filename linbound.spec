@@ -53,7 +53,7 @@ This package contains the server. It is not needed unless you want to be able to
 
 %prep
 %setup -n linbound-master
-git clone https://github.com/gbaudic/guisan
+git clone https://github.com/kallisti5/guisan
 pushd guisan && scons && scons install && popd
 
 %build

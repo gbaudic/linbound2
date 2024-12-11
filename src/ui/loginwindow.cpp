@@ -14,7 +14,6 @@
  */
 
 #include "loginwindow.hpp"
-using namespace std;
 
 /**
  * Constructor
@@ -33,25 +32,30 @@ LoginWindow::LoginWindow() : gcn::Window("Login")
 	lbl_password.adjustSize();
 	tf_login.setWidth(90);
 	tf_password.setWidth(90);
+	tf_password.setMaskingChar('*');
 
-	btn_ok.setActionEventId("ok");
+	btn_ok.setActionEventId(ACTION_OK);
 	btn_ok.addActionListener(this);
-	btn_cancel.setActionEventId("cancel");
+	btn_cancel.setActionEventId(ACTION_CANCEL);
 	btn_cancel.addActionListener(this);
 
 	addWidgets();
 }
 
+/**
+ * Action handler
+ * \param event the event
+ */
 void LoginWindow::action(const gcn::ActionEvent & event) {
-	if (event.getId() == "cancel") {
+	if (event.getId() == ACTION_CANCEL) {
 		setVisible(false);
 	}
 
-	if (event.getId() == "ok") {
+	if (event.getId() == ACTION_OK) {
 		// Validation logic
-		if(tf_login.getText().size() < 2) {
+		if (tf_login.getText().size() < 2) {
 			lbl_status.setCaption("Invalid login.");
-            lbl_status.adjustSize();
+			lbl_status.adjustSize();
 			return;
 		}
 		
@@ -60,7 +64,7 @@ void LoginWindow::action(const gcn::ActionEvent & event) {
 		tf_login.setEnabled(false);
 		tf_password.setEnabled(false);
 		lbl_status.setCaption("Logging in...");
-        lbl_status.adjustSize();
+		lbl_status.adjustSize();
 		generateAction();
 	}
 }
@@ -69,7 +73,7 @@ void LoginWindow::action(const gcn::ActionEvent & event) {
  * Getter for password value
  * \return password (may be empty) 
  */
-string LoginWindow::getPassword() const {
+std::string LoginWindow::getPassword() const {
 	return tf_password.getText();
 }
 
@@ -77,7 +81,7 @@ string LoginWindow::getPassword() const {
  * Getter for login value
  * \return user login
  */
-string LoginWindow::getLogin() const {
+std::string LoginWindow::getLogin() const {
 	return tf_login.getText();
 }
 
@@ -90,45 +94,45 @@ void LoginWindow::onLogin(const int success) {
 	btn_cancel.setVisible(true);
 	tf_login.setEnabled(true);
 	tf_password.setEnabled(true);
-    
-    switch(success) {
-        case 0:
-            // Hide and prepare for reuse
-            setVisible(false);
-            tf_login.clear();
-            tf_password.clear();
-            break;
-        case 1:
-            // Wrong password
-            lbl_status.setCaption("Wrong password. Please retry.");
-            break;
-        case 2:
-            // Unknown login
-            lbl_status.setCaption("This login does not exist.");
-            break;
-        case 3:
-            // Wrong level
-            lbl_status.setCaption("Level outside this server range.");
-            break;
-        case 4:
-            // Server full
-            lbl_status.setCaption("Sorry, the server is already full.");
-            break;
-        case 5:
-            // Connection timed out
-            lbl_status.setCaption("Connection timed out.");
-            break;
-        case 6:
-            // Already connected
-            lbl_status.setCaption("Already connected!");
-            break;
-        default:
-            break;
-    }
-    lbl_status.adjustSize();
+	
+	switch(success) {
+		case 0:
+			// Hide and prepare for reuse
+			setVisible(false);
+			tf_login.clear();
+			tf_password.clear();
+			break;
+		case 1:
+			// Wrong password
+			lbl_status.setCaption("Wrong password. Please retry.");
+			break;
+		case 2:
+			// Unknown login
+			lbl_status.setCaption("This login does not exist.");
+			break;
+		case 3:
+			// Wrong level
+			lbl_status.setCaption("Level outside this server range.");
+			break;
+		case 4:
+			// Server full
+			lbl_status.setCaption("Sorry, the server is already full.");
+			break;
+		case 5:
+			// Connection timed out
+			lbl_status.setCaption("Connection timed out.");
+			break;
+		case 6:
+			// Already connected
+			lbl_status.setCaption("Already connected!");
+			break;
+		default:
+			break;
+	}
+	lbl_status.adjustSize();
 }
 
-/*
+/**
  * Helper function to actually add the widgets and please Sonar
  */
 void LoginWindow::addWidgets() {

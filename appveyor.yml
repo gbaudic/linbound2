@@ -9,7 +9,7 @@ install:
   - bash -lc "pacman -S --needed --noconfirm make cmake scons"
   - bash -lc "pacman --noconfirm -Sy mingw-w64-x86_64-toolchain mingw-w64-x86_64-readline mingw-w64-x86_64-libc++ mingw-w64-x86_64-SDL2 mingw-w64-x86_64-SDL2_gfx mingw-w64-x86_64-SDL2_image mingw-w64-x86_64-SDL2_mixer mingw-w64-x86_64-SDL2_net mingw-w64-x86_64-SDL2_ttf mingw-w64-x86_64-sqlite3 mingw-w64-x86_64-tinyxml2 mingw-w64-x86_64-box2d mingw-w64-x86_64-gtest"
   # - bash -lc "pacman -R --noconfirm mingw-w64-x86_64-pkg-config"
-  - bash -lc "git clone https://github.com/gbaudic/guisan.git && pushd guisan && scons prefix=/mingw64 && scons install prefix=/mingw64 && popd"  
+  - bash -lc "git clone https://github.com/kallisti5/guisan.git && pushd guisan && scons prefix=/mingw64 && scons install prefix=/mingw64 && popd"  
   
 build_script:
   - bash -lc "cd $APPVEYOR_BUILD_FOLDER; export CC=gcc; export CXX=g++; cmake -DRESOURCE_PREFIX=./res -DENABLE_SERVER=ON . && cmake --build . && ctest" 
@@ -65,7 +65,7 @@ deploy:
   provider: GitHub
   auth_token:
     secure: oAzX3AMKStWmtHsjWEtqKv5kEXk/iDY102HMW15kXfVsxGfbBMGEiZLj/JwFxA4H
-  artifact: Output\LinboundSetup.exe     
+  artifact: Output\LinboundSetup.exe
   draft: true
   force_update: true
   prerelease: false

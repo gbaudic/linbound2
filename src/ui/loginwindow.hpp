@@ -33,11 +33,14 @@ public:
 	void onLogin(const int success);
 
 private:
+	const std::string ACTION_OK{"ok"};
+	const std::string ACTION_CANCEL{"cancel"};
+
 	gcn::Button btn_ok{"Login"};
 	gcn::Button btn_cancel{"Cancel"};
-	gcn::Label lbl_status{" "};  //! Communicate info to the user
+	gcn::Label lbl_status{" "};	 //! Communicate info to the user
 	gcn::TextField tf_login;
-	gcn::PasswordField tf_password;
+	gcn::TextField tf_password;
 	gcn::Label lbl_login{"Login"};
 	gcn::Label lbl_password{"Password"};
 

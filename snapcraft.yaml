@@ -15,7 +15,7 @@ base: core18
 parts:
   guisan:
     plugin: scons
-    source: https://github.com/gbaudic/guisan.git
+    source: https://github.com/kallisti5/guisan.git
     build-packages:
       - g++
       - make
