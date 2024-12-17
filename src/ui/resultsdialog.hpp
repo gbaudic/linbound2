@@ -28,6 +28,8 @@ public:
     void action(const gcn::ActionEvent& actionEvent) override;
 
 private:
+    const std::string ACTION_OK{ "ok" };
+
     std::vector<PlayerResult> stats;
     int nbTeams = 2;
     gcn::Button btn_ok{ "OK" };

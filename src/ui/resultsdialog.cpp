@@ -22,7 +22,7 @@ using namespace gcn;
  */
 ResultsDialog::ResultsDialog() : Window("Results") {
 
-    btn_ok.setActionEventId("ok");
+    btn_ok.setActionEventId(ACTION_OK);
     btn_ok.addActionListener(this);
 
     setVisible(false); // will be shown in due time
@@ -104,7 +104,7 @@ void ResultsDialog::draw(gcn::Graphics* graphics) {
  * \copydoc gcn::ActionListener::action(ActionEvent)
  */
 void ResultsDialog::action(const gcn::ActionEvent& actionEvent) {
-    if (actionEvent.getId() == "ok") {
+    if (actionEvent.getId() == ACTION_OK) {
         // Close the window and go back to room lobby
         setVisible(false);
         generateAction();

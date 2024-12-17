@@ -30,6 +30,11 @@ public:
 	void action(const gcn::ActionEvent& actionEvent) override;
 	
 private:
+    const std::string ACTION_OK{ "ok" };
+    const std::string ACTION_CANCEL{ "cancel" };
+    const std::string ACTION_MUSIC{ "music" };
+    const std::string ACTION_EFFECTS{ "effects" };
+
     gcn::Button btn_ok{ "OK" };
     gcn::Button btn_cancel{ "Cancel" };
     gcn::Label lbl_music{ "Music volume" };

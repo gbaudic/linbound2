@@ -45,6 +45,9 @@ public:
     RoomCreationInfo getInfo() const;
 
 private:
+    const std::string ACTION_OK{ "ok" };
+    const std::string ACTION_CANCEL{ "cancel" };
+
     gcn::Label lbl_name{ "Name" };
     gcn::TextField tf_name;
     gcn::Label lbl_password{ "Password (leave empty for none)" };

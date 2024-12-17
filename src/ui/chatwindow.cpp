@@ -14,7 +14,6 @@
  */
 
 #include "chatwindow.hpp"
-using namespace std;
 
 std::string ChatWindow::sender; // init
 
@@ -22,7 +21,7 @@ std::string ChatWindow::sender; // init
   Constructor
   \param friendName username of the friend
 */
-ChatWindow::ChatWindow(const string &friendName) : recipient(friendName) {
+ChatWindow::ChatWindow(const std::string &friendName) : recipient(friendName) {
 	setCaption(friendName);
 	setWidth(200);
 	setHeight(300);
@@ -41,10 +40,10 @@ ChatWindow::ChatWindow(const string &friendName) : recipient(friendName) {
 	sa_scroll.setHeight(250);
 
 	btn_close.adjustSize();
-	btn_close.setActionEventId("close");
+	btn_close.setActionEventId(ACTION_CLOSE);
 	btn_close.addActionListener(this);
 	btn_send.adjustSize(); //precaution for i18n
-	btn_send.setActionEventId("send");
+	btn_send.setActionEventId(ACTION_SEND);
 	btn_send.addActionListener(this);
 
 	tf_msg.setWidth(getWidth() - 3 * getPadding() - btn_send.getWidth()); //avoid overlap between textfield and button
@@ -52,7 +51,7 @@ ChatWindow::ChatWindow(const string &friendName) : recipient(friendName) {
 	tf_msg.setForegroundColor(textColor);
 	tf_msg.addActionListener(this);
 
-	//Add widgets
+	// Add widgets
 	addWidgets();
 }
 
@@ -61,7 +60,7 @@ ChatWindow::ChatWindow(const string &friendName) : recipient(friendName) {
  * \param friendName name of the friend
  * \param message message to show
  */
-ChatWindow::ChatWindow(const string &friendName, const string &message) : ChatWindow(friendName) {
+ChatWindow::ChatWindow(const std::string &friendName, const std::string &message) : ChatWindow(friendName) {
 	addMessage(friendName, message);
 }
 
@@ -77,10 +76,10 @@ void ChatWindow::addWidgets() {
 }
 
 void ChatWindow::action(const gcn::ActionEvent &actionEvent) {
-	if (actionEvent.getId() == "close") {
+	if (actionEvent.getId() == ACTION_CLOSE) {
 		setVisible(false);
 	}
-	else if (actionEvent.getId() == "send" || actionEvent.getSource() == &tf_msg) {
+	else if (actionEvent.getId() == ACTION_SEND || actionEvent.getSource() == &tf_msg) {
 		messageSent = tf_msg.getText();
 		if (!messageSent.empty()) {
 			addMessage(sender, messageSent);
@@ -106,7 +105,7 @@ void ChatWindow::addMessage(const std::string &author, const std::string &messag
  *  of an ongoing conversation (existing window) or if it is a new one (constructor call necessary)
  *  \return the friend name, as a std::string
  */
-string ChatWindow::getRecipientName() const {
+std::string ChatWindow::getRecipientName() const {
 	return recipient;
 }
 
@@ -114,7 +113,7 @@ string ChatWindow::getRecipientName() const {
  * Get the last message sent from this window
  * \param the message sent
  */
-string ChatWindow::getMessage() const {
+std::string ChatWindow::getMessage() const {
 	return messageSent;
 }
 
@@ -123,6 +122,6 @@ string ChatWindow::getMessage() const {
  * It is static because there is only one user connected...
  * \param myName player name
  */
-void ChatWindow::setMyName(const string &myName) {
+void ChatWindow::setMyName(const std::string &myName) {
 	sender = myName;
 }

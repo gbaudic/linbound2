@@ -35,6 +35,9 @@ public:
 	static void setMyName(const std::string &myName);
 
 private:
+	const std::string ACTION_SEND{ "send" };
+	const std::string ACTION_CLOSE{ "close" };
+
 	gcn::TextField tf_msg;
 	gcn::ScrollArea sa_scroll;
 	gcn::TextBox tb_chat;

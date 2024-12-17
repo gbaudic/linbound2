@@ -27,9 +27,9 @@ NewRoomDialog::NewRoomDialog() : Window("Create room") {
     lbl_type.adjustSize();
     lb_teams.setListModel(&listModel);
 
-    btn_cancel.setActionEventId("cancel");
+    btn_cancel.setActionEventId(ACTION_CANCEL);
     btn_cancel.addActionListener(this);
-    btn_ok.setActionEventId("ok");
+    btn_ok.setActionEventId(ACTION_OK);
     btn_ok.addActionListener(this);
 
     setWidth(200);
@@ -40,10 +40,10 @@ NewRoomDialog::NewRoomDialog() : Window("Create room") {
 }
 
 void NewRoomDialog::action(const ActionEvent& event) {
-    if (event.getId() == "ok") {
+    if (event.getId() == ACTION_OK) {
         setVisible(false);
         generateAction();
-    } else if (event.getId() == "cancel") {
+    } else if (event.getId() == ACTION_CANCEL) {
         // Reset fields
         tf_name.clear();
         tf_password.clear();
