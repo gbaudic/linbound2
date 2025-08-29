@@ -9,21 +9,25 @@ jobs:
           sudo apt-get update -qq
           sudo apt-get install -qq libsdl2-dev libsdl2-net-dev libsdl2-ttf-dev libsdl2-gfx-dev libsdl2-mixer-dev libsdl2-image-dev libsqlite3-dev libbox2d-dev google-mock scons libtinyxml2-dev xvfb
       - name: Clone guisan
-        run: git clone https://github.com/kallisti5/guisan --depth 1
-        shell: bash
+        uses: actions/checkout@v5
+        with:
+          repository: kallisti5/guisan
+          path: guisan
       - name: Install guisan
         run: scons && sudo scons install
         working-directory: guisan
         shell: bash
       - name: Clone gtest
-        run: git clone https://github.com/google/googletest --depth 1
-        shell: bash
+        uses: actions/checkout@v5
+        with:
+          repository: google/googletest
+          path: googletest
       - name: Install gtest
         run: cmake -DCMAKE_CXX_STANDARD=11 . && sudo make install
         working-directory: googletest
         shell: bash
       - name: Clone linbound
-        uses: actions/checkout@v2
+        uses: actions/checkout@v5
       - name: Build linbound
         run: |
           cmake -DENABLE_SERVER=ON -DRESOURCE_PREFIX=./res .
@@ -31,8 +35,8 @@ jobs:
           pushd bin && ln -s ../res && popd
           xvfb-run --auto-servernum make -j2
           xvfb-run --auto-servernum ctest
-      - name: SonarCloud Scan
-        uses: sonarsource/sonarcloud-github-action@master
+      - name: Official SonarQube Scan
+        uses: SonarSource/sonarqube-scan-action@v5.3.1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
