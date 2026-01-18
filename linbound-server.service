@@ -1,0 +1,9 @@
+[Unit]
+Description=The LinBound server
+
+[Service]
+ExecStart=linbound-server
+Restart=always
+StartLimitIntervalSec=120
+StartLimitBurst=5
+
