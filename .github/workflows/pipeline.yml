@@ -1,5 +1,14 @@
-name: pipeline
+name: Build and test with CMake
 on: [push]
+
+concurrency:
+  group: "build"
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+  pull-requests: write
+
 jobs:
   linbound:
     runs-on: ubuntu-latest
@@ -9,7 +18,7 @@ jobs:
           sudo apt-get update -qq
           sudo apt-get install -qq libsdl2-dev libsdl2-net-dev libsdl2-ttf-dev libsdl2-gfx-dev libsdl2-mixer-dev libsdl2-image-dev libsqlite3-dev libbox2d-dev google-mock scons libtinyxml2-dev xvfb
       - name: Clone guisan
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
           repository: kallisti5/guisan
           path: guisan
@@ -18,7 +27,7 @@ jobs:
         working-directory: guisan
         shell: bash
       - name: Clone gtest
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
           repository: google/googletest
           path: googletest
@@ -27,7 +36,7 @@ jobs:
         working-directory: googletest
         shell: bash
       - name: Clone linbound
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
       - name: Build linbound
         run: |
           cmake -DENABLE_SERVER=ON -DRESOURCE_PREFIX=./res .
