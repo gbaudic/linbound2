@@ -17,6 +17,7 @@
 #define _H_DATABASE_
 
 #include <string>
+#include <vector>
 #include <sqlite3.h>
 #include "../common/commonitem.hpp"
 #include "../common/commonplayer.hpp"
@@ -28,14 +29,17 @@ class Database {
 public:
     Database();
     ~Database();
+    Database(Database &other) = delete;
+    Database& operator=(Database &other) = delete;
+    
     int createUser(const std::string &name, const std::string &password);
     int connectUser(const std::string &name, const std::string &password);
     int updateUser(const std::string &name, const int goldDelta, const int gpDelta = 0);
-    int buyItem(const std::string& name, const int itemCode, ItemType type, ItemValidity validity);
-    int wearItem(const std::string& name, const int itemCode, ItemType type, bool wear);
-    void getItemsForUser(const std::string& name);
-    int deleteItem(const std::string& name, const int itemCode);
-    PlayerBasicInfo getUserInfo(const std::string& name);
+    int buyItem(const std::string &name, const int itemCode, ItemType type, ItemValidity validity);
+    int wearItem(const std::string &name, const int itemCode, ItemType type, bool wear);
+    void getItemsForUser(const std::string &name);
+    int deleteItem(const std::string &name, const int itemCode);
+    PlayerBasicInfo getUserInfo(const std::string &name);
 
 private:
     void init();

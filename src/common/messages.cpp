@@ -16,12 +16,11 @@
 #include <vector>
 #include "messages.hpp"
 #include "../utils.hpp"
-using namespace std;
 
-void RewardMessage::fromMessage(const string & message) {
-    vector<string> pieces = linbound::split(message, '\3');
+void RewardMessage::fromMessage(const std::string & message) {
+    std::vector<std::string> pieces = linbound::split(message, '\3');
     
-    if(pieces.size() >= 4) {
+    if (pieces.size() >= 4) {
         user = pieces[0];
         reward = pieces[1];
         gold = stoi(pieces[2]);
@@ -29,14 +28,14 @@ void RewardMessage::fromMessage(const string & message) {
     }
 }
 
-string RewardMessage::toString() {
-    return user + '\3' + reward + '\3' + to_string(gold) + '\3' + to_string(xp);
+std::string RewardMessage::toString() {
+    return user + '\3' + reward + '\3' + std::to_string(gold) + '\3' + std::to_string(xp);
 }
 
-void ShotMessage::fromMessage(const string & message) {
-    vector<string> pieces = linbound::split(message, '\3');
+void ShotMessage::fromMessage(const std::string & message) {
+    std::vector<std::string> pieces = linbound::split(message, '\3');
     
-    if(pieces.size() >= 4) {
+    if (pieces.size() >= 4) {
         user = pieces[0];
         type = static_cast<WeaponType>(stoi(pieces[1]));
         power = stoi(pieces[2]);
@@ -44,12 +43,12 @@ void ShotMessage::fromMessage(const string & message) {
     }
 }
 
-string ShotMessage::toString() {
-    return user + '\3' + to_string(static_cast<unsigned int>(type)) + '\3' + to_string(power) + '\3' + to_string(angle);
+std::string ShotMessage::toString() {
+    return user + '\3' + std::to_string(static_cast<unsigned int>(type)) + '\3' + std::to_string(power) + '\3' + std::to_string(angle);
 }
 
-void LoginMessage::fromMessage(const string & message) {
-    vector<string> pieces = linbound::split(message, '\3');
+void LoginMessage::fromMessage(const std::string & message) {
+    std::vector<std::string> pieces = linbound::split(message, '\3');
     
     if (pieces.size() >= 2) {
         login = pieces[0];
@@ -57,14 +56,14 @@ void LoginMessage::fromMessage(const string & message) {
     }
 }
 
-string LoginMessage::toString() {
+std::string LoginMessage::toString() {
     return login + '\3' + password;  // yup, in clear for now
 }
 
-void LogoutMessage::fromMessage(const string & message) {
+void LogoutMessage::fromMessage(const std::string & message) {
     login = message;
 }
 
-string LogoutMessage::toString() {
+std::string LogoutMessage::toString() {
     return login;
 }

@@ -27,14 +27,13 @@
 #include "serverplayer.hpp"
 #include "../common/messages.hpp"
 #include "database.hpp"
-using namespace std;
 
 Database db;
 // Settings variables -- put here just for simplicity
-string serverName = "server";
+std::string serverName = "server";
 Uint8 minLevel = 0;
 Uint8 maxLevel = 255;
-map<string, shared_ptr<ServerPlayer>> connectedPlayers;
+std::map<std::string, std::shared_ptr<ServerPlayer>> connectedPlayers;
 
 void loop(NetworkManager &manager);
 
@@ -42,13 +41,13 @@ void loop(NetworkManager &manager);
  * Print a basic help in case of improper arguments
  */
 void usage() {
-    cout << "Linbound server" << endl
-        << "Supported options:" << endl
-        << "--debug  : enable debug output" << endl
-        << "--help   : print this help and exit" << endl
-        << "--name n : give this server a name (default: server)" << endl
-        << "--min x  : set minimum level to enter (default: no limit)" << endl
-        << "--max x  : set maximum level to enter (default: no limit)" << endl;
+    std::cout << "Linbound server" << std::endl
+        << "Supported options:" << std::endl
+        << "--debug  : enable debug output" << std::endl
+        << "--help   : print this help and exit" << std::endl
+        << "--name n : give this server a name (default: server)" << std::endl
+        << "--min x  : set minimum level to enter (default: no limit)" << std::endl
+        << "--max x  : set maximum level to enter (default: no limit)" << std::endl;
 }
 
 /**
@@ -69,7 +68,7 @@ void processArgs(int &argIndex, int &code, int argc, char *argv[]) {
         } else if (SDL_strncmp("--name\0", argv[argIndex], 6) == 0) {
             if (argIndex + 1 < argc) {
                 // Use name
-                serverName = string(argv[argIndex + 1]);
+                serverName = std::string(argv[argIndex + 1]);
                 argIndex += 2;
             } else {
                 // Error
@@ -107,7 +106,7 @@ void processArgs(int &argIndex, int &code, int argc, char *argv[]) {
 int main(int argc, char *argv[]) {
     
     // Initializing SDL
-    if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) != 0) {
+    if (SDL_Init(SDL_INIT_VIDEO) != 0) {
         SDL_LogError(SDL_LOG_CATEGORY_ERROR, "FATAL: Cannot init SDL: %s", SDL_GetError());
         return -1;
     }
@@ -144,7 +143,7 @@ int main(int argc, char *argv[]) {
  * @param msg login message as received from the network
 */
 int haendelLoginMessage(LoginMessage& msg) {
-    SDL_LogDebug(SDL_LOG_CATEGORY_APPLICATION, "Logging in %s:%s", msg.login.c_str(), msg.password.c_str());
+    SDL_LogDebug(SDL_LOG_CATEGORY_APPLICATION, "Logging in %s", msg.login.c_str());
     int connected = db.connectUser(msg.login, msg.password);
     int returnCode = 0;
     // Check server state
@@ -166,7 +165,7 @@ int haendelLoginMessage(LoginMessage& msg) {
                 returnCode = 3;
             } else {
                 // Everything OK, register the player as connected
-                auto newPlayer = make_shared<ServerPlayer>();
+                auto newPlayer = std::make_shared<ServerPlayer>();
                 newPlayer->setInfo(info);
                 connectedPlayers.insert(make_pair(msg.login, newPlayer));
             }
@@ -193,10 +192,10 @@ void loop(NetworkManager &manager) {
         }
 
         // Process network events (packets)
-        vector<UDPpacket*> packets = manager.receive();
+        std::vector<UDPpacket*> packets = manager.receive();
         for (const UDPpacket* p : packets) {
             Uint8 code = NetworkManager::getCode(p);
-            string message = NetworkManager::getMessage(p);
+            std::string message = NetworkManager::getMessage(p);
             IPaddress destination = NetworkManager::getAddress(p);
             SDL_LogDebug(SDL_LOG_CATEGORY_APPLICATION, "Received (%i)%s", code, message.c_str());
             switch (code) {
@@ -219,7 +218,7 @@ void loop(NetworkManager &manager) {
                 LoginMessage loginMsg;
                 loginMsg.fromMessage(message);
                 int result = haendelLoginMessage(loginMsg);
-                manager.send(LOGIN_MSG, to_string(result), destination);
+                manager.send(LOGIN_MSG, std::to_string(result), destination);
             }
                 break;
             default:

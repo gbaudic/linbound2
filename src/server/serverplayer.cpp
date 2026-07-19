@@ -14,7 +14,6 @@
  */
  
 #include "serverplayer.hpp"
-using namespace std;
 
 /**
  * Constructor

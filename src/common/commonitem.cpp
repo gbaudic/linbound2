@@ -14,7 +14,6 @@
  */
  
 #include "commonitem.hpp"
-using namespace std;
 
 /**
  * @brief Getter for type
@@ -49,7 +48,7 @@ bool CommonItem::isGoldOnly() const {
 int CommonItem::getProperty(ItemProperty property) const {
     int result = 0;
     
-    switch(property) {
+    switch (property) {
         case ItemProperty::DELAY:
             result = properties[0];
             break;

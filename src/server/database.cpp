@@ -16,13 +16,12 @@
 #include <SDL2/SDL.h>
 #include "database.hpp"
 #include "../config.hpp"
-using namespace std;
 
 /**
  * Constructor
  */
 Database::Database() {
-    string db_path = DB_PREFIX + "linbound.db";
+    std::string db_path = DB_PREFIX + "linbound.db";
     int result = sqlite3_open_v2(db_path.c_str(), &db, SQLITE_OPEN_CREATE | SQLITE_OPEN_READWRITE, nullptr);
 
     if (result) {
