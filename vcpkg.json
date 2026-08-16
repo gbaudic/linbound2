@@ -1,0 +1,16 @@
+{
+  "dependencies": [
+    "box2d",
+    "gettext",
+    "gettext-libintl",
+    "gtest",
+    "sdl2",
+    "sdl2-gfx",
+    "sdl2-image",
+    "sdl2-mixer",
+    "sdl2-net",
+    "sdl2-ttf",
+    "sqlite3",
+    "tinyxml2"
+  ]
+}
