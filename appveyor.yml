@@ -1,15 +1,15 @@
-image: Visual Studio 2019
+image: Visual Studio 2022
 platform: x64
 
 install:
-  - set MSYSTEM=MINGW64
+  - set MSYSTEM=UCRT64
   - set PATH=C:\msys64\%MSYSTEM%\bin;C:\msys64\usr\bin;%PATH%;"C:\Program Files (x86)\Inno Setup 6"
   - bash -lc "pacman -Syu --noconfirm"
   - bash -lc "pacman -Syu --noconfirm"
-  - bash -lc "pacman -S --needed --noconfirm make cmake scons"
-  - bash -lc "pacman --noconfirm -Sy mingw-w64-x86_64-toolchain mingw-w64-x86_64-readline mingw-w64-x86_64-libc++ mingw-w64-x86_64-SDL2 mingw-w64-x86_64-SDL2_gfx mingw-w64-x86_64-SDL2_image mingw-w64-x86_64-SDL2_mixer mingw-w64-x86_64-SDL2_net mingw-w64-x86_64-SDL2_ttf mingw-w64-x86_64-sqlite3 mingw-w64-x86_64-tinyxml2 mingw-w64-x86_64-box2d mingw-w64-x86_64-gtest"
-  # - bash -lc "pacman -R --noconfirm mingw-w64-x86_64-pkg-config"
-  - bash -lc "git clone https://github.com/kallisti5/guisan.git && pushd guisan && scons prefix=/mingw64 && scons install prefix=/mingw64 && popd"  
+  - bash -lc "pacman -S --needed --noconfirm mingw-w64-ucrt-x86_64-make mingw-w64-ucrt-x86_64-cmake mingw-w64-ucrt-x86_64-scons"
+  - bash -lc "pacman --noconfirm -Sy mingw-w64-ucrt-x86_64-toolchain mingw-w64-ucrt-x86_64-readline mingw-w64-ucrt-x86_64-libc++ mingw-w64-ucrt-x86_64-SDL2 mingw-w64-ucrt-x86_64-SDL2_gfx mingw-w64-ucrt-x86_64-SDL2_image mingw-w64-ucrt-x86_64-SDL2_mixer mingw-w64-ucrt-x86_64-SDL2_net mingw-w64-ucrt-x86_64-SDL2_ttf mingw-w64-ucrt-x86_64-sqlite3 mingw-w64-ucrt-x86_64-tinyxml2 mingw-w64-ucrt-x86_64-box2d mingw-w64-ucrt-x86_64-gtest"
+  # - bash -lc "pacman -R --noconfirm mingw-w64-ucrt-x86_64-pkg-config"
+  - bash -lc "git clone https://github.com/kallisti5/guisan.git && pushd guisan && scons prefix=/ucrt64 && scons install prefix=/ucrt64 && popd"  
   
 build_script:
   - bash -lc "cd $APPVEYOR_BUILD_FOLDER; export CC=gcc; export CXX=g++; cmake -DRESOURCE_PREFIX=./res -DENABLE_SERVER=ON . && cmake --build . && ctest" 
