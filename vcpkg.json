@@ -4,9 +4,13 @@
     "gettext",
     "gettext-libintl",
     "gtest",
+    "libjpeg-turbo",
     "sdl2",
     "sdl2-gfx",
-    "sdl2-image",
+    {
+      "name": "sdl2-image",
+      "features": ["libjpeg-turbo"]
+    },
     "sdl2-mixer",
     "sdl2-net",
     "sdl2-ttf",
